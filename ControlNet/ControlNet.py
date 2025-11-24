@@ -4,27 +4,13 @@ import torch
 import numpy as np
 from PIL import Image
 from diffusers import ControlNetModel, StableDiffusionControlNetImg2ImgPipeline
+from datasets import load_dataset
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
-# ControlNet: z.B. Canny
-controlnet = ControlNetModel.from_pretrained(
-    "lllyasviel/sd-controlnet-canny",
-    torch_dtype=torch.float16
-)
-
-pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
-    "runwayml/stable-diffusion-v1-5",
-    controlnet=controlnet,
-    torch_dtype=torch.float16
-).to(device)
-
-pipe.enable_xformers_memory_efficient_attention()
-
-def load_sim_image(path, size=(512, 512)):
-    img = Image.open(path).convert("RGB")
-    img = img.resize(size, Image.BILINEAR)
-    return img
+# 1) Öffentliches Beispielbild laden (Hugging Face "beans"-Datensatz)
+dataset = load_dataset("beans", split="train")  # lädt automatisch ein paar Beispielbilder
+sample = dataset[0]                              # erstes Bild nehmen
+sim_img = sample["image"].convert("RGB")        # PIL.Image
+sim_img = sim_img.resize((512, 512), Image.BILINEAR)
 
 def make_canny_control(img_pil):
     img = np.array(img_pil)
@@ -34,32 +20,40 @@ def make_canny_control(img_pil):
     edges = np.concatenate([edges, edges, edges], axis=2)
     return Image.fromarray(edges)
 
+control_img = make_canny_control(sim_img)
 
-sim_dir = "sim_images"          # Ordner mit Simulationsbildern
-out_dir = "translated_images"   # Zielordner
-os.makedirs(out_dir, exist_ok=True)
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
-prompt = "realistic industrial camera image of the same scene"
+controlnet = ControlNetModel.from_pretrained(
+    "lllyasviel/sd-controlnet-canny",
+    torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+)
+
+pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
+    "runwayml/stable-diffusion-v1-5",
+    controlnet=controlnet,
+    torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+).to(device)
+
+if device == "cuda":
+    pipe.enable_xformers_memory_efficient_attention()
+
+
+prompt = "high quality realistic photo of a single plant in a field"
 negative_prompt = "blurry, low quality, distorted"
 
-for fname in os.listdir(sim_dir):
-    if not fname.lower().endswith((".png", ".jpg", ".jpeg")):
-        continue
+result = pipe(
+    prompt=prompt,
+    image=sim_img,
+    control_image=control_img,
+    negative_prompt=negative_prompt,
+    num_inference_steps=20,
+    strength=0.6,
+    guidance_scale=7.0,
+    controlnet_conditioning_scale=0.8,
+)
 
-    sim_path = os.path.join(sim_dir, fname)
-    sim_img = load_sim_image(sim_path)
-    control_img = make_canny_control(sim_img)
+out_img = result.images[0]
+out_img.save("test_controlnet_beans.png")
+print("Fertig: test_controlnet_beans.png")
 
-    result = pipe(
-        prompt=prompt,
-        image=sim_img,
-        control_image=control_img,
-        negative_prompt=negative_prompt,
-        num_inference_steps=30,
-        strength=0.6,                    # wie stark vom Simulationsbild abweichen
-        guidance_scale=7.0,
-        controlnet_conditioning_scale=0.8
-    )
-
-    out_img = result.images[0]
-    out_img.save(os.path.join(out_dir, fname))
