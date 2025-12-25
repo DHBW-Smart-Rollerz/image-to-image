@@ -62,6 +62,6 @@ result = pipe(
 )
 
 out_img = result.images[0]
-out_img.save("/workspace/outputs/test_controlnet_beans.png")
+out_img.save('/workspace/outputs/test_controlnet_beans.png')
 print("Fertig: test_controlnet_beans.png")
 
