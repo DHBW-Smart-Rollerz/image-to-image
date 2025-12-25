@@ -18,4 +18,4 @@ COPY . /workspace
 
 ENV PYTHONUNBUFFERED=1
 
-ENTRYPOINT ["python3", "/workspace/ControlNet/ControlNet.py"]
+ENTRYPOINT ["python3", "/workspace/ControlNet.py"]
