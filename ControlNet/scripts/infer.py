@@ -73,7 +73,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", "-i", type=Path, default=Path("ControlNet/inputs"))
     parser.add_argument("--output", "-o", type=Path, default=Path("ControlNet/outputs"))
-    parser.add_argument("--prompt", "-p", type=str, default="high quality realistic photo")
+    parser.add_argument("--prompt", "-p", type=str, default="photorealistic scene, natural lighting, preserve geometry and object shapes")
     parser.add_argument("--device", type=str, choices=["cpu", "cuda"], default="cuda")
     args = parser.parse_args()
 
