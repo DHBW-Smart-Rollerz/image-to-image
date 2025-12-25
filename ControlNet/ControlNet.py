@@ -36,7 +36,15 @@ pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
 ).to(device)
 
 if device == "cuda":
-    pipe.enable_xformers_memory_efficient_attention()
+    try:
+        pipe.enable_xformers_memory_efficient_attention()
+    except ModuleNotFoundError:
+        print("xformers is not installed; continuing without memory-efficient attention.")
+        print("To enable xformers, install it in the container/Dockerfile. Example:")
+        print("  RUN python3 -m pip install xformers --no-cache-dir")
+        print("See https://github.com/facebookresearch/xformers for details and compatible builds.")
+    except Exception as e:
+        print("Warning: failed to enable xformers memory-efficient attention:", e)
 
 
 prompt = "high quality realistic photo of a single plant in a field"
