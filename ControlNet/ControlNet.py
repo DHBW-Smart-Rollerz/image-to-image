@@ -12,6 +12,8 @@ sample = dataset[0]                              # erstes Bild nehmen
 sim_img = sample["image"].convert("RGB")        # PIL.Image
 sim_img = sim_img.resize((512, 512), Image.BILINEAR)
 
+sim_img.save('/workspace/outputs/original_controlnet_beans.png')
+
 def make_canny_control(img_pil):
     img = np.array(img_pil)
     low, high = 100, 200
