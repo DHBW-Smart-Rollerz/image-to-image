@@ -1,1 +1,4 @@
 commands.txt
+
+# Ignore all data files 
+data/
