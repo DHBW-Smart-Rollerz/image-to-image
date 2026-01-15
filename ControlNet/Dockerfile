@@ -18,4 +18,4 @@ COPY . /workspace
 
 ENV PYTHONUNBUFFERED=1
 
-ENTRYPOINT ["python3", "/workspace/scripts/infer.py"]
+ENTRYPOINT ["python3", "/workspace/translate_simulation_pics.py"]
