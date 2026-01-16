@@ -1,5 +1,6 @@
 torch>=2.0.0
-diffusers>=0.17.2
+git+https://github.com/huggingface/diffusers.git@main
+torchvision>=0.15.0
 transformers>=4.30.0
 accelerate>=0.20.3
 datasets>=2.10.0
