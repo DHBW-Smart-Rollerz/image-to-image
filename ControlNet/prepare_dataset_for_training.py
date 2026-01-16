@@ -3,7 +3,7 @@
 """
 Minimal tool to generate Canny control images for sim images,
 pair each sim-control with exactly one real image from the same
-category and write a single `dataset.jsonl` with repo-relative paths.
+category and write a single `metadata.jsonl` with repo-relative paths.
 
 Output JSONL lines: {"image": "path/to/data/real/..png", "control_image": "path/to/data/sim/..._canny.png", "prompt": "... category: <cat>"}
 
@@ -153,7 +153,7 @@ def main(args):
 
     out_dir = Path(args.dst)
     out_dir.mkdir(parents=True, exist_ok=True)
-    jsonl_path = out_dir / 'dataset.jsonl'
+    jsonl_path = out_dir / 'metadata.jsonl'
     with jsonl_path.open('w', encoding='utf-8') as f:
         for e in entries:
             json.dump(e, f, ensure_ascii=False)
@@ -165,7 +165,7 @@ def main(args):
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument('--src', required=True, help='Path to data root (contains sim/ and real/)')
-    p.add_argument('--dst', default='.', help='Output folder for dataset.jsonl')
+    p.add_argument('--dst', default='.', help='Output folder for metadata.jsonl')
     p.add_argument('--size', type=int, default=512, help='Target square size for resize/pad')
     p.add_argument('--canny-thr1', type=int, default=100, help='Canny threshold1')
     p.add_argument('--canny-thr2', type=int, default=200, help='Canny threshold2')
