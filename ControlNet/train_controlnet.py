@@ -33,7 +33,7 @@ import transformers
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import ProjectConfiguration, set_seed
-from datasets import load_dataset
+from datasets import load_dataset, Image
 from huggingface_hub import create_repo, upload_folder
 from packaging import version
 from PIL import Image
@@ -615,10 +615,33 @@ def make_train_dataset(args, tokenizer, accelerator):
         )
     else:
         if args.train_data_dir is not None:
-            dataset = load_dataset(
-                args.train_data_dir,
-                cache_dir=args.cache_dir,
-            )
+            # If a metadata jsonl exists in the provided train_data_dir, load it via the json loader
+            # and cast image columns to Image so they are returned as PIL images in preprocessing.
+            train_data_path = Path(args.train_data_dir)
+            json_path = None
+            for candidate in ("metadata.jsonl", "dataset.jsonl", "data.jsonl", "train.jsonl", "dataset.json"):
+                p = train_data_path / candidate
+                if p.exists():
+                    json_path = str(p)
+                    break
+
+            if json_path is not None:
+                dataset = load_dataset(
+                    "json",
+                    data_files={"train": json_path},
+                    cache_dir=args.cache_dir,
+                )
+                # Cast common image column names to Image so `examples[image_column]` are PIL images
+                for col in ("image", "control_image", "conditioning_image"):
+                    if col in dataset["train"].column_names:
+                        dataset = dataset.cast_column(col, Image())
+            else:
+                # Fallback: try imagefolder style loading
+                dataset = load_dataset(
+                    "imagefolder",
+                    data_dir=args.train_data_dir,
+                    cache_dir=args.cache_dir,
+                )
         # See more about loading custom images at
         # https://huggingface.co/docs/datasets/v2.0.0/en/dataset_script
 
