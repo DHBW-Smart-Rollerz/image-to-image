@@ -2,3 +2,8 @@ commands.txt
 
 # Ignore all data files 
 data/
+
+# Ignore all Outputs folders
+outputs/
+
+model/

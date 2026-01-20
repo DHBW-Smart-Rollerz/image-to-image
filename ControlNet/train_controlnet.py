@@ -36,7 +36,7 @@ from accelerate.utils import ProjectConfiguration, set_seed
 from datasets import load_dataset, Image
 from huggingface_hub import create_repo, upload_folder
 from packaging import version
-from PIL import Image
+from PIL import Image as PILImage
 from torchvision import transforms
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, PretrainedConfig
@@ -70,7 +70,7 @@ def image_grid(imgs, rows, cols):
     assert len(imgs) == rows * cols
 
     w, h = imgs[0].size
-    grid = Image.new("RGB", size=(cols * w, rows * h))
+    grid = PILImage.new("RGB", size=(cols * w, rows * h))
 
     for i, img in enumerate(imgs):
         grid.paste(img, box=(i % cols * w, i // cols * h))
@@ -631,6 +631,18 @@ def make_train_dataset(args, tokenizer, accelerator):
                     data_files={"train": json_path},
                     cache_dir=args.cache_dir,
                 )
+                # Construct absolute paths for image columns by combining with train_data_dir
+                def add_data_dir_to_image_paths(examples):
+                    for col in ("image", "control_image", "conditioning_image"):
+                        if col in examples:
+                            if isinstance(examples[col], list):
+                                examples[col] = [str(train_data_path / path) if path else path for path in examples[col]]
+                            else:
+                                examples[col] = str(train_data_path / examples[col]) if examples[col] else examples[col]
+                    return examples
+                
+                dataset["train"] = dataset["train"].map(add_data_dir_to_image_paths, batched=True)
+                
                 # Cast common image column names to Image so `examples[image_column]` are PIL images
                 for col in ("image", "control_image", "conditioning_image"):
                     if col in dataset["train"].column_names:

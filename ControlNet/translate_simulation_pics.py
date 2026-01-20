@@ -14,30 +14,64 @@ from diffusers import (
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# TODO: Wähle ein geeignetes SD- und ControlNet-Modell
-BASE_MODEL = "runwayml/stable-diffusion-v1-5"  # oder eigenes fein­getuntes Modell
-CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"  # oder z.B. canny/segmentation
+# Test: Verwende erst das vortrainierte Modell um zu testen ob Pipeline funktioniert
+BASE_MODEL = "runwayml/stable-diffusion-v1-5"
+CONTROLNET_MODEL_TRAINED = Path(__file__).parent / "model"  # Dein trainiertes Modell
+CONTROLNET_MODEL_PRETRAINED = "lllyasviel/sd-controlnet-canny"  # Vortrainiert
+
+# TODO: Wechsle zu CONTROLNET_MODEL_TRAINED wenn Training erfolgreich war
+USE_TRAINED_MODEL = False
+
+if USE_TRAINED_MODEL:
+    controlnet_path = str(CONTROLNET_MODEL_TRAINED)
+    print(f"⚙ Verwende TRAINIERTES Modell: {controlnet_path}")
+else:
+    controlnet_path = CONTROLNET_MODEL_PRETRAINED
+    print(f"⚙ Verwende VORTRAINIERTES Modell: {controlnet_path}")
 
 controlnet = ControlNetModel.from_pretrained(
-    CONTROLNET_MODEL,
+    controlnet_path,
     torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32,
 )
+print(f"✓ ControlNet geladen")
 
-pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
+from diffusers import StableDiffusionControlNetPipeline
+
+print(f"Loading Stable Diffusion Pipeline...")
+pipe = StableDiffusionControlNetPipeline.from_pretrained(
     BASE_MODEL,
     controlnet=controlnet,
     torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32,
 )
 pipe = pipe.to(DEVICE)
-# pipe.enable_xformers_memory_efficient_attention()  # optional, falls xformers installiert
-# pipe.safety_checker = None  # optional deaktivieren, falls Bilder blockiert werden
+pipe.safety_checker = None
+print(f"✓ Pipeline geladen auf {DEVICE}\n")
 
 def compute_canny_edges(sim_rgb_path: Path, target_size=(512, 512)) -> Image.Image:
     img = load_image(sim_rgb_path, target_size)
     img_np = np.array(img)
-    edges = cv2.Canny(img_np, 100, 200)
+    
+    # Konvertiere zu Grayscale für bessere Kantendetektkion
+    gray = cv2.cvtColor(img_np, cv2.COLOR_RGB2GRAY)
+    
+    # Erhöhe Kontrast mit CLAHE (Contrast Limited Adaptive Histogram Equalization)
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+    gray = clahe.apply(gray)
+    
+    # Gaussian Blur für weniger Rauschen
+    gray = cv2.GaussianBlur(gray, (5, 5), 1.0)
+    
+    # Canny mit besseren Schwellwerten für schwache Kanten
+    edges = cv2.Canny(gray, 50, 150)
+    
+    # Dilatation um Kanten stärker zu machen
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+    edges = cv2.dilate(edges, kernel, iterations=1)
+    
+    # 3 Kanäle für ControlNet
     edges = edges[:, :, None]
     edges = np.concatenate([edges, edges, edges], axis=2)
+    
     return Image.fromarray(edges)
 
 
@@ -50,29 +84,25 @@ def load_image(path: Path, target_size=(512, 512)) -> Image.Image:
 
 def build_prompt(base_prompt: str = None) -> str:
     """
-    Erzeugt einen Prompt, der gezielt Schatten, Reflexionen und Sensorrauschen beschreibt.
-    base_prompt kann genutzt werden, um Strecken- oder Umgebungsinfos einzubauen.
+    Erzeugt einen Prompt für realistische Fahrzeug-Aufnahmen.
+    Optimiert für CLIP Token-Limit (max 77 Tokens).
     """
-    style_parts = [
-        "photo from a front-facing camera of a small autonomous model car on the road",
-        "realistic lighting with strong shadows on the asphalt",
-        "reflections on wet road surface and car body",
-        "subtle sensor noise, motion blur and slight lens dirt",
-    ]
     if base_prompt:
-        style_parts.insert(0, base_prompt)
-    return ", ".join(style_parts)
+        return base_prompt
+    # Einfacher, effektiver Prompt
+    return "realistic detailed photo, vehicle on road, daytime"
 
 @torch.no_grad()
 def sim_to_real_single(
     sim_rgb_path: Path,
     out_path: Path,
     base_prompt: str = None,
-    num_inference_steps: int = 30,
-    strength: float = 0.8,
-    guidance_scale: float = 7.5,
+    num_inference_steps: int = 20,
+    strength: float = 0.6,
+    guidance_scale: float = 5.0,
     control_scale: float = 1.0,
     use_depth: bool = False,
+    seed: int = None,
 ):
     """
     Wandelt ein Simulationsbild in ein stilisiertes 'realistisches' Bild um und speichert es.
@@ -80,26 +110,55 @@ def sim_to_real_single(
     """
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    init_image = load_image(sim_rgb_path)
-    if use_depth:
-        control_image = load_or_compute_depth_map(sim_rgb_path)
-    else:
-        control_image = compute_canny_edges(sim_rgb_path)
+    try:
+        init_image = load_image(sim_rgb_path)
+        print(f"  ✓ Input-Bild geladen: {init_image.size}")
+        
+        if use_depth:
+            control_image = load_or_compute_depth_map(sim_rgb_path)
+        else:
+            control_image = compute_canny_edges(sim_rgb_path)
+        print(f"  ✓ Control-Bild erzeugt: {control_image.size}")
 
-    prompt = build_prompt(base_prompt)
+        prompt = build_prompt(base_prompt)
+        print(f"  ✓ Prompt: '{prompt}'")
+        print(f"  ℹ Parameter: steps={num_inference_steps}, strength={strength}, guidance={guidance_scale}, control={control_scale}")
 
-    result = pipe(
-        prompt=prompt,
-        image=init_image,
-        control_image=control_image,
-        num_inference_steps=num_inference_steps,
-        guidance_scale=guidance_scale,
-        controlnet_conditioning_scale=control_scale,
-        strength=strength,
-    )
+        generator = None
+        if seed is not None:
+            generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
-    gen_image = result.images[0]
-    gen_image.save(out_path)
+        # Standard ControlNet Pipeline (kein img2img)
+        result = pipe(
+            prompt=prompt,
+            image=control_image,
+            num_inference_steps=num_inference_steps,
+            guidance_scale=guidance_scale,
+            controlnet_conditioning_scale=control_scale,
+            generator=generator,
+            negative_prompt="black, dark, blurry, low quality, distorted",
+        )
+
+        gen_image = result.images[0]
+        
+        # Check auf NaN-Werte
+        img_array = np.array(gen_image)
+        if np.isnan(img_array).any():
+            print(f"  ✗ FEHLER: Output enthält NaN-Werte - Modell-Fehler!")
+            return
+        
+        # Check ob Bild komplett schwarz ist
+        if np.mean(img_array) < 10:
+            print(f"  ⚠ WARNUNG: Ausgabebild ist sehr dunkel (Durchschnittswert: {np.mean(img_array):.2f})")
+        else:
+            print(f"  ✓ Ausgabebild erzeugt (Helligkeit: {np.mean(img_array):.2f})")
+        
+        gen_image.save(out_path)
+        print(f"  ✓ Gespeichert: {out_path}\n")
+        
+    except Exception as e:
+        print(f"  ✗ FEHLER: {e}\n")
+        raise
 
 def load_or_compute_depth_map(sim_rgb_path: Path, target_size=(512, 512)) -> Image.Image:
     """
@@ -159,22 +218,11 @@ def process_split(
         )
 
 def main():
-    # TODO: an dein Projekt anpassen
-    sim_root = Path("inputs")        # enthält nur Bilder (keine Unterordner)
-    out_root = Path("outputs")   # neuer Datensatz
+    sim_root = Path("inputs")
+    out_root = Path("outputs")
 
-    base_prompt = (
-    "realistic indoor autonomous driving test track, "
-    "front-facing low-mounted camera view from a model car, "
-    "black asphalt road with white lane markings, "
-    "miniature traffic signs, laboratory environment, "
-    "technical research setup, "
-    "wide-angle lens, slight fisheye distortion, "
-    "monochrome image, high contrast, "
-    "raw sensor-like appearance, "
-    "daytime, high dynamic range lighting"
-    )
-
+    # Sehr kurzer und einfacher Prompt - trainiertes Modell sollte Features selbst lernen
+    base_prompt = "realistic photo, detailed"
 
     out_root.mkdir(parents=True, exist_ok=True)
 
@@ -184,17 +232,31 @@ def main():
         if p.is_file() and p.suffix.lower() in image_exts
     ]
 
+    if not sim_paths:
+        print(f"⚠ Keine Bilder in '{sim_root}' gefunden!")
+        return
+
+    print(f"=== Starte Sim2Real Translation für {len(sim_paths)} Bilder ===\n")
+
     for i, sim_path in enumerate(sim_paths):
         out_path = out_root / sim_path.name
 
-        print(f"[sim] ({i+1}/{len(sim_paths)}) {sim_path} -> {out_path}")
-        sim_to_real_single(
-            sim_rgb_path=sim_path,
-            out_path=out_path,
-            base_prompt=base_prompt,
-        )
+        print(f"[{i+1}/{len(sim_paths)}] {sim_path.name}")
+        try:
+            sim_to_real_single(
+                sim_rgb_path=sim_path,
+                out_path=out_path,
+                base_prompt=base_prompt,
+                num_inference_steps=30,
+                guidance_scale=7.5,
+                control_scale=1.0,
+                seed=42,
+            )
+        except Exception as e:
+            print(f"  ✗ Fehler bei {sim_path.name}: {e}\n")
+            continue
 
-    print("Fertig: Sim2Real-Bilder erzeugt.")
+    print("=== Fertig: Sim2Real-Bilder erzeugt ===")
 
 if __name__ == "__main__":
     main()
