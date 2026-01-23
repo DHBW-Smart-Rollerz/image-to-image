@@ -35,7 +35,7 @@ Um das Modell zu trainieren, können folgende Schritte befolgt werden:
 1. **Vorbereitung der Workstation**: Sicherstellen, dass alle erforderlichen Abhängigkeiten und Bibliotheken installiert sind.
 2. **Starten des Trainingsskripts**: Das Trainingsskript `train.py` im Verzeichnis `ControlNet` verwenden, um das Modell zu trainieren. Beispiel:
    ```bash
-    python /image-to-image/ControlNet/train.py --data-dir /path/to/dataset --output-dir /path/to/output --epochs 100 --batch-size 16
+    python ControlNet/train_controlnet.py --pretrained_model_name_or_path runwayml/stable-diffusion-v1-5 --controlnet_model_name_or_path lllyasviel/sd-controlnet-canny --train_data_dir ControlNet --caption_column prompt --conditioning_image_column control_image --output_dir ControlNet/model --train_batch_size 4 --num_train_epochs 3 --learning_rate 5e-6 --mixed_precision fp16 --gradient_accumulation_steps 1
     ```
 3. **Überwachung des Trainings**: Während des Trainings den Fortschritt überwachen und sicherstellen, dass keine Fehler auftreten.
 4. **Speicherung des Modells**: Nach Abschluss des Trainings das Modell im angegebenen Ausgabeordner speichern.

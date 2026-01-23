@@ -85,15 +85,7 @@ def resize_and_pad_image(in_path: Path, out_path: Path, size: int):
 
 def build_prompt(category: str) -> str:
     lines = [
-        'realistic indoor autonomous driving test track,',
-        'front-facing low-mounted camera view from a model car,',
-        'black asphalt road with white lane markings,',
-        'miniature traffic signs, laboratory environment,',
-        'technical research setup,',
-        'wide-angle lens, slight fisheye distortion,',
-        'monochrome image, high contrast,',
-        'raw sensor-like appearance,',
-        'daytime, high dynamic range lighting'
+        'monochrome road photo, asphalt with lane markings, high contrast'
     ]
     return ' '.join(lines) + f' category: {category}'
 

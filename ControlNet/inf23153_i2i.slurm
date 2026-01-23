@@ -1,11 +1,10 @@
-
 #!/bin/bash
-#SBATCH --job-name=controlnet_job
-#SBATCH --partition=gpu
+#SBATCH --job-name=inf23153_controlnet
+#SBATCH --partition=debug
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --time=02:00:00
+#SBATCH --time=10:00:00
 #SBATCH --output=slurm-%j.out
 
 set -euo pipefail
@@ -27,12 +26,12 @@ echo "Building Docker image from ${CONTEXT_DIR}..."
 docker build -t "${IMAGE_NAME}:latest" "${CONTEXT_DIR}"
 
 echo "Running Docker container..."
-docker run --rm \
+docker run --d \
   --gpus all \
   --name "$CONTAINER_NAME" \
   -v "${CONTEXT_DIR}":/workspace/ControlNet \
   -v "$HOME":/workspace/home \
   "${IMAGE_NAME}:latest" \
-  python3 /workspace/ControlNet/ControlNet.py
+  python3 /workspace/translate_simulation_pics.py
 
 # Bei normalem Ende wird cleanup durch trap ausgeführt
