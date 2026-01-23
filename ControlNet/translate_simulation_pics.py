@@ -20,7 +20,7 @@ CONTROLNET_MODEL_TRAINED = Path(__file__).parent / "model"  # Dein trainiertes M
 CONTROLNET_MODEL_PRETRAINED = "lllyasviel/sd-controlnet-canny"  # Vortrainiert
 
 # TODO: Wechsle zu CONTROLNET_MODEL_TRAINED wenn Training erfolgreich war
-USE_TRAINED_MODEL = False
+USE_TRAINED_MODEL = True
 
 if USE_TRAINED_MODEL:
     controlnet_path = str(CONTROLNET_MODEL_TRAINED)
@@ -35,10 +35,9 @@ controlnet = ControlNetModel.from_pretrained(
 )
 print(f"✓ ControlNet geladen")
 
-from diffusers import StableDiffusionControlNetPipeline
 
 print(f"Loading Stable Diffusion Pipeline...")
-pipe = StableDiffusionControlNetPipeline.from_pretrained(
+pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
     BASE_MODEL,
     controlnet=controlnet,
     torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32,
@@ -54,19 +53,8 @@ def compute_canny_edges(sim_rgb_path: Path, target_size=(512, 512)) -> Image.Ima
     # Konvertiere zu Grayscale für bessere Kantendetektkion
     gray = cv2.cvtColor(img_np, cv2.COLOR_RGB2GRAY)
     
-    # Erhöhe Kontrast mit CLAHE (Contrast Limited Adaptive Histogram Equalization)
-    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
-    gray = clahe.apply(gray)
-    
-    # Gaussian Blur für weniger Rauschen
-    gray = cv2.GaussianBlur(gray, (5, 5), 1.0)
-    
     # Canny mit besseren Schwellwerten für schwache Kanten
-    edges = cv2.Canny(gray, 50, 150)
-    
-    # Dilatation um Kanten stärker zu machen
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
-    edges = cv2.dilate(edges, kernel, iterations=1)
+    edges = cv2.Canny(gray, 100, 200)
     
     # 3 Kanäle für ControlNet
     edges = edges[:, :, None]
@@ -90,7 +78,7 @@ def build_prompt(base_prompt: str = None) -> str:
     if base_prompt:
         return base_prompt
     # Einfacher, effektiver Prompt
-    return "realistic detailed photo, vehicle on road, daytime"
+    return "realistic dashcam photo, driving on asphalt road, lane markings, daylight, urban environment, natural lighting, high detail"
 
 @torch.no_grad()
 def sim_to_real_single(
@@ -98,7 +86,7 @@ def sim_to_real_single(
     out_path: Path,
     base_prompt: str = None,
     num_inference_steps: int = 20,
-    strength: float = 0.6,
+    strength: float = 0.3,
     guidance_scale: float = 5.0,
     control_scale: float = 1.0,
     use_depth: bool = False,
@@ -131,12 +119,11 @@ def sim_to_real_single(
         # Standard ControlNet Pipeline (kein img2img)
         result = pipe(
             prompt=prompt,
-            image=control_image,
-            num_inference_steps=num_inference_steps,
-            guidance_scale=guidance_scale,
-            controlnet_conditioning_scale=control_scale,
-            generator=generator,
-            negative_prompt="black, dark, blurry, low quality, distorted",
+            image=init_image,          # <- DAS Sim-Bild
+            control_image=control_image,
+            strength=0.3,              # sehr wichtig!
+            guidance_scale=6.0,
+            controlnet_conditioning_scale=1.0,
         )
 
         gen_image = result.images[0]
@@ -177,7 +164,7 @@ def load_or_compute_depth_map(sim_rgb_path: Path, target_size=(512, 512)) -> Ima
         # Platzhalter: einfache Fake-Depth aus dem Grauwert (nur als Beispiel)
         rgb = load_image(sim_rgb_path, target_size)
         gray = np.array(rgb.convert("L"), dtype=np.float32)
-        depth = cv2.GaussianBlur(gray, (15, 15), 0)
+        # depth = cv2.GaussianBlur(gray, (15, 15), 0)
 
         # TODO: Stattdessen ein echtes Depth-Netz aufrufen
         # depth = run_monodepth_model(np.array(rgb))
@@ -248,8 +235,8 @@ def main():
                 out_path=out_path,
                 base_prompt=base_prompt,
                 num_inference_steps=30,
-                guidance_scale=7.5,
-                control_scale=1.0,
+                guidance_scale=5.0,
+                control_scale=0.8,
                 seed=42,
             )
         except Exception as e:

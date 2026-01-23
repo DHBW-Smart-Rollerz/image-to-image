@@ -1,0 +1,86 @@
+Building Docker image from /raid/homes/inf23153/image-to-image/ControlNet...
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  226.3MB
+Step 1/9 : FROM docker.io/nvidia/cuda:12.1.1-runtime-ubuntu22.04
+12.1.1-runtime-ubuntu22.04: Pulling from nvidia/cuda
+aece8493d397: Already exists
+dd4939a04761: Already exists
+b0d7cc89b769: Already exists
+1532d9024b9c: Already exists
+04fc8a31fa53: Already exists
+a14a8a8a6ebc: Already exists
+7d61afc7a3ac: Already exists
+8bd2762ffdd9: Already exists
+2a5ee6fadd42: Already exists
+Digest: sha256:8bbc6e304b193e84327fa30d93eea70ec0213b808239a46602a919a479a73b12
+Status: Downloaded newer image for nvidia/cuda:12.1.1-runtime-ubuntu22.04
+ ---> 0495908f9381
+Step 2/9 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Running in 710ce1c9b834
+ ---> Removed intermediate container 710ce1c9b834
+ ---> e57145500cf3
+Step 3/9 : WORKDIR /workspace
+ ---> Running in 4fc592bbe089
+ ---> Removed intermediate container 4fc592bbe089
+ ---> aa3752927d61
+Step 4/9 : RUN apt-get update && apt-get install -y --no-install-recommends     python3 python3-pip git ffmpeg libgl1 libglib2.0-0 &&     rm -rf /var/lib/apt/lists/*
+ ---> Running in a3694438f740
+Ign:1 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease [1581 B]
+Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  Packages [2302 kB]
+Ign:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+Ign:1 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+Ign:1 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+Err:2 http://archive.ubuntu.com/ubuntu jammy InRelease
+  Could not connect to archive.ubuntu.com:80 (91.189.92.24). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.91.82). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (185.125.190.81). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.92.23). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.91.83). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.91.81). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.92.22). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (185.125.190.83). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (185.125.190.82). - connect (111: Connection refused)
+Err:1 http://security.ubuntu.com/ubuntu jammy-security InRelease
+  Could not connect to security.ubuntu.com:80 (91.189.91.82). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (185.125.190.83). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.92.24). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (185.125.190.82). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (185.125.190.81). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.91.83). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.92.22). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.92.23). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.91.81). - connect (111: Connection refused)
+Err:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease
+  Unable to connect to archive.ubuntu.com:80:
+Err:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease
+  Unable to connect to archive.ubuntu.com:80:
+Fetched 2303 kB in 7s (327 kB/s)
+Reading package lists...
+[91mW: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy/InRelease  Could not connect to archive.ubuntu.com:80 (91.189.92.24). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.91.82). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (185.125.190.81). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.92.23). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.91.83). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.91.81). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (91.189.92.22). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (185.125.190.83). - connect (111: Connection refused) Could not connect to archive.ubuntu.com:80 (185.125.190.82). - connect (111: Connection refused)
+W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-updates/InRelease  Unable to connect to archive.ubuntu.com:80:
+W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-backports/InRelease  Unable to connect to archive.ubuntu.com:80:
+W: Failed to fetch http://security.ubuntu.com/ubuntu/dists/jammy-security/InRelease  Could not connect to security.ubuntu.com:80 (91.189.91.82). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (185.125.190.83). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.92.24). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (185.125.190.82). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (185.125.190.81). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.91.83). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.92.22). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.92.23). - connect (111: Connection refused) Could not connect to security.ubuntu.com:80 (91.189.91.81). - connect (111: Connection refused)
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+Package libgl1 is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package libglib2.0-0 is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package python3 is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+Package python3-pip is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+[91mE: Package 'python3' has no installation candidate
+E: Package 'python3-pip' has no installation candidate
+E: Unable to locate package git
+E: Unable to locate package ffmpeg
+E: Package 'libgl1' has no installation candidate
+E: Package 'libglib2.0-0' has no installation candidate
+[0mThe command '/bin/sh -c apt-get update && apt-get install -y --no-install-recommends     python3 python3-pip git ffmpeg libgl1 libglib2.0-0 &&     rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100
+Cleaning up container...
