@@ -3,4 +3,6 @@ commands.txt
 # Ignore all data files 
 data/
 
+output_lora/
+
 model/

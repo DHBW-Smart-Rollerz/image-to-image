@@ -1,3 +1,5 @@
+import os
+import glob
 import torch
 import cv2
 import numpy as np
@@ -11,7 +13,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 BASE_MODEL = "runwayml/stable-diffusion-v1-5"
 CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"
-LORA_PATH = "lora/sim2real_dashcam.safetensors"
+LORA_PATH = "output_lora/sim2real_dashcam.safetensors"
 
 # ------------------------------------------------------------
 # Hilfsfunktionen
@@ -44,7 +46,7 @@ pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
     safety_checker=None,
 )
 
-pipe.load_lora_weights(LORA_PATH)
+pipe.load_lora_weights(LORA_PATH, weight=1.2)
 pipe.fuse_lora()
 
 pipe = pipe.to(DEVICE)
@@ -64,13 +66,13 @@ def sim2real(
     generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
     result = pipe(
-        prompt="a realistic dashcam photo of a road, daytime",
-        negative_prompt="cartoon, illustration, painting, face, people, surreal",
+        prompt="a realistic dashcam photo of a road, natural lighting, soft shadows, realistic reflections, high dynamic range",
+        negative_prompt="flat lighting, overexposed, underexposed",
         image=init_image,
         control_image=control_image,
-        strength=0.3,                       # <<< entscheidend
-        guidance_scale=5.5,
-        controlnet_conditioning_scale=0.8,
+        strength=0.75,                       #
+        guidance_scale=4.0,
+        controlnet_conditioning_scale=0.55,
         num_inference_steps=30,
         generator=generator,
     )
@@ -83,7 +85,23 @@ def sim2real(
 # ------------------------------------------------------------
 
 if __name__ == "__main__":
-    sim2real(
-        sim_image_path="inputs/rosbag2_2026_01_15-13_39_25_frame000003.jpg",
-        out_path="outputs/rosbag2_2026_01_15-13_39_25_frame000003.jpg"
-    )
+    input_dir = "inputs"
+    output_dir = "outputs"
+    os.makedirs(output_dir, exist_ok=True)
+
+    exts = ("*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tif", "*.tiff")
+    files = []
+    for e in exts:
+        files.extend(glob.glob(os.path.join(input_dir, e)))
+    files.sort()
+
+    if not files:
+        print(f"Keine Eingabebilder in '{input_dir}' gefunden.")
+    else:
+        for f in files:
+            out_path = os.path.join(output_dir, os.path.basename(f))
+            try:
+                print(f"→ Verarbeite: {f}  ->  {out_path}")
+                sim2real(sim_image_path=f, out_path=out_path)
+            except Exception as e:
+                print(f"✗ Fehler beim Verarbeiten von {f}: {e}")
