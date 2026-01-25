@@ -8,7 +8,7 @@ TARGET_W, TARGET_H = 512, 512
 PROCESS_PROB = 0.65
 
 # Beispiel-Autobox (x1, y1, x2, y2) — Koordinaten im skalierten 512x512 Bild
-x1, y1, x2, y2 = 120, 280, 370, 512
+x1, y1, x2, y2 = 120, 230, 370, 512
 
 def process_image(path: Path, do_blur: bool = False) -> bool:
     img = cv2.imread(str(path))

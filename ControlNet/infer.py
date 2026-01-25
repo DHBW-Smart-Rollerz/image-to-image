@@ -16,7 +16,7 @@ CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"
 LORA_PATH = "output_lora/sim2real_dashcam.safetensors"
 
 # Auto Bounding Box (geschützt)
-x1, y1, x2, y2 = 50, 280, 460, 512
+x1, y1, x2, y2 = 50, 230, 460, 512
 
 # ------------------------------------------------------------
 # Hilfsfunktionen
@@ -64,7 +64,7 @@ pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
     safety_checker=None,
 )
 
-pipe.load_lora_weights(LORA_PATH, weight=1.5)
+pipe.load_lora_weights(LORA_PATH, weight=1.2)
 pipe.fuse_lora()
 
 pipe = pipe.to(DEVICE)
@@ -93,10 +93,10 @@ def sim2real(
         image=init_image,
         mask_image=mask_image, 
         control_image=control_image,
-        strength=0.85,
+        strength=0.80,
         guidance_scale=4.0,
-        controlnet_conditioning_scale=0.5,
-        num_inference_steps=25,
+        controlnet_conditioning_scale=0.55,
+        num_inference_steps=30,
         generator=generator,
     )
 
