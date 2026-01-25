@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image
 from diffusers import (
     ControlNetModel,
-    StableDiffusionControlNetImg2ImgPipeline
+    StableDiffusionControlNetInpaintPipeline
 )
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -14,6 +14,9 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BASE_MODEL = "runwayml/stable-diffusion-v1-5"
 CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"
 LORA_PATH = "output_lora/sim2real_dashcam.safetensors"
+
+# Auto Bounding Box (geschützt)
+x1, y1, x2, y2 = 50, 280, 460, 512
 
 # ------------------------------------------------------------
 # Hilfsfunktionen
@@ -30,6 +33,21 @@ def compute_canny(image: Image.Image):
     edges = np.stack([edges] * 3, axis=-1)
     return Image.fromarray(edges)
 
+def create_mask(size=(512, 512)):
+    """
+    Weiß = wird generiert (Straße)
+    Schwarz = bleibt unverändert (Auto)
+    """
+    mask = np.ones((size[1], size[0]), dtype=np.uint8) * 255  # alles weiß
+
+    # Auto schwarz maskieren
+    mask[y1:y2, x1:x2] = 0
+
+    # weiche Kanten (wichtig!)
+    mask = cv2.GaussianBlur(mask, (31, 31), 0)
+
+    return Image.fromarray(mask)
+
 # ------------------------------------------------------------
 # Pipeline laden
 # ------------------------------------------------------------
@@ -39,14 +57,14 @@ controlnet = ControlNetModel.from_pretrained(
     torch_dtype=torch.float16
 )
 
-pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
+pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
     BASE_MODEL,
     controlnet=controlnet,
     torch_dtype=torch.float16,
     safety_checker=None,
 )
 
-pipe.load_lora_weights(LORA_PATH, weight=1.2)
+pipe.load_lora_weights(LORA_PATH, weight=1.5)
 pipe.fuse_lora()
 
 pipe = pipe.to(DEVICE)
@@ -62,27 +80,29 @@ def sim2real(
 ):
     init_image = load_image(sim_image_path)
     control_image = compute_canny(init_image)
+    mask_image = create_mask(init_image.size)
 
     generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
     result = pipe(
-        prompt="a realistic dashcam photo of a road, natural lighting, soft shadows, realistic reflections, high dynamic range",
-        negative_prompt="flat lighting, overexposed, underexposed",
+        prompt=(
+            "realistic dashcam photo, natural lighting, realistic asphalt texture, "
+            "road surface details, soft shadows, realistic reflections, high dynamic range"
+        ),
+        negative_prompt="car details, vehicle focus, flat lighting, overexposed, underexposed",
         image=init_image,
+        mask_image=mask_image, 
         control_image=control_image,
-        strength=0.75,                       #
+        strength=0.85,
         guidance_scale=4.0,
-        controlnet_conditioning_scale=0.55,
-        num_inference_steps=30,
+        controlnet_conditioning_scale=0.5,
+        num_inference_steps=25,
         generator=generator,
     )
 
     result.images[0].save(out_path)
     print(f"✓ Gespeichert: {out_path}")
 
-# ------------------------------------------------------------
-# Beispiel
-# ------------------------------------------------------------
 
 if __name__ == "__main__":
     input_dir = "inputs"

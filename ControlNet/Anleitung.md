@@ -18,16 +18,17 @@ Docker-Beispiel:
 docker build -t i2i-controlnet ./ControlNet
 
 # Script zum Generieren der Captions ausführen
-docker run --d --gpus all \
-	-v /path/to/repo:/workspace \
-	-w /workspace \
-	i2i-controlnet \
-	bash -c "python3 ControlNet/scripts/generate_captions.py --input ControlNet/scripts/data/ --output ControlNet/scripts/data/"
+docker exec -it controlnet_dev /bin/bash -c "python3 scripts/generate_captions.py --dir scripts/data/1_dashcam --sequential"
+```
+Weil das Modell sich beim Training stark auf das Auto im Vordergrund konzentriert, wird ein Blur-Effekt auf das Auto angewendet, um den Hintergrund besser zu lernen. Dazu kann das folgende Skript verwenden werden:
+
+```bash
+docker exec -it controlnet_dev /bin/bash -c "python3 scripts/blur.py"
 ```
 
-Tipps:
-- Passe `--input` an den Ordner mit deinen Rohbildern an.
-- Prüfe `ControlNet/outputs/captions.jsonl` nach der Ausführung.
+Während des Blurs werden die Bilder ebenfalls auf die Große 512x512 skaliert, um Konsistenz mit dem Training sicherzustellen.
+
+Der vorbereitete Datensatz sollte nun in `ControlNet/scripts/data/1_dashcam` liegen, mit den generierten Captions/Metadaten.
 
 ## 2) LoRA trainieren
 
@@ -38,7 +39,7 @@ Kurz: `train_network.py` liest den vorbereiteten Datensatz, führt das Training 
 Beispiel-Docker-Befehl:
 
 ```bash
-docker exec -it controlnet_dev /bin/bash -c "accelerate launch --num_processes 1 --mixed_precision fp16 /workspace/ControlNet/sd-scripts-main/sd-scripts-main/train_network.py --pretrained_model_name_or_path runwayml/stable-diffusion-v1-5 --train_data_dir /workspace/ControlNet/sd-scripts-main/sd-scripts-main/data/train --resolution 512 --enable_bucket --max_data_loader_n_workers 0 --network_module networks.lora --network_dim 8 --network_alpha 8 --train_batch_size 2 --gradient_accumulation_steps 4 --learning_rate 1e-4 --text_encoder_lr 5e-5 --max_train_steps 4000 --lr_scheduler cosine --output_dir /workspace/ControlNet/output_lora --output_name sim2real_dashcam"
+docker exec -it controlnet_dev /bin/bash -c "accelerate launch --num_processes 1 --mixed_precision fp16 /workspace/ControlNet/scripts/train_network.py --pretrained_model_name_or_path runwayml/stable-diffusion-v1-5 --train_data_dir /workspace/ControlNet/scripts/data/ --resolution 512 --enable_bucket --max_data_loader_n_workers 0 --network_module networks.lora --network_dim 8 --network_alpha 8 --train_batch_size 2 --gradient_accumulation_steps 4 --learning_rate 1e-4 --text_encoder_lr 5e-5 --max_train_steps 4000 --lr_scheduler cosine --output_dir /workspace/ControlNet/output_lora --output_name sim2real_dashcam"
 ```
 
 Erläuterungen zu Flags (Beispiel):
