@@ -1,50 +1,66 @@
-# Anleitung zur Nutzung von ControlNet für Image-to-Image Translation
-## Datensatz vorbereiten und auf Workstation hochladen
-Um Datensätze von einem lokalen Rechner zur Workstation hochzuladen, werden folgende Schritte durchgeführt:
-1. **Vorbereitung des Datensatzes**: Stell sicher, dass der Datensatz in einem geeigneten Format vorliegt und alle erforderlichen Dateien enthalten sind. 
-   
-    Wenn ein neuer Datensatz erstellt werden soll, also beispielsweise neue Bilder hinzugefügt werden sollen, kann das Skript `dataset_tool.py` verwendet werden, das sich im Verzeichnis `scripts` befindet. Beispiel:
-   ```bash
-    python /image-to-image/ControlNet/scripts/prepare_dataset_for_training.py ` --src path/to/source ` --dst image-to-image/ControlNet/data/real --size 512 --split 0.8 0.1 0.1
-    ```
 
-    Das Skript erstellt einen neuen Datensatz im gewünschten Format aus den angegebenen Bildern und speichert ihn im angegebenen Verzeichnis.
-    Funktionen:
-      - Inventar (Anzahl, Größe)
-      - Prüfen und Entfernen korrupten Bilder
-      - Konvertieren nach RGB
-      - Resize + Pad auf Quadrat-Target
-      - Split in train/val/test
-      - Manifest (CSV) + Checksummen
-  
-    Daten aus realen Aufnahmen sollen dabei in das Verzeichnis 'data/real' gespeichert werden, während Simulationsdaten in das Verzeichnis 'data/sim' abgelegt werden sollen.
+# Anleitung: I2I-Translation (Dataset → LoRA → Inferenz)
 
-2. Über WSL/Linux den Datensatz in ein Verzeichnis kopieren, das von der Workstation aus zugänglich ist (z.B. `/mnt/c/Users/YourUsername/Datasets`).
-3. **Verbindung zur Workstation herstellen**: SSH verwenden, um eine Verbindung zur Workstation herzustellen.
-   ```bash
-    ssh username@workstation_ip
-    ```
-4. Verwende SSH/rsync, um die Dateien vom lokalen Verzeichnis auf die Workstation zu übertragen.
-   ```bash
-    rsync -avz /mnt/c/Users/YourUsername/Datasets/ username@workstation_ip:/path/to/destination/
-    ```
-5. **Überprüfung des Uploads**: Nach dem Upload überprüfen, ob alle Dateien korrekt übertragen wurden.
+Kurze Übersicht der drei Hauptschritte, um eine Image-to-Image (I2I) Translation mit diesem Repository durchzuführen:
 
-## Modell trainieren 
-Um das Modell zu trainieren, können folgende Schritte befolgt werden:
-1. **Vorbereitung der Workstation**: Sicherstellen, dass alle erforderlichen Abhängigkeiten und Bibliotheken installiert sind.
-2. **Starten des Trainingsskripts**: Das Trainingsskript `train.py` im Verzeichnis `ControlNet` verwenden, um das Modell zu trainieren. Beispiel:
-   ```bash
-    python ControlNet/train_controlnet.py --pretrained_model_name_or_path runwayml/stable-diffusion-v1-5 --controlnet_model_name_or_path lllyasviel/sd-controlnet-canny --train_data_dir ControlNet --caption_column prompt --conditioning_image_column control_image --output_dir ControlNet/model --train_batch_size 4 --num_train_epochs 3 --learning_rate 5e-6 --mixed_precision fp16 --gradient_accumulation_steps 1
-    ```
-3. **Überwachung des Trainings**: Während des Trainings den Fortschritt überwachen und sicherstellen, dass keine Fehler auftreten.
-4. **Speicherung des Modells**: Nach Abschluss des Trainings das Modell im angegebenen Ausgabeordner speichern.
+- Schritt 1: Datensatz vorbereiten mit `scripts/generate_captions.py`
+- Schritt 2: LoRA trainieren mit `scripts/train_network.py`
+- Schritt 3: Inferenz ausführen mit `infer.py`
 
-## Modell verwenden für Image-to-Image Translation
-Um nun das Modell zu verwenden, um die Image-to-Image Translation durchzuführen, können folgende Schritte befolgt werden:
-1. **Vorbereitung der Eingabebilder**: Sicherstellen, dass die Eingabebilder im richtigen Format und im Verzeichnis `inputs` gespeichert sind. 
-2. **Starten des Inferenzskripts**: Das Inferenzskript `infer.py` im Verzeichnis `ControlNet/scripts` verwenden, um die Image-to-Image Translation durchzuführen. Beispiel:
-   ```bash
-    python /image-to-image/ControlNet/scripts/infer.py --model-path /image-to-image/ControlNet/model --input-dir /image-to-image/ControlNet/inputs --output-dir /image-to-image/ControlNet/outputs
-    ```
-3. **Überprüfung der Ausgabebilder**: Nach Abschluss der Inferenz die generierten Ausgabebilder im Ausgabeordner `outputs` überprüfen.
+## 1) Datensatz vorbereiten
+
+Ziel: Generiere Captions/Metadaten für die Eingangsimages und lege die Dateien in einem für das Training geeigneten Format ab.
+
+Docker-Beispiel:
+
+```bash
+# Image bauen 
+docker build -t i2i-controlnet ./ControlNet
+
+# Script zum Generieren der Captions ausführen
+docker run --d --gpus all \
+	-v /path/to/repo:/workspace \
+	-w /workspace \
+	i2i-controlnet \
+	bash -c "python3 ControlNet/scripts/generate_captions.py --input ControlNet/scripts/data/ --output ControlNet/scripts/data/"
+```
+
+Tipps:
+- Passe `--input` an den Ordner mit deinen Rohbildern an.
+- Prüfe `ControlNet/outputs/captions.jsonl` nach der Ausführung.
+
+## 2) LoRA trainieren
+
+Ziel: Trainiere eine LoRA (Low-Rank Adaptation) für die gewünschte I2I-Translation mit `scripts/train_network.py`.
+
+Kurz: `train_network.py` liest den vorbereiteten Datensatz, führt das Training durch und speichert Checkpoints/Weights (z. B. in `output_lora/`).
+
+Beispiel-Docker-Befehl:
+
+```bash
+docker exec -it controlnet_dev /bin/bash -c "accelerate launch --num_processes 1 --mixed_precision fp16 /workspace/ControlNet/sd-scripts-main/sd-scripts-main/train_network.py --pretrained_model_name_or_path runwayml/stable-diffusion-v1-5 --train_data_dir /workspace/ControlNet/sd-scripts-main/sd-scripts-main/data/train --resolution 512 --enable_bucket --max_data_loader_n_workers 0 --network_module networks.lora --network_dim 8 --network_alpha 8 --train_batch_size 2 --gradient_accumulation_steps 4 --learning_rate 1e-4 --text_encoder_lr 5e-5 --max_train_steps 4000 --lr_scheduler cosine --output_dir /workspace/ControlNet/output_lora --output_name sim2real_dashcam"
+```
+
+Erläuterungen zu Flags (Beispiel):
+- `--data_dir`: Pfad zu deinen Trainingsdaten / Bildern.
+- `--output_dir`: Zielordner für die LoRA-Weights und Logs.
+- `--epochs`, `--batch_size`, `--learning_rate`: Musterwerte — anpassen nach GPU-Ressourcen und Dataset-Größe.
+
+Tipps:
+- Überwache GPU- und Speicherverbrauch; bei OOM kleinere `--batch_size` wählen.
+- Nach erfolgreichem Training findest du Dateien in `ControlNet/output_lora` (z. B. `.safetensors` oder `.ckpt`).
+
+## 3) Inferenz (I2I-Translation)
+
+Ziel: Produziere die übersetzten/überschriebenen Images mit `infer.py` unter Verwendung der trainierten LoRA-Weights.
+
+Kurz: `infer.py` lädt das Basismodell + LoRA-Weights und führt die Inferenz auf Eingangsimages aus, schreibt Resultate in einen Output-Ordner.
+
+Beispiel-Docker-Befehl:
+
+```bash
+docker exec -it controlnet_dev /bin/bash -c "python3 infer.py"
+```
+
+
+
