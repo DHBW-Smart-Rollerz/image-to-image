@@ -26,12 +26,22 @@ echo "Building Docker image from ${CONTEXT_DIR}..."
 docker build -t "${IMAGE_NAME}:latest" "${CONTEXT_DIR}"
 
 echo "Running Docker container..."
-docker run --d \
-  --gpus all \
+
+docker run --rm --gpus all \
   --name "$CONTAINER_NAME" \
   -v "${CONTEXT_DIR}":/workspace/ControlNet \
-  -v "$HOME":/workspace/home \
+  -w /workspace/ControlNet \
   "${IMAGE_NAME}:latest" \
-  python3 /workspace/translate_simulation_pics.py
+  python3 /workspace/ControlNet/infer.py
+
+
+# docker run -d \
+#  --gpus all \
+#  --name "$CONTAINER_NAME" \
+#  -v "${CONTEXT_DIR}":/workspace/ControlNet \
+#  -v "$HOME":/workspace/home \
+#  -w /workspace/ControlNet \
+#  "${IMAGE_NAME}:latest" \
+#  python3 /workspace/ControlNet/infer.py
 
 # Bei normalem Ende wird cleanup durch trap ausgeführt

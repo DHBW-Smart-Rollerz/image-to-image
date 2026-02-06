@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse
 import sys
 
-CAPTION = "a realistic dashcam photo of an indoor road track, asphalt, lane markings, daylight"
+CAPTION = "wet asphalt, reflective road surface, specular highlights, road reflections"
 
 
 def safe_rename_sequential(folder, files, start, digits, keep_ext, dry_run):
