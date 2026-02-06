@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=cyclegan
+#SBATCH --job-name=cyclegan_continue
 #SBATCH --partition=debug
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=6
@@ -25,6 +25,12 @@ trap cleanup SIGTERM SIGINT SIGHUP EXIT
 
 cd "$PROJECT_DIR"
 
+# Checkpoint von sim2real_run1 nach sim2real_docker kopieren
+echo "Copying checkpoint 300 from sim2real_run1 to sim2real_docker..."
+mkdir -p checkpoints/sim2real_docker
+cp checkpoints/sim2real_run1/300_net_*.pth checkpoints/sim2real_docker/
+cp checkpoints/sim2real_run1/train_opt.txt checkpoints/sim2real_docker/ 2>/dev/null || true
+
 # Docker-Image bauen
 echo "Building Docker image..."
 docker build --no-cache -t "$IMAGE_NAME:latest" "$DOCKERFILE_PATH"
@@ -34,8 +40,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Docker Container mit GPU starten und Training ausführen
-echo "Running Docker container with training..."
+# Docker Container mit GPU starten und Training fortsetzen
+echo "Running Docker container with training from checkpoint..."
 docker run --rm \
     --gpus all \
     --shm-size=8g \
@@ -48,8 +54,15 @@ docker run --rm \
         --dataroot ./datasets/sim2real \
         --name sim2real_docker \
         --model cycle_gan \
+        --continue_train \
+        --epoch 300 \
+        --epoch_count 301 \
         --batch_size 8 \
-        --n_epochs 400 \
+        --lr 0.0001 \
+        --lambda_A 13.4 \
+        --lambda_B 13.4 \
+        --lambda_identity 0.6 \
+        --n_epochs 600 \
         --n_epochs_decay 400 \
         --save_epoch_freq 5 \
         --display_freq 100 \

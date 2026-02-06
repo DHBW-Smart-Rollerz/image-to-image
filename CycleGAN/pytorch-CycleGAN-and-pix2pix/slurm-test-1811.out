@@ -1,0 +1,1012 @@
+Building Docker image...
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  69.63kB
+Step 1/11 : FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
+ ---> d8fb74ecc8b2
+Step 2/11 : RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub
+ ---> Running in ce1a77b23e63
+[91mWarning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+[0mExecuting: /tmp/apt-key-gpghome.MgmqmHN9UR/gpg.1.sh --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub
+[91mgpg: requesting key from 'https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub'
+[0m[91mgpg: key A4B469963BF863CC: public key "cudatools <cudatools@nvidia.com>" imported
+[0m[91mgpg: Total number processed: 1
+gpg:               imported: 1
+[0m ---> Removed intermediate container ce1a77b23e63
+ ---> 1cbc60a45e7d
+Step 3/11 : RUN apt update && apt install -y wget unzip curl bzip2 git
+ ---> Running in 630dbf88f6e3
+[91m
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+[0mGet:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease [1581 B]
+Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  Packages [2315 kB]
+Get:4 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [6205 kB]
+Get:5 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3640 kB]
+Get:6 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1293 kB]
+Get:7 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [61.5 kB]
+Get:8 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+Get:9 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+Get:10 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+Get:12 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+Get:13 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+Get:14 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [3971 kB]
+Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1604 kB]
+Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [70.9 kB]
+Get:18 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [6498 kB]
+Get:19 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [37.2 kB]
+Get:20 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [83.9 kB]
+Fetched 46.1 MB in 3s (13.4 MB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+63 packages can be upgraded. Run 'apt list --upgradable' to see them.
+[91m
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  git-man less libbrotli1 libbsd0 libcbor0.8 libcurl3-gnutls libcurl4 libedit2
+  liberror-perl libexpat1 libfido2-1 libgdbm-compat4 libgdbm6 libmd0
+  libnghttp2-14 libperl5.34 libpsl5 librtmp1 libssh-4 libx11-6 libx11-data
+  libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1 netbase openssh-client patch
+  perl perl-base perl-modules-5.34 publicsuffix xauth
+Suggested packages:
+  bzip2-doc gettext-base git-daemon-run | git-daemon-sysvinit git-doc
+  git-email git-gui gitk gitweb git-cvs git-mediawiki git-svn gdbm-l10n
+  keychain libpam-ssh monkeysphere ssh-askpass ed diffutils-doc perl-doc
+  libterm-readline-gnu-perl | libterm-readline-perl-perl make
+  libtap-harness-archive-perl zip
+The following NEW packages will be installed:
+  bzip2 curl git git-man less libbrotli1 libbsd0 libcbor0.8 libcurl3-gnutls
+  libcurl4 libedit2 liberror-perl libexpat1 libfido2-1 libgdbm-compat4
+  libgdbm6 libmd0 libnghttp2-14 libperl5.34 libpsl5 librtmp1 libssh-4 libx11-6
+  libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1 netbase
+  openssh-client patch perl perl-modules-5.34 publicsuffix unzip wget xauth
+The following packages will be upgraded:
+  perl-base
+1 upgraded, 38 newly installed, 0 to remove and 62 not upgraded.
+Need to get 18.6 MB of archives.
+After this operation, 83.2 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl-base amd64 5.34.0-3ubuntu1.5 [1761 kB]
+Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl-modules-5.34 all 5.34.0-3ubuntu1.5 [2977 kB]
+Get:3 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm6 amd64 1.23-1 [33.9 kB]
+Get:4 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm-compat4 amd64 1.23-1 [6606 B]
+Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libperl5.34 amd64 5.34.0-3ubuntu1.5 [4797 kB]
+Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl amd64 5.34.0-3ubuntu1.5 [232 kB]
+Get:7 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 less amd64 590-1ubuntu0.22.04.3 [142 kB]
+Get:8 http://archive.ubuntu.com/ubuntu jammy/main amd64 libmd0 amd64 1.0.4-1build1 [23.0 kB]
+Get:9 http://archive.ubuntu.com/ubuntu jammy/main amd64 libbsd0 amd64 0.11.5-1 [44.8 kB]
+Get:10 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libexpat1 amd64 2.4.7-1ubuntu0.6 [92.1 kB]
+Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 netbase all 6.3 [12.9 kB]
+Get:12 http://archive.ubuntu.com/ubuntu jammy/main amd64 libcbor0.8 amd64 0.8.0-2ubuntu1 [24.6 kB]
+Get:13 http://archive.ubuntu.com/ubuntu jammy/main amd64 libedit2 amd64 3.1-20210910-1build1 [96.8 kB]
+Get:14 http://archive.ubuntu.com/ubuntu jammy/main amd64 libfido2-1 amd64 1.10.0-1 [82.8 kB]
+Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libnghttp2-14 amd64 1.43.0-1ubuntu0.2 [76.9 kB]
+Get:16 http://archive.ubuntu.com/ubuntu jammy/main amd64 libpsl5 amd64 0.21.0-1.2build2 [58.4 kB]
+Get:17 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxau6 amd64 1:1.0.9-1build5 [7634 B]
+Get:18 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxdmcp6 amd64 1:1.1.3-0ubuntu5 [10.9 kB]
+Get:19 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxcb1 amd64 1.14-3ubuntu3 [49.0 kB]
+Get:20 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libx11-data all 2:1.7.5-1ubuntu0.3 [120 kB]
+Get:21 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libx11-6 amd64 2:1.7.5-1ubuntu0.3 [667 kB]
+Get:22 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxext6 amd64 2:1.3.4-1build1 [31.8 kB]
+Get:23 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxmuu1 amd64 2:1.1.3-3 [10.2 kB]
+Get:24 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 openssh-client amd64 1:8.9p1-3ubuntu0.13 [903 kB]
+Get:25 http://archive.ubuntu.com/ubuntu jammy/main amd64 publicsuffix all 20211207.1025-1 [129 kB]
+Get:26 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 wget amd64 1.21.2-2ubuntu1.1 [339 kB]
+Get:27 http://archive.ubuntu.com/ubuntu jammy/main amd64 xauth amd64 1:1.1-1build2 [27.5 kB]
+Get:28 http://archive.ubuntu.com/ubuntu jammy/main amd64 bzip2 amd64 1.0.8-5build1 [34.8 kB]
+Get:29 http://archive.ubuntu.com/ubuntu jammy/main amd64 libbrotli1 amd64 1.0.9-2build6 [315 kB]
+Get:30 http://archive.ubuntu.com/ubuntu jammy/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build4 [58.2 kB]
+Get:31 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libssh-4 amd64 0.9.6-2ubuntu0.22.04.5 [187 kB]
+Get:32 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl4 amd64 7.81.0-1ubuntu1.21 [290 kB]
+Get:33 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 curl amd64 7.81.0-1ubuntu1.21 [194 kB]
+Get:34 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl3-gnutls amd64 7.81.0-1ubuntu1.21 [284 kB]
+Get:35 http://archive.ubuntu.com/ubuntu jammy/main amd64 liberror-perl all 0.17029-1 [26.5 kB]
+Get:36 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.15 [955 kB]
+Get:37 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.15 [3166 kB]
+Get:38 http://archive.ubuntu.com/ubuntu jammy/main amd64 patch amd64 2.7.6-7build2 [109 kB]
+Get:39 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 unzip amd64 6.0-26ubuntu3.2 [175 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 18.6 MB in 1s (29.1 MB/s)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5303 files and directories currently installed.)
+Preparing to unpack .../perl-base_5.34.0-3ubuntu1.5_amd64.deb ...
+Unpacking perl-base (5.34.0-3ubuntu1.5) over (5.34.0-3ubuntu1.2) ...
+Setting up perl-base (5.34.0-3ubuntu1.5) ...
+Selecting previously unselected package perl-modules-5.34.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5303 files and directories currently installed.)
+Preparing to unpack .../00-perl-modules-5.34_5.34.0-3ubuntu1.5_all.deb ...
+Unpacking perl-modules-5.34 (5.34.0-3ubuntu1.5) ...
+Selecting previously unselected package libgdbm6:amd64.
+Preparing to unpack .../01-libgdbm6_1.23-1_amd64.deb ...
+Unpacking libgdbm6:amd64 (1.23-1) ...
+Selecting previously unselected package libgdbm-compat4:amd64.
+Preparing to unpack .../02-libgdbm-compat4_1.23-1_amd64.deb ...
+Unpacking libgdbm-compat4:amd64 (1.23-1) ...
+Selecting previously unselected package libperl5.34:amd64.
+Preparing to unpack .../03-libperl5.34_5.34.0-3ubuntu1.5_amd64.deb ...
+Unpacking libperl5.34:amd64 (5.34.0-3ubuntu1.5) ...
+Selecting previously unselected package perl.
+Preparing to unpack .../04-perl_5.34.0-3ubuntu1.5_amd64.deb ...
+Unpacking perl (5.34.0-3ubuntu1.5) ...
+Selecting previously unselected package less.
+Preparing to unpack .../05-less_590-1ubuntu0.22.04.3_amd64.deb ...
+Unpacking less (590-1ubuntu0.22.04.3) ...
+Selecting previously unselected package libmd0:amd64.
+Preparing to unpack .../06-libmd0_1.0.4-1build1_amd64.deb ...
+Unpacking libmd0:amd64 (1.0.4-1build1) ...
+Selecting previously unselected package libbsd0:amd64.
+Preparing to unpack .../07-libbsd0_0.11.5-1_amd64.deb ...
+Unpacking libbsd0:amd64 (0.11.5-1) ...
+Selecting previously unselected package libexpat1:amd64.
+Preparing to unpack .../08-libexpat1_2.4.7-1ubuntu0.6_amd64.deb ...
+Unpacking libexpat1:amd64 (2.4.7-1ubuntu0.6) ...
+Selecting previously unselected package netbase.
+Preparing to unpack .../09-netbase_6.3_all.deb ...
+Unpacking netbase (6.3) ...
+Selecting previously unselected package libcbor0.8:amd64.
+Preparing to unpack .../10-libcbor0.8_0.8.0-2ubuntu1_amd64.deb ...
+Unpacking libcbor0.8:amd64 (0.8.0-2ubuntu1) ...
+Selecting previously unselected package libedit2:amd64.
+Preparing to unpack .../11-libedit2_3.1-20210910-1build1_amd64.deb ...
+Unpacking libedit2:amd64 (3.1-20210910-1build1) ...
+Selecting previously unselected package libfido2-1:amd64.
+Preparing to unpack .../12-libfido2-1_1.10.0-1_amd64.deb ...
+Unpacking libfido2-1:amd64 (1.10.0-1) ...
+Selecting previously unselected package libnghttp2-14:amd64.
+Preparing to unpack .../13-libnghttp2-14_1.43.0-1ubuntu0.2_amd64.deb ...
+Unpacking libnghttp2-14:amd64 (1.43.0-1ubuntu0.2) ...
+Selecting previously unselected package libpsl5:amd64.
+Preparing to unpack .../14-libpsl5_0.21.0-1.2build2_amd64.deb ...
+Unpacking libpsl5:amd64 (0.21.0-1.2build2) ...
+Selecting previously unselected package libxau6:amd64.
+Preparing to unpack .../15-libxau6_1%3a1.0.9-1build5_amd64.deb ...
+Unpacking libxau6:amd64 (1:1.0.9-1build5) ...
+Selecting previously unselected package libxdmcp6:amd64.
+Preparing to unpack .../16-libxdmcp6_1%3a1.1.3-0ubuntu5_amd64.deb ...
+Unpacking libxdmcp6:amd64 (1:1.1.3-0ubuntu5) ...
+Selecting previously unselected package libxcb1:amd64.
+Preparing to unpack .../17-libxcb1_1.14-3ubuntu3_amd64.deb ...
+Unpacking libxcb1:amd64 (1.14-3ubuntu3) ...
+Selecting previously unselected package libx11-data.
+Preparing to unpack .../18-libx11-data_2%3a1.7.5-1ubuntu0.3_all.deb ...
+Unpacking libx11-data (2:1.7.5-1ubuntu0.3) ...
+Selecting previously unselected package libx11-6:amd64.
+Preparing to unpack .../19-libx11-6_2%3a1.7.5-1ubuntu0.3_amd64.deb ...
+Unpacking libx11-6:amd64 (2:1.7.5-1ubuntu0.3) ...
+Selecting previously unselected package libxext6:amd64.
+Preparing to unpack .../20-libxext6_2%3a1.3.4-1build1_amd64.deb ...
+Unpacking libxext6:amd64 (2:1.3.4-1build1) ...
+Selecting previously unselected package libxmuu1:amd64.
+Preparing to unpack .../21-libxmuu1_2%3a1.1.3-3_amd64.deb ...
+Unpacking libxmuu1:amd64 (2:1.1.3-3) ...
+Selecting previously unselected package openssh-client.
+Preparing to unpack .../22-openssh-client_1%3a8.9p1-3ubuntu0.13_amd64.deb ...
+Unpacking openssh-client (1:8.9p1-3ubuntu0.13) ...
+Selecting previously unselected package publicsuffix.
+Preparing to unpack .../23-publicsuffix_20211207.1025-1_all.deb ...
+Unpacking publicsuffix (20211207.1025-1) ...
+Selecting previously unselected package wget.
+Preparing to unpack .../24-wget_1.21.2-2ubuntu1.1_amd64.deb ...
+Unpacking wget (1.21.2-2ubuntu1.1) ...
+Selecting previously unselected package xauth.
+Preparing to unpack .../25-xauth_1%3a1.1-1build2_amd64.deb ...
+Unpacking xauth (1:1.1-1build2) ...
+Selecting previously unselected package bzip2.
+Preparing to unpack .../26-bzip2_1.0.8-5build1_amd64.deb ...
+Unpacking bzip2 (1.0.8-5build1) ...
+Selecting previously unselected package libbrotli1:amd64.
+Preparing to unpack .../27-libbrotli1_1.0.9-2build6_amd64.deb ...
+Unpacking libbrotli1:amd64 (1.0.9-2build6) ...
+Selecting previously unselected package librtmp1:amd64.
+Preparing to unpack .../28-librtmp1_2.4+20151223.gitfa8646d.1-2build4_amd64.deb ...
+Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+Selecting previously unselected package libssh-4:amd64.
+Preparing to unpack .../29-libssh-4_0.9.6-2ubuntu0.22.04.5_amd64.deb ...
+Unpacking libssh-4:amd64 (0.9.6-2ubuntu0.22.04.5) ...
+Selecting previously unselected package libcurl4:amd64.
+Preparing to unpack .../30-libcurl4_7.81.0-1ubuntu1.21_amd64.deb ...
+Unpacking libcurl4:amd64 (7.81.0-1ubuntu1.21) ...
+Selecting previously unselected package curl.
+Preparing to unpack .../31-curl_7.81.0-1ubuntu1.21_amd64.deb ...
+Unpacking curl (7.81.0-1ubuntu1.21) ...
+Selecting previously unselected package libcurl3-gnutls:amd64.
+Preparing to unpack .../32-libcurl3-gnutls_7.81.0-1ubuntu1.21_amd64.deb ...
+Unpacking libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.21) ...
+Selecting previously unselected package liberror-perl.
+Preparing to unpack .../33-liberror-perl_0.17029-1_all.deb ...
+Unpacking liberror-perl (0.17029-1) ...
+Selecting previously unselected package git-man.
+Preparing to unpack .../34-git-man_1%3a2.34.1-1ubuntu1.15_all.deb ...
+Unpacking git-man (1:2.34.1-1ubuntu1.15) ...
+Selecting previously unselected package git.
+Preparing to unpack .../35-git_1%3a2.34.1-1ubuntu1.15_amd64.deb ...
+Unpacking git (1:2.34.1-1ubuntu1.15) ...
+Selecting previously unselected package patch.
+Preparing to unpack .../36-patch_2.7.6-7build2_amd64.deb ...
+Unpacking patch (2.7.6-7build2) ...
+Selecting previously unselected package unzip.
+Preparing to unpack .../37-unzip_6.0-26ubuntu3.2_amd64.deb ...
+Unpacking unzip (6.0-26ubuntu3.2) ...
+Setting up libexpat1:amd64 (2.4.7-1ubuntu0.6) ...
+Setting up libxau6:amd64 (1:1.0.9-1build5) ...
+Setting up libpsl5:amd64 (0.21.0-1.2build2) ...
+Setting up wget (1.21.2-2ubuntu1.1) ...
+Setting up unzip (6.0-26ubuntu3.2) ...
+Setting up libcbor0.8:amd64 (0.8.0-2ubuntu1) ...
+Setting up libbrotli1:amd64 (1.0.9-2build6) ...
+Setting up libnghttp2-14:amd64 (1.43.0-1ubuntu0.2) ...
+Setting up less (590-1ubuntu0.22.04.3) ...
+Setting up perl-modules-5.34 (5.34.0-3ubuntu1.5) ...
+Setting up bzip2 (1.0.8-5build1) ...
+Setting up libx11-data (2:1.7.5-1ubuntu0.3) ...
+Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+Setting up patch (2.7.6-7build2) ...
+Setting up libssh-4:amd64 (0.9.6-2ubuntu0.22.04.5) ...
+Setting up libmd0:amd64 (1.0.4-1build1) ...
+Setting up libcurl4:amd64 (7.81.0-1ubuntu1.21) ...
+Setting up git-man (1:2.34.1-1ubuntu1.15) ...
+Setting up netbase (6.3) ...
+Setting up curl (7.81.0-1ubuntu1.21) ...
+Setting up libfido2-1:amd64 (1.10.0-1) ...
+Setting up libbsd0:amd64 (0.11.5-1) ...
+Setting up publicsuffix (20211207.1025-1) ...
+Setting up libgdbm6:amd64 (1.23-1) ...
+Setting up libxdmcp6:amd64 (1:1.1.3-0ubuntu5) ...
+Setting up libxcb1:amd64 (1.14-3ubuntu3) ...
+Setting up libedit2:amd64 (3.1-20210910-1build1) ...
+Setting up libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.21) ...
+Setting up libgdbm-compat4:amd64 (1.23-1) ...
+Setting up libx11-6:amd64 (2:1.7.5-1ubuntu0.3) ...
+Setting up libxmuu1:amd64 (2:1.1.3-3) ...
+Setting up libperl5.34:amd64 (5.34.0-3ubuntu1.5) ...
+Setting up openssh-client (1:8.9p1-3ubuntu0.13) ...
+update-alternatives: using /usr/bin/ssh to provide /usr/bin/rsh (rsh) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/rsh.1.gz because associated file /usr/share/man/man1/ssh.1.gz (of link group rsh) doesn't exist
+update-alternatives: using /usr/bin/slogin to provide /usr/bin/rlogin (rlogin) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/rlogin.1.gz because associated file /usr/share/man/man1/slogin.1.gz (of link group rlogin) doesn't exist
+update-alternatives: using /usr/bin/scp to provide /usr/bin/rcp (rcp) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/rcp.1.gz because associated file /usr/share/man/man1/scp.1.gz (of link group rcp) doesn't exist
+Setting up libxext6:amd64 (2:1.3.4-1build1) ...
+Setting up perl (5.34.0-3ubuntu1.5) ...
+Setting up xauth (1:1.1-1build2) ...
+Setting up liberror-perl (0.17029-1) ...
+Setting up git (1:2.34.1-1ubuntu1.15) ...
+Processing triggers for libc-bin (2.35-0ubuntu3.4) ...
+ ---> Removed intermediate container 630dbf88f6e3
+ ---> 373ea1e522c6
+Step 4/11 : RUN curl -LO http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+ ---> Running in a062ca6ed155
+[91m  % Total    % Received % Xferd  Average Speed   Ti[0m[91mme    Time     T[0m[91mime  Current
+             [0m[91m         [0m[91m           Dload  Upload   Total   Spent  [0m[91m  Left  S[0m[91mpeed
+[0m[91m  [0m[91m0    [0m[91m 0    0   [0m[91m  0   [0m[91m 0    [0m[91m 0    [0m[91m  0     [0m[91m 0 --:-[0m[91m-:--[0m[91m --:--:[0m[91m-- --[0m[91m:--:-- [0m[91m    0[0m[91m100   167  100   167    0     0   5955      0 --:--:-- --:--:-- --:--:--  6185
+[0m[91m  3  149M    3 5601k    0     0  32.2M      0  0:00:04 --:--:--  0:00:04 32.2M[0m[91m 55  149M   55 83.0M    0     0  70.9M      0  0:00:02  0:00:01  0:00:01 77.5M[0m[91m 96  149M   96  143M    0     0  66.1M      0  0:00:02  0:00:02 --:--:-- 69.0M[0m[91m100  149M  100  149M    0     0  65.4M      0  0:00:02  0:00:02 --:--:-- 68.1M
+[0m ---> Removed intermediate container a062ca6ed155
+ ---> ba7eda8a75be
+Step 5/11 : RUN bash Miniconda3-latest-Linux-x86_64.sh -p /miniconda -b
+ ---> Running in 5b258b879576
+PREFIX=/miniconda
+Unpacking bootstrapper...
+Unpacking payload...
+
+Installing base environment...
+
+Preparing transaction: ...working... done
+Executing transaction: ...working... done
+installation finished.
+ ---> Removed intermediate container 5b258b879576
+ ---> 7d3c9c9d0255
+Step 6/11 : RUN rm Miniconda3-latest-Linux-x86_64.sh
+ ---> Running in 5e239ed62153
+ ---> Removed intermediate container 5e239ed62153
+ ---> 39c060711db8
+Step 7/11 : ENV PATH=/miniconda/bin:${PATH}
+ ---> Running in 4170c47bc347
+ ---> Removed intermediate container 4170c47bc347
+ ---> ddc5894d3f30
+Step 8/11 : RUN conda config --system --set auto_update_conda false &&     conda config --system --set show_channel_urls true &&     conda config --system --remove-key channels
+ ---> Running in f8fc99b3a5e3
+ ---> Removed intermediate container f8fc99b3a5e3
+ ---> d0699c1d177e
+Step 9/11 : RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+ ---> Running in 85c945bdf9f1
+Looking in indexes: https://download.pytorch.org/whl/cu118
+Collecting torch
+  Downloading https://download.pytorch.org/whl/cu118/torch-2.7.1%2Bcu118-cp313-cp313-manylinux_2_28_x86_64.whl.metadata (28 kB)
+Collecting torchvision
+  Downloading https://download.pytorch.org/whl/cu118/torchvision-0.22.1%2Bcu118-cp313-cp313-manylinux_2_28_x86_64.whl.metadata (6.1 kB)
+Collecting torchaudio
+  Downloading https://download.pytorch.org/whl/cu118/torchaudio-2.7.1%2Bcu118-cp313-cp313-manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+Collecting filelock (from torch)
+  Downloading filelock-3.20.0-py3-none-any.whl.metadata (2.1 kB)
+Requirement already satisfied: typing-extensions>=4.10.0 in /miniconda/lib/python3.13/site-packages (from torch) (4.15.0)
+Requirement already satisfied: setuptools in /miniconda/lib/python3.13/site-packages (from torch) (80.9.0)
+Collecting sympy>=1.13.3 (from torch)
+  Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx (from torch)
+  Downloading networkx-3.6.1-py3-none-any.whl.metadata (6.8 kB)
+Collecting jinja2 (from torch)
+  Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec (from torch)
+  Downloading fsspec-2025.12.0-py3-none-any.whl.metadata (10 kB)
+Collecting nvidia-cuda-nvrtc-cu11==11.8.89 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cuda_nvrtc_cu11-11.8.89-py3-none-manylinux1_x86_64.whl (23.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 23.2/23.2 MB 68.0 MB/s  0:00:00
+Collecting nvidia-cuda-runtime-cu11==11.8.89 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cuda_runtime_cu11-11.8.89-py3-none-manylinux1_x86_64.whl (875 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 875.6/875.6 kB 70.1 MB/s  0:00:00
+Collecting nvidia-cuda-cupti-cu11==11.8.87 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cuda_cupti_cu11-11.8.87-py3-none-manylinux1_x86_64.whl (13.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.1/13.1 MB 78.7 MB/s  0:00:00
+Collecting nvidia-cudnn-cu11==9.1.0.70 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cudnn_cu11-9.1.0.70-py3-none-manylinux2014_x86_64.whl (663.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 663.9/663.9 MB 76.9 MB/s  0:00:07
+Collecting nvidia-cublas-cu11==11.11.3.6 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cublas_cu11-11.11.3.6-py3-none-manylinux1_x86_64.whl (417.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 417.9/417.9 MB 80.8 MB/s  0:00:05
+Collecting nvidia-cufft-cu11==10.9.0.58 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cufft_cu11-10.9.0.58-py3-none-manylinux1_x86_64.whl (168.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 168.4/168.4 MB 83.5 MB/s  0:00:02
+Collecting nvidia-curand-cu11==10.3.0.86 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_curand_cu11-10.3.0.86-py3-none-manylinux1_x86_64.whl (58.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.1/58.1 MB 82.6 MB/s  0:00:00
+Collecting nvidia-cusolver-cu11==11.4.1.48 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cusolver_cu11-11.4.1.48-py3-none-manylinux1_x86_64.whl (128.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 128.2/128.2 MB 73.4 MB/s  0:00:01
+Collecting nvidia-cusparse-cu11==11.7.5.86 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_cusparse_cu11-11.7.5.86-py3-none-manylinux1_x86_64.whl (204.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 204.1/204.1 MB 83.8 MB/s  0:00:02
+Collecting nvidia-nccl-cu11==2.21.5 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_nccl_cu11-2.21.5-py3-none-manylinux2014_x86_64.whl (147.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 147.8/147.8 MB 84.0 MB/s  0:00:01
+Collecting nvidia-nvtx-cu11==11.8.86 (from torch)
+  Downloading https://download.pytorch.org/whl/cu118/nvidia_nvtx_cu11-11.8.86-py3-none-manylinux1_x86_64.whl (99 kB)
+Collecting triton==3.3.1 (from torch)
+  Downloading https://download.pytorch.org/whl/triton-3.3.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.5 kB)
+Collecting numpy (from torchvision)
+  Downloading numpy-2.3.5-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+Collecting pillow!=8.3.*,>=5.3.0 (from torchvision)
+  Downloading pillow-12.0.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch)
+  Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting MarkupSafe>=2.0 (from jinja2->torch)
+  Downloading https://download.pytorch.org/whl/MarkupSafe-3.0.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (23 kB)
+Downloading https://download.pytorch.org/whl/cu118/torch-2.7.1%2Bcu118-cp313-cp313-manylinux_2_28_x86_64.whl (905.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 905.2/905.2 MB 71.6 MB/s  0:00:11
+Downloading https://download.pytorch.org/whl/triton-3.3.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (155.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.7/155.7 MB 82.8 MB/s  0:00:01
+Downloading https://download.pytorch.org/whl/cu118/torchvision-0.22.1%2Bcu118-cp313-cp313-manylinux_2_28_x86_64.whl (6.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.7/6.7 MB 90.5 MB/s  0:00:00
+Downloading https://download.pytorch.org/whl/cu118/torchaudio-2.7.1%2Bcu118-cp313-cp313-manylinux_2_28_x86_64.whl (3.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 79.1 MB/s  0:00:00
+Downloading pillow-12.0.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 40.7 MB/s  0:00:00
+Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 28.4 MB/s  0:00:00
+Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 26.4 MB/s  0:00:00
+Downloading filelock-3.20.0-py3-none-any.whl (16 kB)
+Downloading fsspec-2025.12.0-py3-none-any.whl (201 kB)
+Downloading https://download.pytorch.org/whl/jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading networkx-3.6.1-py3-none-any.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 31.1 MB/s  0:00:00
+Downloading numpy-2.3.5-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 36.8 MB/s  0:00:00
+Installing collected packages: mpmath, triton, sympy, pillow, nvidia-nvtx-cu11, nvidia-nccl-cu11, nvidia-cusparse-cu11, nvidia-curand-cu11, nvidia-cufft-cu11, nvidia-cuda-runtime-cu11, nvidia-cuda-nvrtc-cu11, nvidia-cuda-cupti-cu11, nvidia-cublas-cu11, numpy, networkx, MarkupSafe, fsspec, filelock, nvidia-cusolver-cu11, nvidia-cudnn-cu11, jinja2, torch, torchvision, torchaudio
+
+Successfully installed MarkupSafe-3.0.2 filelock-3.20.0 fsspec-2025.12.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.6.1 numpy-2.3.5 nvidia-cublas-cu11-11.11.3.6 nvidia-cuda-cupti-cu11-11.8.87 nvidia-cuda-nvrtc-cu11-11.8.89 nvidia-cuda-runtime-cu11-11.8.89 nvidia-cudnn-cu11-9.1.0.70 nvidia-cufft-cu11-10.9.0.58 nvidia-curand-cu11-10.3.0.86 nvidia-cusolver-cu11-11.4.1.48 nvidia-cusparse-cu11-11.7.5.86 nvidia-nccl-cu11-2.21.5 nvidia-nvtx-cu11-11.8.86 pillow-12.0.0 sympy-1.14.0 torch-2.7.1+cu118 torchaudio-2.7.1+cu118 torchvision-0.22.1+cu118 triton-3.3.1
+[91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+[0m ---> Removed intermediate container 85c945bdf9f1
+ ---> e612d92b503a
+Step 10/11 : RUN mkdir /workspace/ && cd /workspace/ && git clone https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix.git && cd pytorch-CycleGAN-and-pix2pix && pip install -r requirements.txt 2>/dev/null || pip install scipy opencv-python dominate visdom wandb
+ ---> Running in 6ed431e0ba44
+[91mCloning into 'pytorch-CycleGAN-and-pix2pix'...
+[0mCollecting scipy
+  Downloading scipy-1.17.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+Collecting opencv-python
+  Downloading opencv_python-4.13.0.90-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+Collecting dominate
+  Downloading dominate-2.9.1-py2.py3-none-any.whl.metadata (13 kB)
+Collecting visdom
+  Downloading visdom-0.2.4.tar.gz (1.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 18.9 MB/s  0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting wandb
+  Downloading wandb-0.24.0-py3-none-manylinux_2_28_x86_64.whl.metadata (12 kB)
+Requirement already satisfied: numpy<2.7,>=1.26.4 in /miniconda/lib/python3.13/site-packages (from scipy) (2.3.5)
+Requirement already satisfied: requests in /miniconda/lib/python3.13/site-packages (from visdom) (2.32.5)
+Collecting tornado (from visdom)
+  Downloading tornado-6.5.4-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.8 kB)
+Collecting six (from visdom)
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Requirement already satisfied: jsonpatch in /miniconda/lib/python3.13/site-packages (from visdom) (1.33)
+Collecting websocket-client (from visdom)
+  Downloading websocket_client-1.9.0-py3-none-any.whl.metadata (8.3 kB)
+Requirement already satisfied: networkx in /miniconda/lib/python3.13/site-packages (from visdom) (3.6.1)
+Requirement already satisfied: pillow in /miniconda/lib/python3.13/site-packages (from visdom) (12.0.0)
+Requirement already satisfied: click>=8.0.1 in /miniconda/lib/python3.13/site-packages (from wandb) (8.2.1)
+Collecting gitpython!=3.1.29,>=1.0.0 (from wandb)
+  Downloading gitpython-3.1.46-py3-none-any.whl.metadata (13 kB)
+Requirement already satisfied: packaging in /miniconda/lib/python3.13/site-packages (from wandb) (25.0)
+Requirement already satisfied: platformdirs in /miniconda/lib/python3.13/site-packages (from wandb) (4.5.0)
+Collecting protobuf!=4.21.0,!=5.28.0,<7,>=3.19.0 (from wandb)
+  Downloading protobuf-6.33.4-cp39-abi3-manylinux2014_x86_64.whl.metadata (593 bytes)
+Requirement already satisfied: pydantic<3 in /miniconda/lib/python3.13/site-packages (from wandb) (2.12.4)
+Collecting pyyaml (from wandb)
+  Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Collecting sentry-sdk>=2.0.0 (from wandb)
+  Downloading sentry_sdk-2.51.0-py2.py3-none-any.whl.metadata (10 kB)
+Requirement already satisfied: typing-extensions<5,>=4.8 in /miniconda/lib/python3.13/site-packages (from wandb) (4.15.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /miniconda/lib/python3.13/site-packages (from pydantic<3->wandb) (0.6.0)
+Requirement already satisfied: pydantic-core==2.41.5 in /miniconda/lib/python3.13/site-packages (from pydantic<3->wandb) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in /miniconda/lib/python3.13/site-packages (from pydantic<3->wandb) (0.4.2)
+Requirement already satisfied: charset_normalizer<4,>=2 in /miniconda/lib/python3.13/site-packages (from requests->visdom) (3.4.4)
+Requirement already satisfied: idna<4,>=2.5 in /miniconda/lib/python3.13/site-packages (from requests->visdom) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /miniconda/lib/python3.13/site-packages (from requests->visdom) (2.6.1)
+Requirement already satisfied: certifi>=2017.4.17 in /miniconda/lib/python3.13/site-packages (from requests->visdom) (2025.11.12)
+Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.29,>=1.0.0->wandb)
+  Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.29,>=1.0.0->wandb)
+  Downloading smmap-5.0.2-py3-none-any.whl.metadata (4.3 kB)
+Requirement already satisfied: jsonpointer>=1.9 in /miniconda/lib/python3.13/site-packages (from jsonpatch->visdom) (3.0.0)
+Downloading scipy-1.17.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.0/35.0 MB 37.8 MB/s  0:00:00
+Downloading opencv_python-4.13.0.90-cp37-abi3-manylinux_2_28_x86_64.whl (72.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 72.9/72.9 MB 38.0 MB/s  0:00:01
+Downloading dominate-2.9.1-py2.py3-none-any.whl (29 kB)
+Downloading wandb-0.24.0-py3-none-manylinux_2_28_x86_64.whl (22.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 22.8/22.8 MB 37.5 MB/s  0:00:00
+Downloading protobuf-6.33.4-cp39-abi3-manylinux2014_x86_64.whl (323 kB)
+Downloading gitpython-3.1.46-py3-none-any.whl (208 kB)
+Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+Downloading smmap-5.0.2-py3-none-any.whl (24 kB)
+Downloading sentry_sdk-2.51.0-py2.py3-none-any.whl (431 kB)
+Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 37.4 MB/s  0:00:00
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading tornado-6.5.4-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (445 kB)
+Downloading websocket_client-1.9.0-py3-none-any.whl (82 kB)
+Building wheels for collected packages: visdom
+  Building wheel for visdom (pyproject.toml): started
+  Building wheel for visdom (pyproject.toml): finished with status 'done'
+  Created wheel for visdom: filename=visdom-0.2.4-py3-none-any.whl size=1408288 sha256=4602cc14e42b864b1a69825b0b4e0fc58bec65959e0c6646e8ece07765b879ab
+  Stored in directory: /root/.cache/pip/wheels/b6/41/00/ddecc6975408e60d3ffa9b5de9993a941bb050804d2066ac2b
+Successfully built visdom
+Installing collected packages: websocket-client, tornado, smmap, six, sentry-sdk, scipy, pyyaml, protobuf, opencv-python, dominate, visdom, gitdb, gitpython, wandb
+
+Successfully installed dominate-2.9.1 gitdb-4.0.12 gitpython-3.1.46 opencv-python-4.13.0.90 protobuf-6.33.4 pyyaml-6.0.3 scipy-1.17.0 sentry-sdk-2.51.0 six-1.17.0 smmap-5.0.2 tornado-6.5.4 visdom-0.2.4 wandb-0.24.0 websocket-client-1.9.0
+[91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+[0m ---> Removed intermediate container 6ed431e0ba44
+ ---> 5ebe1ac6f73c
+Step 11/11 : WORKDIR /workspace/pytorch-CycleGAN-and-pix2pix
+ ---> Running in 90d1171d3073
+ ---> Removed intermediate container 90d1171d3073
+ ---> 632b6683182b
+Successfully built 632b6683182b
+Successfully tagged pytorch-cyclegan-pix2pix:latest
+=== Testing Multiple Checkpoints with Docker ===
+
+=========================================
+Testing Epoch 300...
+=========================================
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 11.8.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: ./checkpoints                 
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+          display_winsize: 256                           
+                    epoch: 300                           	[default: latest]
+                     eval: False                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+         max_dataset_size: inf                           
+                    model: cycle_gan                     	[default: test]
+               n_layers_D: 3                             
+                     name: sim2real_run2                 	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                     norm: instance                      
+                 num_test: 50                            
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/                    
+           serial_batches: False                         
+                   suffix:                               
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+dataset [UnalignedDataset] was created
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/300_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/300_net_G_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+-----------------------------------------------
+creating web directory results/sim2real_run2/test_300
+processing (0000)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000000.jpg']
+processing (0005)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000015.jpg']
+processing (0010)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000030.jpg']
+processing (0015)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000045.jpg']
+processing (0020)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000060.jpg']
+processing (0025)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000075.jpg']
+processing (0030)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000090.jpg']
+processing (0035)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000105.jpg']
+processing (0040)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000120.jpg']
+processing (0045)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000135.jpg']
+✓ Epoch 300 completed
+
+=========================================
+Testing Epoch 400...
+=========================================
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 11.8.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: ./checkpoints                 
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+          display_winsize: 256                           
+                    epoch: 400                           	[default: latest]
+                     eval: False                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+         max_dataset_size: inf                           
+                    model: cycle_gan                     	[default: test]
+               n_layers_D: 3                             
+                     name: sim2real_run2                 	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                     norm: instance                      
+                 num_test: 50                            
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/                    
+           serial_batches: False                         
+                   suffix:                               
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+dataset [UnalignedDataset] was created
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/400_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/400_net_G_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+-----------------------------------------------
+creating web directory results/sim2real_run2/test_400
+processing (0000)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000000.jpg']
+processing (0005)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000015.jpg']
+processing (0010)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000030.jpg']
+processing (0015)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000045.jpg']
+processing (0020)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000060.jpg']
+processing (0025)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000075.jpg']
+processing (0030)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000090.jpg']
+processing (0035)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000105.jpg']
+processing (0040)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000120.jpg']
+processing (0045)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000135.jpg']
+✓ Epoch 400 completed
+
+=========================================
+Testing Epoch 500...
+=========================================
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 11.8.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: ./checkpoints                 
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+          display_winsize: 256                           
+                    epoch: 500                           	[default: latest]
+                     eval: False                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+         max_dataset_size: inf                           
+                    model: cycle_gan                     	[default: test]
+               n_layers_D: 3                             
+                     name: sim2real_run2                 	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                     norm: instance                      
+                 num_test: 50                            
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/                    
+           serial_batches: False                         
+                   suffix:                               
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+dataset [UnalignedDataset] was created
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/500_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/500_net_G_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+-----------------------------------------------
+creating web directory results/sim2real_run2/test_500
+processing (0000)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000000.jpg']
+processing (0005)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000015.jpg']
+processing (0010)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000030.jpg']
+processing (0015)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000045.jpg']
+processing (0020)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000060.jpg']
+processing (0025)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000075.jpg']
+processing (0030)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000090.jpg']
+processing (0035)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000105.jpg']
+processing (0040)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000120.jpg']
+processing (0045)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000135.jpg']
+✓ Epoch 500 completed
+
+=========================================
+Testing Epoch 600...
+=========================================
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 11.8.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: ./checkpoints                 
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+          display_winsize: 256                           
+                    epoch: 600                           	[default: latest]
+                     eval: False                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+         max_dataset_size: inf                           
+                    model: cycle_gan                     	[default: test]
+               n_layers_D: 3                             
+                     name: sim2real_run2                 	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                     norm: instance                      
+                 num_test: 50                            
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/                    
+           serial_batches: False                         
+                   suffix:                               
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+dataset [UnalignedDataset] was created
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/600_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/600_net_G_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+-----------------------------------------------
+creating web directory results/sim2real_run2/test_600
+processing (0000)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000000.jpg']
+processing (0005)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000015.jpg']
+processing (0010)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000030.jpg']
+processing (0015)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000045.jpg']
+processing (0020)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000060.jpg']
+processing (0025)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000075.jpg']
+processing (0030)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000090.jpg']
+processing (0035)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000105.jpg']
+processing (0040)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000120.jpg']
+processing (0045)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000135.jpg']
+✓ Epoch 600 completed
+
+=========================================
+Testing Epoch 700...
+=========================================
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 11.8.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: ./checkpoints                 
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+          display_winsize: 256                           
+                    epoch: 700                           	[default: latest]
+                     eval: False                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+         max_dataset_size: inf                           
+                    model: cycle_gan                     	[default: test]
+               n_layers_D: 3                             
+                     name: sim2real_run2                 	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                     norm: instance                      
+                 num_test: 50                            
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/                    
+           serial_batches: False                         
+                   suffix:                               
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+dataset [UnalignedDataset] was created
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/700_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/700_net_G_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+-----------------------------------------------
+creating web directory results/sim2real_run2/test_700
+processing (0000)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000000.jpg']
+processing (0005)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000015.jpg']
+processing (0010)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000030.jpg']
+processing (0015)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000045.jpg']
+processing (0020)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000060.jpg']
+processing (0025)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000075.jpg']
+processing (0030)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000090.jpg']
+processing (0035)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000105.jpg']
+processing (0040)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000120.jpg']
+processing (0045)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000135.jpg']
+✓ Epoch 700 completed
+
+=========================================
+Testing Epoch 800...
+=========================================
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 11.8.0
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: ./checkpoints                 
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+          display_winsize: 256                           
+                    epoch: 800                           	[default: latest]
+                     eval: False                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+         max_dataset_size: inf                           
+                    model: cycle_gan                     	[default: test]
+               n_layers_D: 3                             
+                     name: sim2real_run2                 	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                     norm: instance                      
+                 num_test: 50                            
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/                    
+           serial_batches: False                         
+                   suffix:                               
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+dataset [UnalignedDataset] was created
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/800_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run2/800_net_G_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+-----------------------------------------------
+creating web directory results/sim2real_run2/test_800
+processing (0000)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000000.jpg']
+processing (0005)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000015.jpg']
+processing (0010)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000030.jpg']
+processing (0015)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000045.jpg']
+processing (0020)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000060.jpg']
+processing (0025)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000075.jpg']
+processing (0030)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000090.jpg']
+processing (0035)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000105.jpg']
+processing (0040)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000120.jpg']
+processing (0045)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000135.jpg']
+✓ Epoch 800 completed
+
+=========================================
+All tests completed!
+
+Results are saved in: results/sim2real_run2/
+
+To view results, check these HTML files:
+  Epoch 300: results/sim2real_run2/test_300/index.html
+  Epoch 400: results/sim2real_run2/test_400/index.html
+  Epoch 500: results/sim2real_run2/test_500/index.html
+  Epoch 600: results/sim2real_run2/test_600/index.html
+  Epoch 700: results/sim2real_run2/test_700/index.html
+  Epoch 800: results/sim2real_run2/test_800/index.html
+Stopping and removing Docker container...
+Stopping and removing Docker container...
