@@ -6,7 +6,7 @@ accelerate==1.6.0
 datasets>=2.10.0
 huggingface-hub==0.34.3
 safetensors==0.4.5
-opencv-python==4.10.0.84
+opencv-python-headless
 ftfy==6.3.1
 numpy
 Pillow>=9.5.0
