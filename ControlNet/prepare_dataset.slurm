@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=inf23153_controlnet_train
+#SBATCH --job-name=inf23153_controlnet_dataset
 #SBATCH --partition=debug
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
@@ -32,6 +32,7 @@ docker run --rm --gpus all \
   -v "${CONTEXT_DIR}":/workspace/ControlNet \
   -w /workspace/ControlNet \
   "${IMAGE_NAME}:latest" \
-  accelerate launch --num_processes 1 --mixed_precision fp16 /workspace/ControlNet/scripts/train_network.py --pretrained_model_name_or_path runwayml/stable-diffusion-v1-5 --train_data_dir /workspace/ControlNet/scripts/data/ --resolution 512 --enable_bucket --max_data_loader_n_workers 0 --network_module networks.lora --network_dim 8 --network_alpha 8 --train_batch_size 2 --gradient_accumulation_steps 4 --learning_rate 1e-4 --text_encoder_lr 5e-5 --max_train_steps 4000 --lr_scheduler cosine --output_dir /workspace/ControlNet/output_lora --output_name sim2real_dashcam
+
+  bash -lc 'set -euo pipefail; python scripts/generate_captions.py && python scripts/blur.py'
 
 # Bei normalem Ende wird cleanup durch trap ausgeführt
