@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=infer_i2i_controlnet
 #SBATCH --partition=debug
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:user:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --time=10:00:00
@@ -27,21 +27,17 @@ docker build -t "${IMAGE_NAME}:latest" "${CONTEXT_DIR}"
 
 echo "Running Docker container..."
 
-docker run --rm --gpus all \
+# Depth backend for infer.py:
+# - "midas" (default, no controlnet-aux)
+# - "aux-midas" / "aux-zoe" (requires controlnet-aux)
+DEPTH_BACKEND="${DEPTH_BACKEND:-aux-zoe}"
+
+docker run --rm --gpus "device=5" \
   --name "$CONTAINER_NAME" \
+  -e DEPTH_BACKEND="$DEPTH_BACKEND" \
   -v "${CONTEXT_DIR}":/workspace/ControlNet \
   -w /workspace/ControlNet \
   "${IMAGE_NAME}:latest" \
   python3 /workspace/ControlNet/infer.py
-
-
-# docker run -d \
-#  --gpus all \
-#  --name "$CONTAINER_NAME" \
-#  -v "${CONTEXT_DIR}":/workspace/ControlNet \
-#  -v "$HOME":/workspace/home \
-#  -w /workspace/ControlNet \
-#  "${IMAGE_NAME}:latest" \
-#  python3 /workspace/ControlNet/infer.py
 
 # Bei normalem Ende wird cleanup durch trap ausgeführt

@@ -27,7 +27,7 @@ docker build -t "${IMAGE_NAME}:latest" "${CONTEXT_DIR}"
 
 echo "Running Docker container..."
 
-docker run --rm --gpus all \
+docker run --rm --gpus "device=4" \
   --name "$CONTAINER_NAME" \
   -v "${CONTEXT_DIR}":/workspace/ControlNet \
   -w /workspace/ControlNet \
