@@ -25,8 +25,8 @@ def _env_bool(name: str, default: bool) -> bool:
 
 
 USE_CANNY = _env_bool("USE_CANNY", False)
-CANNY_SCALE = float(os.getenv("CANNY_SCALE", "0.40"))
-DEPTH_SCALE = float(os.getenv("DEPTH_SCALE", "0.70"))
+CANNY_SCALE = float(os.getenv("CANNY_SCALE", "0.60"))
+DEPTH_SCALE = float(os.getenv("DEPTH_SCALE", "0.90"))
 
 # Auto Bounding Box (geschützt)
 x1, y1, x2, y2 = 50, 230, 460, 512
@@ -266,14 +266,14 @@ def sim2real(
 
     result = pipe(
         prompt=(
-            "wet asphalt, reflective road surface, specular highlights, road reflections"
+            "wet asphalt, reflective road surface, specular highlights, road reflectionswet asphalt, reflective road surface, specular highlights, subtle mirror reflections on asphalt, realistic light scattering"
         ),
-        negative_prompt="car details, vehicle focus, flat lighting, matte surface",
+        negative_prompt="matte surface, flat texture, cartoon shading",
         image=init_image,
         mask_image=mask_image, 
         control_image=control_images,
         strength=0.85,
-        guidance_scale=4.0,
+        guidance_scale=6.0,
         controlnet_conditioning_scale=conditioning_scale,
         num_inference_steps=40,
         generator=generator,
