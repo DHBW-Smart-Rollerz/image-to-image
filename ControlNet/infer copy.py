@@ -33,41 +33,6 @@ def compute_canny(image: Image.Image):
     edges = np.stack([edges] * 3, axis=-1)
     return Image.fromarray(edges)
 
-def compute_spec_mask(image: Image.Image, percentile=98, min_thresh=180):
-    """
-    Erzeuge eine Specular-Maske basierend auf Helligkeit (V-Kanal).
-    Rückgabe: RGB-PIL-Image (weiß = stark specular, weichgefiltert)
-    """
-    img = np.array(image)
-    hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
-    v = hsv[..., 2]
-
-    p = np.percentile(v, percentile)
-    thresh = int(max(min_thresh, p))
-
-    mask = (v >= thresh).astype(np.uint8) * 255
-
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
-    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=2)
-    mask = cv2.GaussianBlur(mask, (31, 31), 0)
-
-    mask3 = np.stack([mask] * 3, axis=-1)
-    return Image.fromarray(mask3)
-
-
-def apply_bloom(image: Image.Image, spec_mask: Image.Image, intensity=1.0, sigma=15):
-    """Ein einfacher Bloom-Postprocess, nur als schneller Test."""
-    img = np.array(image).astype(np.float32) / 255.0
-    mask = np.array(spec_mask.convert("L")).astype(np.float32) / 255.0
-
-    bright = img * mask[..., None]
-    # sigma als Gauss-Sigma (cv2 erlaubt 0,0 kernel mit sigma)
-    blurred = cv2.GaussianBlur((bright * 255).astype(np.uint8), (0, 0), sigma)
-    blurred = blurred.astype(np.float32) / 255.0
-
-    out = np.clip(img + blurred * intensity, 0.0, 1.0)
-    return Image.fromarray((out * 255).astype(np.uint8))
-
 def create_mask(size=(512, 512)):
     """
     Weiß = wird generiert (Straße)
@@ -99,7 +64,7 @@ pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
     safety_checker=None,
 )
 
-pipe.load_lora_weights(LORA_PATH, weight=1.2)
+pipe.load_lora_weights(LORA_PATH, weight=1.6)
 pipe.fuse_lora()
 
 pipe = pipe.to(DEVICE)
@@ -116,7 +81,6 @@ def sim2real(
     init_image = load_image(sim_image_path)
     control_image = compute_canny(init_image)
     mask_image = create_mask(init_image.size)
-    spec_mask = compute_spec_mask(init_image)
 
     generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
@@ -129,29 +93,17 @@ def sim2real(
         image=init_image,
         mask_image=mask_image, 
         control_image=control_image,
-        strength=0.80,
-        guidance_scale=4.0,
-        controlnet_conditioning_scale=0.55,
-        num_inference_steps=30,
+        strength=0.85,
+        guidance_scale=6.5,
+        controlnet_conditioning_scale=0.9,
+        num_inference_steps=40,
         generator=generator,
     )
 
     out_img = result.images[0]
 
-    # speichere SpecMask für Analyse
-    spec_out_path = os.path.splitext(out_path)[0] + "_specmask.png"
-    spec_mask.save(spec_out_path)
-
-    # optionaler schneller Bloom-Test (verbessert Wahrnehmung von Reflexionen)
-    try:
-        bloom_img = apply_bloom(out_img, spec_mask, intensity=1.0, sigma=15)
-        bloom_out_path = os.path.splitext(out_path)[0] + "_bloom.png"
-        bloom_img.save(bloom_out_path)
-    except Exception:
-        pass
-
     out_img.save(out_path)
-    print(f"✓ Gespeichert: {out_path} (SpecMask: {spec_out_path})")
+    print(f"✓ Gespeichert: {out_path}")
 
 
 if __name__ == "__main__":
