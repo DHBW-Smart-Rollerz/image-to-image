@@ -61,7 +61,7 @@ def safe_rename_sequential(folder, files, start, digits, keep_ext, dry_run):
 
 def main():
     parser = argparse.ArgumentParser(description="Create a caption file for every image in a folder")
-    parser.add_argument("--dir", "-d", default="scripts/data", help="Path to images folder")
+    parser.add_argument("--dir", "-d", default="scripts/data/1_dashcam", help="Path to images folder")
     parser.add_argument("--ext", "-e", nargs="+",
                         default=[".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp", ".gif"],
                         help="Image file extensions to consider")

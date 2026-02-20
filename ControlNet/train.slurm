@@ -117,7 +117,7 @@ PY
       --gradient_accumulation_steps 4 \
       --learning_rate 1e-4 \
       --text_encoder_lr 5e-5 \
-      --max_train_steps 12000 \
+      --max_train_steps 8000 \
       --lr_scheduler cosine \
       --output_dir /workspace/ControlNet/output_lora \
       --output_name sim2real_dashcam
