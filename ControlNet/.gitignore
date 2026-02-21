@@ -9,5 +9,7 @@ model/
 
 outputs/
 
+inputs/
+
 *.out
 *.err
