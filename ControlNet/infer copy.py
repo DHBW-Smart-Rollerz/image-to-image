@@ -16,7 +16,7 @@ CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"
 LORA_PATH = "output_lora/sim2real_dashcam.safetensors"
 
 # Auto Bounding Box (geschützt)
-x1, y1, x2, y2 = 0,0,0,0#50, 230, 460, 512
+x1, y1, x2, y2 = 110, 200, 380, 512 #0,0,0,0#50, 230, 460, 512
 
 # ------------------------------------------------------------
 # Hilfsfunktionen

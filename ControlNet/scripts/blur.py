@@ -5,7 +5,7 @@ from pathlib import Path
 
 INPUT_DIR = Path("scripts/data/1_dashcam")
 TARGET_W, TARGET_H = 512, 512
-# Wahrscheinlichkeit, ein Bild zu bearbeiten (60-70% => 0.65)
+# Wahrscheinlichkeit, ein Bild zu bearbeiten (100%, da alle Bilder verarbeitet werden sollen)
 PROCESS_PROB = 1.0
 
 # Masken-Farbe (dunkelgrau) im OpenCV-BGR-Format
@@ -14,7 +14,7 @@ MASK_COLOR_BGR = (64, 64, 64)
 EDGE_BLUR_SIGMA = 2.5
 
 # Beispiel-Autobox (x1, y1, x2, y2) — Koordinaten im skalierten 512x512 Bild
-x1, y1, x2, y2 = 110, 215, 380, 512
+x1, y1, x2, y2 = 110, 200, 380, 512
 
 def process_image(path: Path, do_blur: bool = False) -> bool:
     img = cv2.imread(str(path))
