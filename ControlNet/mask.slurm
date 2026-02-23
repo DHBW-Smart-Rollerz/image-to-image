@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=blur_i2i_controlnet
+#SBATCH --job-name=mask_i2i_controlnet
 #SBATCH --partition=debug
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
@@ -32,7 +32,7 @@ docker run --rm --gpus all \
   -v "${CONTEXT_DIR}":/workspace/ControlNet \
   -w /workspace/ControlNet \
   "${IMAGE_NAME}:latest" \
-  python3 /workspace/ControlNet/scripts/blur.py
+  python3 /workspace/ControlNet/scripts/mask.py
 
 
 # Bei normalem Ende wird cleanup durch trap ausgeführt
