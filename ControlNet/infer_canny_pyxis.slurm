@@ -94,5 +94,5 @@ srun \
   fi
 
   # Führt Canny-ControlNet Inpaint-Inferenz aus (Eingaben: ./inputs, Ausgaben: ./outputs)
-  python3 "/workspace/ControlNet/infer copy.py"
+  python3 "/workspace/ControlNet/infer.py"
 '
