@@ -48,7 +48,7 @@ Weil das Modell sich beim Training stark auf das Auto im Vordergrund konzentrier
 
 1. Maskieren der Autos mit `scripts/mask.py`:
     ```bash
-    sbatch mask.slurm
+    sbatch mask_pyxis.slurm
     ```
     bzw. direkt im Docker-Container: 
     ```bash
@@ -56,7 +56,7 @@ Weil das Modell sich beim Training stark auf das Auto im Vordergrund konzentrier
     ```
 2. Croppen von 40% der Bilder auf die Straße mit `scripts/crop.py`:
     ```bash
-    sbatch crop.slurm
+    sbatch crop_pyxis.slurm
     ```
     bzw. direkt im Docker-Container: 
     ```bash
