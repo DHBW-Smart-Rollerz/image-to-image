@@ -71,7 +71,10 @@ srun \
   if [[ "${INSTALL_DEPS}" == "1" ]]; then
     # Wichtig: Wenn DEPTH_BACKEND auf aux-* steht, braucht infer.py zusätzlich controlnet_aux.
     if [[ "${DEPTH_BACKEND}" == aux* || "${DEPTH_BACKEND}" == "zoe" || "${DEPTH_BACKEND}" == "depth-anything" ]]; then
-      python3 -c "import cv2, diffusers, transformers, accelerate, controlnet_aux" >/dev/null 2>&1 || (
+      NEED_INSTALL=0
+      python3 -c "import cv2, diffusers, transformers, accelerate" >/dev/null 2>&1 || NEED_INSTALL=1
+      [[ -f "$PY_DEPS_DIR_IN_CONTAINER/controlnet_aux/__init__.py" ]] || NEED_INSTALL=1
+      [[ "$NEED_INSTALL" == "0" ]] || (
         echo "Installiere Python-Abhängigkeiten (einmalig im Cache)..."
         # Nicht ins (evtl. read-only) User-Site installieren; alles in den Target-Ordner legen.
         python3 -m pip install --upgrade --target "$PY_DEPS_DIR_IN_CONTAINER" pip setuptools wheel
@@ -88,13 +91,17 @@ srun \
 
         python3 -m pip install --upgrade --force-reinstall --target "$PY_DEPS_DIR_IN_CONTAINER" -r /workspace/ControlNet/requirements.txt
 
-        # mediapipe zieht opencv-contrib-python nach, das ein GUI-linked cv2 mitbringt (libxcb).
-        # Für diese Inferenz wollen wir ein headless-cv2 ohne X11-Abhängigkeiten.
+        # mediapipe zieht opencv-contrib-python nach, das oft GUI/X11 Dependencies (libxcb) mitbringt.
+        # Wir nutzen daher die headless-contrib Variante (mediapipe/controlnet-aux kompatibel, ohne X11).
         rm -rf \
           "$PY_DEPS_DIR_IN_CONTAINER/cv2" \
+          "$PY_DEPS_DIR_IN_CONTAINER/opencv_python" \
           "$PY_DEPS_DIR_IN_CONTAINER/opencv_contrib_python" \
-          "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python*-*.dist-info || true
-        python3 -m pip install --upgrade --force-reinstall --no-deps --target "$PY_DEPS_DIR_IN_CONTAINER" opencv-python-headless
+          "$PY_DEPS_DIR_IN_CONTAINER/"opencv_python*-*.dist-info \
+          "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python*-*.dist-info \
+          "$PY_DEPS_DIR_IN_CONTAINER/"opencv_python_headless*-*.dist-info \
+          "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python_headless*-*.dist-info || true
+        python3 -m pip install --upgrade --force-reinstall --no-deps --target "$PY_DEPS_DIR_IN_CONTAINER" opencv-contrib-python-headless
       )
     else
       python3 -c "import cv2, diffusers, transformers, accelerate" >/dev/null 2>&1 || (
@@ -114,13 +121,17 @@ srun \
 
       python3 -m pip install --upgrade --force-reinstall --target "$PY_DEPS_DIR_IN_CONTAINER" -r /workspace/ControlNet/requirements.txt
 
-      # mediapipe zieht opencv-contrib-python nach, das ein GUI-linked cv2 mitbringt (libxcb).
-      # Für diese Inferenz wollen wir ein headless-cv2 ohne X11-Abhängigkeiten.
+      # mediapipe zieht opencv-contrib-python nach, das oft GUI/X11 Dependencies (libxcb) mitbringt.
+      # Wir nutzen daher die headless-contrib Variante (mediapipe/controlnet-aux kompatibel, ohne X11).
       rm -rf \
         "$PY_DEPS_DIR_IN_CONTAINER/cv2" \
+        "$PY_DEPS_DIR_IN_CONTAINER/opencv_python" \
         "$PY_DEPS_DIR_IN_CONTAINER/opencv_contrib_python" \
-        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python*-*.dist-info || true
-      python3 -m pip install --upgrade --force-reinstall --no-deps --target "$PY_DEPS_DIR_IN_CONTAINER" opencv-python-headless
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_python*-*.dist-info \
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python*-*.dist-info \
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_python_headless*-*.dist-info \
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python_headless*-*.dist-info || true
+      python3 -m pip install --upgrade --force-reinstall --no-deps --target "$PY_DEPS_DIR_IN_CONTAINER" opencv-contrib-python-headless
       )
     fi
   fi

@@ -57,7 +57,13 @@ srun \
   export PYTHONPATH="$PY_DEPS_DIR_IN_CONTAINER:${PYTHONPATH:-}"
 
   if [[ "${INSTALL_DEPS}" == "1" ]]; then
-    python3 -c "import cv2, diffusers, transformers, accelerate" >/dev/null 2>&1 || (
+    # Wichtig: Dieses Inferenz-Skript nutzt zusätzlich den HED Preprocessor aus controlnet-aux.
+    # Achtung: `import controlnet_aux` kann (je nach Installation) über mediapipe/openpose crashen.
+    # Daher prüfen wir hier nur auf Dateiexistenz im --target Cache, nicht per Python-Import.
+    NEED_INSTALL=0
+    python3 -c "import cv2, diffusers, transformers, accelerate" >/dev/null 2>&1 || NEED_INSTALL=1
+    [[ -f "$PY_DEPS_DIR_IN_CONTAINER/controlnet_aux/hed/__init__.py" ]] || NEED_INSTALL=1
+    [[ "$NEED_INSTALL" == "0" ]] || (
       echo "Installiere Python-Abhängigkeiten (einmalig im Cache)..."
       python3 -m pip install --upgrade --target "$PY_DEPS_DIR_IN_CONTAINER" pip setuptools wheel
 
@@ -73,13 +79,17 @@ srun \
 
       python3 -m pip install --upgrade --force-reinstall --target "$PY_DEPS_DIR_IN_CONTAINER" -r /workspace/ControlNet/requirements.txt
 
-      # mediapipe zieht opencv-contrib-python nach, das ein GUI-linked cv2 mitbringt (libxcb).
-      # Für diese Inferenz wollen wir ein headless-cv2 ohne X11-Abhängigkeiten.
+      # mediapipe zieht opencv-contrib-python nach, das oft GUI/X11 Dependencies (libxcb) mitbringt.
+      # Für diese Inferenz wollen wir ein headless-cv2, aber weiterhin "contrib" (mediapipe/controlnet-aux kompatibel).
       rm -rf \
         "$PY_DEPS_DIR_IN_CONTAINER/cv2" \
+        "$PY_DEPS_DIR_IN_CONTAINER/opencv_python" \
         "$PY_DEPS_DIR_IN_CONTAINER/opencv_contrib_python" \
-        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python*-*.dist-info || true
-      python3 -m pip install --upgrade --force-reinstall --no-deps --target "$PY_DEPS_DIR_IN_CONTAINER" opencv-python-headless
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_python*-*.dist-info \
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python*-*.dist-info \
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_python_headless*-*.dist-info \
+        "$PY_DEPS_DIR_IN_CONTAINER/"opencv_contrib_python_headless*-*.dist-info || true
+      python3 -m pip install --upgrade --force-reinstall --no-deps --target "$PY_DEPS_DIR_IN_CONTAINER" opencv-contrib-python-headless
     )
   fi
 
