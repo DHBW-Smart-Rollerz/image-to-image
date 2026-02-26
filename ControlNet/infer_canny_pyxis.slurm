@@ -9,6 +9,11 @@
 
 set -euo pipefail
 
+# Pyxis/Enroot Runtime-Dir Fix (für Permission-Fehler bei /run/user/*)
+export XDG_RUNTIME_DIR="/tmp/enroot-runtime-${UID}"
+mkdir -p "$XDG_RUNTIME_DIR"
+chmod 700 "$XDG_RUNTIME_DIR"
+
 # Pyxis/Enroot GPU support
 export NVIDIA_VISIBLE_DEVICES=all
 export NVIDIA_DRIVER_CAPABILITIES=compute,utility
@@ -36,9 +41,9 @@ srun --export=ALL --container-image="${CONTAINER_IMAGE}" nvidia-smi -L
 
 echo "Starte Canny-Inferenz via Pyxis..."
 srun \
-  --export=ALL \
+  --export=ALL,XDG_RUNTIME_DIR \
   --container-image="${CONTAINER_IMAGE}" \
-  --container-mounts="${CONTEXT_DIR}:/workspace/ControlNet,${HOME}:/workspace/home" \
+  --container-mounts="${CONTEXT_DIR}:/workspace/ControlNet,${HOME}:/workspace/home,${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}" \
   --container-workdir=/workspace/ControlNet \
   bash -lc 'set -euo pipefail
 
