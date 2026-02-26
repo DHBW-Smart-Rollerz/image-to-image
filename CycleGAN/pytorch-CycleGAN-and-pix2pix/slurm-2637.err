@@ -1,0 +1,13 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+Traceback (most recent call last):
+  File "/workspace/CycleGAN/train.py", line 37, in <module>
+    model = create_model(opt)  # create a model given opt.model and other options
+  File "/workspace/CycleGAN/models/__init__.py", line 56, in create_model
+    instance = model(opt)
+  File "/workspace/CycleGAN/models/cycle_gan_model.py", line 92, in __init__
+    self.criterionGAN = networks.GANLoss(opt.gan_mode).to(self.device)  # define GAN loss.
+  File "/workspace/CycleGAN/models/networks.py", line 238, in __init__
+    raise NotImplementedError("gan mode %s not implemented" % gan_mode)
+NotImplementedError: gan mode hinge not implemented
+srun: error: deep-thought: task 0: Exited with exit code 1

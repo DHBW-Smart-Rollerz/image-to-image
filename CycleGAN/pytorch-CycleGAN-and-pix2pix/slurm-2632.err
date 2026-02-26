@@ -1,0 +1,13 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+  WARNING: The script wsdump is installed in '/workspace/home/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script visdom is installed in '/workspace/home/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Traceback (most recent call last):
+  File "/workspace/CycleGAN/train.py", line 26, in <module>
+    from util.visualizer import Visualizer
+  File "/workspace/CycleGAN/util/visualizer.py", line 7, in <module>
+    import wandb
+ModuleNotFoundError: No module named 'wandb'
+srun: error: deep-thought: task 0: Exited with exit code 1

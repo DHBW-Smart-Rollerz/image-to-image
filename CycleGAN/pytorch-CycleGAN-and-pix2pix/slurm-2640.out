@@ -1,0 +1,2013 @@
+========================================
+SLURM Job Started: 2640
+========================================
+CPUs per task: 6
+Total CPUs available: 6
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-0a8fe54c-fd8e-28b6-802f-30d8c3bef8ea)
+========================================
+Starte CycleGAN Training via Pyxis...
+Installiere Dependencies...
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: dominate in /workspace/home/.local/lib/python3.10/site-packages (2.9.1)
+Requirement already satisfied: visdom in /workspace/home/.local/lib/python3.10/site-packages (0.2.4)
+Requirement already satisfied: wandb in /workspace/home/.local/lib/python3.10/site-packages (0.25.0)
+Requirement already satisfied: numpy>=1.8 in /opt/conda/lib/python3.10/site-packages (from visdom) (1.26.3)
+Requirement already satisfied: scipy in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.15.3)
+Requirement already satisfied: requests in /opt/conda/lib/python3.10/site-packages (from visdom) (2.31.0)
+Requirement already satisfied: tornado in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (6.5.4)
+Requirement already satisfied: six in /opt/conda/lib/python3.10/site-packages (from visdom) (1.16.0)
+Requirement already satisfied: jsonpatch in /opt/conda/lib/python3.10/site-packages (from visdom) (1.32)
+Requirement already satisfied: websocket-client in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.9.0)
+Requirement already satisfied: networkx in /opt/conda/lib/python3.10/site-packages (from visdom) (3.1)
+Requirement already satisfied: pillow in /opt/conda/lib/python3.10/site-packages (from visdom) (10.2.0)
+Requirement already satisfied: click>=8.0.1 in /opt/conda/lib/python3.10/site-packages (from wandb) (8.1.7)
+Requirement already satisfied: gitpython!=3.1.29,>=1.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (3.1.46)
+Requirement already satisfied: packaging in /opt/conda/lib/python3.10/site-packages (from wandb) (23.1)
+Requirement already satisfied: platformdirs in /opt/conda/lib/python3.10/site-packages (from wandb) (3.10.0)
+Requirement already satisfied: protobuf!=4.21.0,!=5.28.0,<7,>=3.19.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (6.33.5)
+Requirement already satisfied: pydantic<3 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.12.5)
+Requirement already satisfied: pyyaml in /opt/conda/lib/python3.10/site-packages (from wandb) (6.0.1)
+Requirement already satisfied: sentry-sdk>=2.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.53.0)
+Requirement already satisfied: typing-extensions<5,>=4.8 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (4.15.0)
+Requirement already satisfied: gitdb<5,>=4.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitpython!=3.1.29,>=1.0.0->wandb) (4.0.12)
+Requirement already satisfied: annotated-types>=0.6.0 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.4.2)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.0.4)
+Requirement already satisfied: idna<4,>=2.5 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (3.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2024.2.2)
+Requirement already satisfied: jsonpointer>=1.9 in /opt/conda/lib/python3.10/site-packages (from jsonpatch->visdom) (2.1)
+Requirement already satisfied: smmap<6,>=3.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.29,>=1.0.0->wandb) (5.0.2)
+Starte Training...
+----------------- Options ---------------
+               batch_size: 8                             	[default: 1]
+                    beta1: 0.5                           
+          checkpoints_dir: ./checkpoints                 
+           continue_train: True                          	[default: False]
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+             display_freq: 100                           	[default: 400]
+          display_winsize: 256                           
+                    epoch: 300                           	[default: latest]
+              epoch_count: 301                           	[default: 1]
+                 gan_mode: lsgan                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: True                          	[default: None]
+                 lambda_A: 6.0                           	[default: 10.0]
+                 lambda_B: 6.0                           	[default: 10.0]
+          lambda_identity: 2.5                           	[default: 0.5]
+                load_iter: 0                             	[default: 0]
+                load_size: 286                           
+                       lr: 8e-05                         	[default: 0.0002]
+           lr_decay_iters: 50                            
+                lr_policy: linear                        
+         max_dataset_size: inf                           
+                    model: cycle_gan                     
+                 n_epochs: 400                           	[default: 100]
+           n_epochs_decay: 100                           
+               n_layers_D: 3                             
+                     name: sim2real_run1_finetune        	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                  no_html: False                         
+                     norm: instance                      
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: train                         
+                pool_size: 50                            
+               preprocess: resize_and_crop               
+               print_freq: 50                            	[default: 100]
+             save_by_iter: False                         
+          save_epoch_freq: 5                             
+         save_latest_freq: 5000                          
+           serial_batches: False                         
+                   suffix:                               
+         update_html_freq: 1000                          
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+Initialized with device cuda:0
+dataset [UnalignedDataset] was created
+The number of training images = 712
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run1_finetune/300_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run1_finetune/300_net_G_B.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run1_finetune/300_net_D_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_run1_finetune/300_net_D_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+[Network D_A] Total number of parameters : 2.765 M
+[Network D_B] Total number of parameters : 2.765 M
+-----------------------------------------------
+create web directory checkpoints/sim2real_run1_finetune/web...
+[Rank 0] (epoch: 301, iters: 200, time: 0.093, data: 0.823) , D_A: 0.145, G_A: 0.413, cycle_A: 0.046, idt_A: 0.198, D_B: 0.153, G_B: 0.170, cycle_B: 0.133, idt_B: 0.083
+
+[Rank 0] (epoch: 301, iters: 400, time: 0.030, data: 0.003) , D_A: 0.127, G_A: 0.434, cycle_A: 0.052, idt_A: 0.200, D_B: 0.113, G_B: 0.289, cycle_B: 0.153, idt_B: 0.093
+
+[Rank 0] (epoch: 301, iters: 600, time: 0.030, data: 0.002) , D_A: 0.142, G_A: 0.347, cycle_A: 0.056, idt_A: 0.210, D_B: 0.106, G_B: 0.263, cycle_B: 0.155, idt_B: 0.088
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 301 / 500 	 Time Taken: 22 sec
+[Rank 0] (epoch: 302, iters: 88, time: 0.096, data: 0.002) , D_A: 0.164, G_A: 0.334, cycle_A: 0.055, idt_A: 0.181, D_B: 0.213, G_B: 0.235, cycle_B: 0.136, idt_B: 0.100
+
+[Rank 0] (epoch: 302, iters: 288, time: 0.076, data: 0.003) , D_A: 0.014, G_A: 0.834, cycle_A: 0.048, idt_A: 0.213, D_B: 0.189, G_B: 0.301, cycle_B: 0.141, idt_B: 0.083
+
+[Rank 0] (epoch: 302, iters: 488, time: 0.030, data: 0.003) , D_A: 0.049, G_A: 0.474, cycle_A: 0.051, idt_A: 0.212, D_B: 0.092, G_B: 0.485, cycle_B: 0.147, idt_B: 0.083
+
+[Rank 0] (epoch: 302, iters: 688, time: 0.030, data: 0.003) , D_A: 0.077, G_A: 1.210, cycle_A: 0.042, idt_A: 0.217, D_B: 0.029, G_B: 0.849, cycle_B: 0.139, idt_B: 0.073
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 302 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 303, iters: 176, time: 0.082, data: 0.002) , D_A: 0.019, G_A: 1.000, cycle_A: 0.056, idt_A: 0.218, D_B: 0.060, G_B: 0.814, cycle_B: 0.149, idt_B: 0.099
+
+[Rank 0] (epoch: 303, iters: 376, time: 0.030, data: 0.003) , D_A: 0.033, G_A: 0.639, cycle_A: 0.067, idt_A: 0.176, D_B: 0.104, G_B: 0.485, cycle_B: 0.145, idt_B: 0.124
+
+[Rank 0] (epoch: 303, iters: 576, time: 0.086, data: 0.003) , D_A: 0.020, G_A: 1.098, cycle_A: 0.051, idt_A: 0.193, D_B: 0.137, G_B: 0.231, cycle_B: 0.153, idt_B: 0.089
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 303 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 304, iters: 64, time: 0.081, data: 0.002) , D_A: 0.045, G_A: 1.055, cycle_A: 0.065, idt_A: 0.181, D_B: 0.114, G_B: 0.447, cycle_B: 0.141, idt_B: 0.119
+
+[Rank 0] (epoch: 304, iters: 264, time: 0.030, data: 0.004) , D_A: 0.041, G_A: 0.632, cycle_A: 0.048, idt_A: 0.181, D_B: 0.113, G_B: 0.334, cycle_B: 0.141, idt_B: 0.085
+
+[Rank 0] (epoch: 304, iters: 464, time: 0.030, data: 0.003) , D_A: 0.083, G_A: 0.330, cycle_A: 0.056, idt_A: 0.191, D_B: 0.123, G_B: 0.293, cycle_B: 0.138, idt_B: 0.104
+
+[Rank 0] (epoch: 304, iters: 664, time: 0.030, data: 0.003) , D_A: 0.050, G_A: 0.746, cycle_A: 0.046, idt_A: 0.161, D_B: 0.072, G_B: 0.508, cycle_B: 0.122, idt_B: 0.082
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 304 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 305, iters: 152, time: 0.082, data: 0.002) , D_A: 0.079, G_A: 0.271, cycle_A: 0.044, idt_A: 0.184, D_B: 0.046, G_B: 0.579, cycle_B: 0.153, idt_B: 0.072
+
+[Rank 0] (epoch: 305, iters: 352, time: 0.030, data: 0.004) , D_A: 0.076, G_A: 0.544, cycle_A: 0.063, idt_A: 0.208, D_B: 0.077, G_B: 0.689, cycle_B: 0.154, idt_B: 0.102
+
+[Rank 0] (epoch: 305, iters: 552, time: 0.030, data: 0.002) , D_A: 0.070, G_A: 0.208, cycle_A: 0.047, idt_A: 0.193, D_B: 0.082, G_B: 0.363, cycle_B: 0.133, idt_B: 0.086
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 305, iters 3560
+End of epoch 305 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 306, iters: 40, time: 0.077, data: 0.003) , D_A: 0.094, G_A: 0.687, cycle_A: 0.056, idt_A: 0.238, D_B: 0.011, G_B: 1.051, cycle_B: 0.166, idt_B: 0.099
+
+[Rank 0] (epoch: 306, iters: 240, time: 0.030, data: 0.002) , D_A: 0.042, G_A: 0.905, cycle_A: 0.067, idt_A: 0.194, D_B: 0.043, G_B: 0.705, cycle_B: 0.152, idt_B: 0.118
+
+[Rank 0] (epoch: 306, iters: 440, time: 0.078, data: 0.003) , D_A: 0.046, G_A: 0.298, cycle_A: 0.053, idt_A: 0.185, D_B: 0.034, G_B: 0.773, cycle_B: 0.135, idt_B: 0.090
+
+[Rank 0] (epoch: 306, iters: 640, time: 0.030, data: 0.003) , D_A: 0.148, G_A: 0.741, cycle_A: 0.049, idt_A: 0.176, D_B: 0.036, G_B: 0.800, cycle_B: 0.136, idt_B: 0.084
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 306 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 307, iters: 128, time: 0.082, data: 0.003) , D_A: 0.095, G_A: 0.633, cycle_A: 0.065, idt_A: 0.192, D_B: 0.068, G_B: 0.360, cycle_B: 0.145, idt_B: 0.098
+
+[Rank 0] (epoch: 307, iters: 328, time: 0.030, data: 0.002) , D_A: 0.061, G_A: 0.793, cycle_A: 0.047, idt_A: 0.209, D_B: 0.045, G_B: 0.714, cycle_B: 0.161, idt_B: 0.070
+
+[Rank 0] (epoch: 307, iters: 528, time: 0.030, data: 0.003) , D_A: 0.103, G_A: 0.647, cycle_A: 0.065, idt_A: 0.206, D_B: 0.013, G_B: 0.865, cycle_B: 0.156, idt_B: 0.099
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 307 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 308, iters: 16, time: 0.081, data: 0.003) , D_A: 0.150, G_A: 1.551, cycle_A: 0.054, idt_A: 0.220, D_B: 0.035, G_B: 0.562, cycle_B: 0.177, idt_B: 0.095
+
+saving the latest model (epoch 308, total_iters 5000)
+[Rank 0] (epoch: 308, iters: 216, time: 0.030, data: 0.001) , D_A: 0.072, G_A: 0.585, cycle_A: 0.050, idt_A: 0.186, D_B: 0.030, G_B: 0.573, cycle_B: 0.165, idt_B: 0.085
+
+[Rank 0] (epoch: 308, iters: 416, time: 0.030, data: 0.003) , D_A: 0.040, G_A: 1.056, cycle_A: 0.057, idt_A: 0.196, D_B: 0.038, G_B: 0.873, cycle_B: 0.151, idt_B: 0.097
+
+[Rank 0] (epoch: 308, iters: 616, time: 0.030, data: 0.003) , D_A: 0.013, G_A: 0.937, cycle_A: 0.045, idt_A: 0.196, D_B: 0.029, G_B: 0.995, cycle_B: 0.147, idt_B: 0.080
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 308 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 309, iters: 104, time: 0.079, data: 0.003) , D_A: 0.034, G_A: 0.569, cycle_A: 0.048, idt_A: 0.194, D_B: 0.048, G_B: 0.787, cycle_B: 0.134, idt_B: 0.082
+
+[Rank 0] (epoch: 309, iters: 304, time: 0.076, data: 0.002) , D_A: 0.018, G_A: 0.635, cycle_A: 0.043, idt_A: 0.196, D_B: 0.030, G_B: 0.718, cycle_B: 0.165, idt_B: 0.076
+
+[Rank 0] (epoch: 309, iters: 504, time: 0.030, data: 0.003) , D_A: 0.013, G_A: 0.907, cycle_A: 0.054, idt_A: 0.185, D_B: 0.028, G_B: 0.869, cycle_B: 0.135, idt_B: 0.084
+
+[Rank 0] (epoch: 309, iters: 704, time: 0.030, data: 0.004) , D_A: 0.116, G_A: 0.159, cycle_A: 0.064, idt_A: 0.168, D_B: 0.031, G_B: 0.948, cycle_B: 0.156, idt_B: 0.104
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 309 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 310, iters: 192, time: 0.080, data: 0.002) , D_A: 0.045, G_A: 0.503, cycle_A: 0.050, idt_A: 0.180, D_B: 0.119, G_B: 0.303, cycle_B: 0.150, idt_B: 0.088
+
+[Rank 0] (epoch: 310, iters: 392, time: 0.030, data: 0.003) , D_A: 0.060, G_A: 0.427, cycle_A: 0.040, idt_A: 0.181, D_B: 0.038, G_B: 0.527, cycle_B: 0.151, idt_B: 0.065
+
+[Rank 0] (epoch: 310, iters: 592, time: 0.076, data: 0.002) , D_A: 0.023, G_A: 1.045, cycle_A: 0.058, idt_A: 0.189, D_B: 0.047, G_B: 0.854, cycle_B: 0.157, idt_B: 0.091
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 310, iters 7120
+End of epoch 310 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 311, iters: 80, time: 0.081, data: 0.002) , D_A: 0.084, G_A: 0.376, cycle_A: 0.046, idt_A: 0.162, D_B: 0.056, G_B: 0.431, cycle_B: 0.122, idt_B: 0.072
+
+[Rank 0] (epoch: 311, iters: 280, time: 0.030, data: 0.002) , D_A: 0.080, G_A: 0.513, cycle_A: 0.055, idt_A: 0.180, D_B: 0.055, G_B: 1.172, cycle_B: 0.138, idt_B: 0.082
+
+[Rank 0] (epoch: 311, iters: 480, time: 0.030, data: 0.003) , D_A: 0.073, G_A: 1.044, cycle_A: 0.070, idt_A: 0.207, D_B: 0.013, G_B: 1.151, cycle_B: 0.166, idt_B: 0.109
+
+[Rank 0] (epoch: 311, iters: 680, time: 0.030, data: 0.003) , D_A: 0.059, G_A: 0.504, cycle_A: 0.059, idt_A: 0.226, D_B: 0.024, G_B: 0.602, cycle_B: 0.153, idt_B: 0.087
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 311 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 312, iters: 168, time: 0.080, data: 0.003) , D_A: 0.115, G_A: 0.409, cycle_A: 0.062, idt_A: 0.198, D_B: 0.007, G_B: 0.915, cycle_B: 0.141, idt_B: 0.096
+
+[Rank 0] (epoch: 312, iters: 368, time: 0.030, data: 0.004) , D_A: 0.077, G_A: 0.450, cycle_A: 0.039, idt_A: 0.176, D_B: 0.028, G_B: 1.006, cycle_B: 0.130, idt_B: 0.064
+
+[Rank 0] (epoch: 312, iters: 568, time: 0.030, data: 0.003) , D_A: 0.021, G_A: 1.117, cycle_A: 0.048, idt_A: 0.188, D_B: 0.012, G_B: 0.974, cycle_B: 0.138, idt_B: 0.081
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 312 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 313, iters: 56, time: 0.092, data: 0.003) , D_A: 0.046, G_A: 0.658, cycle_A: 0.043, idt_A: 0.197, D_B: 0.124, G_B: 0.484, cycle_B: 0.150, idt_B: 0.071
+
+[Rank 0] (epoch: 313, iters: 256, time: 0.030, data: 0.002) , D_A: 0.016, G_A: 1.222, cycle_A: 0.055, idt_A: 0.177, D_B: 0.051, G_B: 0.895, cycle_B: 0.149, idt_B: 0.088
+
+[Rank 0] (epoch: 313, iters: 456, time: 0.075, data: 0.003) , D_A: 0.023, G_A: 0.665, cycle_A: 0.052, idt_A: 0.183, D_B: 0.136, G_B: 0.231, cycle_B: 0.153, idt_B: 0.084
+
+[Rank 0] (epoch: 313, iters: 656, time: 0.030, data: 0.003) , D_A: 0.041, G_A: 1.066, cycle_A: 0.058, idt_A: 0.180, D_B: 0.046, G_B: 1.144, cycle_B: 0.148, idt_B: 0.094
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 313 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 314, iters: 144, time: 0.083, data: 0.004) , D_A: 0.033, G_A: 1.034, cycle_A: 0.061, idt_A: 0.193, D_B: 0.110, G_B: 0.509, cycle_B: 0.148, idt_B: 0.103
+
+[Rank 0] (epoch: 314, iters: 344, time: 0.030, data: 0.001) , D_A: 0.018, G_A: 0.976, cycle_A: 0.054, idt_A: 0.190, D_B: 0.036, G_B: 0.868, cycle_B: 0.156, idt_B: 0.094
+
+[Rank 0] (epoch: 314, iters: 544, time: 0.030, data: 0.003) , D_A: 0.041, G_A: 0.884, cycle_A: 0.050, idt_A: 0.195, D_B: 0.068, G_B: 0.521, cycle_B: 0.158, idt_B: 0.078
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 314 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 315, iters: 32, time: 0.110, data: 0.003) , D_A: 0.028, G_A: 0.726, cycle_A: 0.043, idt_A: 0.203, D_B: 0.089, G_B: 1.048, cycle_B: 0.150, idt_B: 0.068
+
+saving the latest model (epoch 315, total_iters 10000)
+[Rank 0] (epoch: 315, iters: 232, time: 0.030, data: 0.004) , D_A: 0.018, G_A: 0.782, cycle_A: 0.065, idt_A: 0.189, D_B: 0.101, G_B: 0.571, cycle_B: 0.149, idt_B: 0.099
+
+[Rank 0] (epoch: 315, iters: 432, time: 0.030, data: 0.002) , D_A: 0.129, G_A: 0.510, cycle_A: 0.056, idt_A: 0.174, D_B: 0.058, G_B: 0.807, cycle_B: 0.145, idt_B: 0.087
+
+[Rank 0] (epoch: 315, iters: 632, time: 0.030, data: 0.003) , D_A: 0.020, G_A: 0.949, cycle_A: 0.059, idt_A: 0.186, D_B: 0.072, G_B: 0.566, cycle_B: 0.145, idt_B: 0.094
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 315, iters 10680
+End of epoch 315 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 316, iters: 120, time: 0.081, data: 0.003) , D_A: 0.044, G_A: 0.822, cycle_A: 0.063, idt_A: 0.194, D_B: 0.043, G_B: 0.627, cycle_B: 0.140, idt_B: 0.099
+
+[Rank 0] (epoch: 316, iters: 320, time: 0.076, data: 0.003) , D_A: 0.048, G_A: 1.292, cycle_A: 0.039, idt_A: 0.182, D_B: 0.011, G_B: 0.568, cycle_B: 0.147, idt_B: 0.060
+
+[Rank 0] (epoch: 316, iters: 520, time: 0.030, data: 0.003) , D_A: 0.040, G_A: 0.509, cycle_A: 0.052, idt_A: 0.196, D_B: 0.045, G_B: 0.519, cycle_B: 0.166, idt_B: 0.091
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 316 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 317, iters: 8, time: 0.077, data: 0.003) , D_A: 0.068, G_A: 0.613, cycle_A: 0.052, idt_A: 0.166, D_B: 0.079, G_B: 0.265, cycle_B: 0.148, idt_B: 0.075
+
+[Rank 0] (epoch: 317, iters: 208, time: 0.030, data: 0.003) , D_A: 0.113, G_A: 1.149, cycle_A: 0.056, idt_A: 0.186, D_B: 0.110, G_B: 0.260, cycle_B: 0.150, idt_B: 0.093
+
+[Rank 0] (epoch: 317, iters: 408, time: 0.030, data: 0.004) , D_A: 0.059, G_A: 0.544, cycle_A: 0.063, idt_A: 0.172, D_B: 0.033, G_B: 0.578, cycle_B: 0.136, idt_B: 0.095
+
+[Rank 0] (epoch: 317, iters: 608, time: 0.077, data: 0.003) , D_A: 0.151, G_A: 0.372, cycle_A: 0.056, idt_A: 0.191, D_B: 0.013, G_B: 1.110, cycle_B: 0.147, idt_B: 0.088
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 317 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 318, iters: 96, time: 0.081, data: 0.003) , D_A: 0.138, G_A: 0.451, cycle_A: 0.053, idt_A: 0.187, D_B: 0.017, G_B: 0.741, cycle_B: 0.156, idt_B: 0.086
+
+[Rank 0] (epoch: 318, iters: 296, time: 0.030, data: 0.004) , D_A: 0.118, G_A: 0.369, cycle_A: 0.060, idt_A: 0.177, D_B: 0.009, G_B: 0.855, cycle_B: 0.155, idt_B: 0.093
+
+[Rank 0] (epoch: 318, iters: 496, time: 0.030, data: 0.004) , D_A: 0.122, G_A: 0.448, cycle_A: 0.056, idt_A: 0.200, D_B: 0.015, G_B: 0.999, cycle_B: 0.150, idt_B: 0.090
+
+[Rank 0] (epoch: 318, iters: 696, time: 0.030, data: 0.004) , D_A: 0.158, G_A: 0.309, cycle_A: 0.064, idt_A: 0.167, D_B: 0.011, G_B: 1.032, cycle_B: 0.130, idt_B: 0.099
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 318 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 319, iters: 184, time: 0.080, data: 0.002) , D_A: 0.113, G_A: 0.543, cycle_A: 0.065, idt_A: 0.184, D_B: 0.012, G_B: 0.939, cycle_B: 0.151, idt_B: 0.102
+
+[Rank 0] (epoch: 319, iters: 384, time: 0.030, data: 0.002) , D_A: 0.111, G_A: 0.424, cycle_A: 0.043, idt_A: 0.185, D_B: 0.006, G_B: 0.870, cycle_B: 0.148, idt_B: 0.068
+
+[Rank 0] (epoch: 319, iters: 584, time: 0.030, data: 0.007) , D_A: 0.116, G_A: 0.368, cycle_A: 0.039, idt_A: 0.172, D_B: 0.005, G_B: 1.112, cycle_B: 0.130, idt_B: 0.065
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 319 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 320, iters: 72, time: 0.080, data: 0.003) , D_A: 0.154, G_A: 0.409, cycle_A: 0.043, idt_A: 0.176, D_B: 0.008, G_B: 0.898, cycle_B: 0.129, idt_B: 0.067
+
+[Rank 0] (epoch: 320, iters: 272, time: 0.030, data: 0.002) , D_A: 0.178, G_A: 0.483, cycle_A: 0.059, idt_A: 0.173, D_B: 0.006, G_B: 0.942, cycle_B: 0.135, idt_B: 0.093
+
+[Rank 0] (epoch: 320, iters: 472, time: 0.097, data: 0.002) , D_A: 0.143, G_A: 0.455, cycle_A: 0.044, idt_A: 0.187, D_B: 0.006, G_B: 0.964, cycle_B: 0.137, idt_B: 0.070
+
+[Rank 0] (epoch: 320, iters: 672, time: 0.030, data: 0.003) , D_A: 0.141, G_A: 0.491, cycle_A: 0.046, idt_A: 0.186, D_B: 0.009, G_B: 0.844, cycle_B: 0.151, idt_B: 0.073
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 320, iters 14240
+End of epoch 320 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 321, iters: 160, time: 0.082, data: 0.003) , D_A: 0.119, G_A: 0.362, cycle_A: 0.063, idt_A: 0.169, D_B: 0.005, G_B: 0.904, cycle_B: 0.136, idt_B: 0.099
+
+[Rank 0] (epoch: 321, iters: 360, time: 0.030, data: 0.005) , D_A: 0.157, G_A: 0.523, cycle_A: 0.050, idt_A: 0.186, D_B: 0.012, G_B: 0.730, cycle_B: 0.150, idt_B: 0.075
+
+[Rank 0] (epoch: 321, iters: 560, time: 0.030, data: 0.003) , D_A: 0.157, G_A: 0.276, cycle_A: 0.048, idt_A: 0.160, D_B: 0.008, G_B: 1.004, cycle_B: 0.144, idt_B: 0.078
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 321 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 322, iters: 48, time: 0.083, data: 0.003) , D_A: 0.132, G_A: 0.340, cycle_A: 0.055, idt_A: 0.183, D_B: 0.010, G_B: 0.761, cycle_B: 0.152, idt_B: 0.086
+
+saving the latest model (epoch 322, total_iters 15000)
+[Rank 0] (epoch: 322, iters: 248, time: 0.030, data: 0.001) , D_A: 0.153, G_A: 0.420, cycle_A: 0.051, idt_A: 0.162, D_B: 0.005, G_B: 0.927, cycle_B: 0.135, idt_B: 0.082
+
+[Rank 0] (epoch: 322, iters: 448, time: 0.030, data: 0.003) , D_A: 0.117, G_A: 0.308, cycle_A: 0.058, idt_A: 0.176, D_B: 0.010, G_B: 0.897, cycle_B: 0.138, idt_B: 0.090
+
+[Rank 0] (epoch: 322, iters: 648, time: 0.030, data: 0.002) , D_A: 0.133, G_A: 0.507, cycle_A: 0.051, idt_A: 0.168, D_B: 0.018, G_B: 1.206, cycle_B: 0.146, idt_B: 0.079
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 322 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 323, iters: 136, time: 0.078, data: 0.003) , D_A: 0.093, G_A: 0.542, cycle_A: 0.054, idt_A: 0.197, D_B: 0.007, G_B: 0.887, cycle_B: 0.155, idt_B: 0.086
+
+[Rank 0] (epoch: 323, iters: 336, time: 0.073, data: 0.001) , D_A: 0.095, G_A: 0.736, cycle_A: 0.038, idt_A: 0.229, D_B: 0.006, G_B: 0.898, cycle_B: 0.154, idt_B: 0.060
+
+[Rank 0] (epoch: 323, iters: 536, time: 0.030, data: 0.003) , D_A: 0.172, G_A: 0.408, cycle_A: 0.045, idt_A: 0.184, D_B: 0.005, G_B: 0.918, cycle_B: 0.155, idt_B: 0.070
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 323 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 324, iters: 24, time: 0.097, data: 0.002) , D_A: 0.168, G_A: 0.406, cycle_A: 0.041, idt_A: 0.164, D_B: 0.006, G_B: 0.860, cycle_B: 0.140, idt_B: 0.061
+
+[Rank 0] (epoch: 324, iters: 224, time: 0.030, data: 0.003) , D_A: 0.173, G_A: 0.739, cycle_A: 0.050, idt_A: 0.183, D_B: 0.011, G_B: 0.885, cycle_B: 0.160, idt_B: 0.075
+
+[Rank 0] (epoch: 324, iters: 424, time: 0.030, data: 0.002) , D_A: 0.158, G_A: 0.301, cycle_A: 0.048, idt_A: 0.178, D_B: 0.004, G_B: 0.936, cycle_B: 0.139, idt_B: 0.074
+
+[Rank 0] (epoch: 324, iters: 624, time: 0.074, data: 0.002) , D_A: 0.113, G_A: 0.477, cycle_A: 0.050, idt_A: 0.192, D_B: 0.006, G_B: 0.842, cycle_B: 0.146, idt_B: 0.080
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 324 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 325, iters: 112, time: 0.078, data: 0.002) , D_A: 0.152, G_A: 0.522, cycle_A: 0.041, idt_A: 0.168, D_B: 0.005, G_B: 0.917, cycle_B: 0.148, idt_B: 0.060
+
+[Rank 0] (epoch: 325, iters: 312, time: 0.030, data: 0.003) , D_A: 0.157, G_A: 0.263, cycle_A: 0.058, idt_A: 0.179, D_B: 0.015, G_B: 0.867, cycle_B: 0.142, idt_B: 0.094
+
+[Rank 0] (epoch: 325, iters: 512, time: 0.030, data: 0.003) , D_A: 0.100, G_A: 0.324, cycle_A: 0.056, idt_A: 0.183, D_B: 0.005, G_B: 0.948, cycle_B: 0.163, idt_B: 0.091
+
+[Rank 0] (epoch: 325, iters: 712, time: 0.030, data: 0.003) , D_A: 0.099, G_A: 0.463, cycle_A: 0.050, idt_A: 0.156, D_B: 0.008, G_B: 0.812, cycle_B: 0.137, idt_B: 0.083
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 325, iters 17800
+End of epoch 325 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 326, iters: 200, time: 0.081, data: 1.139) , D_A: 0.116, G_A: 0.544, cycle_A: 0.044, idt_A: 0.196, D_B: 0.006, G_B: 0.927, cycle_B: 0.187, idt_B: 0.070
+
+[Rank 0] (epoch: 326, iters: 400, time: 0.030, data: 0.002) , D_A: 0.128, G_A: 0.514, cycle_A: 0.061, idt_A: 0.177, D_B: 0.006, G_B: 0.941, cycle_B: 0.164, idt_B: 0.094
+
+[Rank 0] (epoch: 326, iters: 600, time: 0.030, data: 0.003) , D_A: 0.117, G_A: 0.416, cycle_A: 0.053, idt_A: 0.210, D_B: 0.008, G_B: 0.885, cycle_B: 0.183, idt_B: 0.078
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 326 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 327, iters: 88, time: 0.083, data: 0.002) , D_A: 0.124, G_A: 0.360, cycle_A: 0.049, idt_A: 0.186, D_B: 0.006, G_B: 1.088, cycle_B: 0.179, idt_B: 0.075
+
+[Rank 0] (epoch: 327, iters: 288, time: 0.030, data: 0.002) , D_A: 0.138, G_A: 0.303, cycle_A: 0.057, idt_A: 0.200, D_B: 0.006, G_B: 0.886, cycle_B: 0.162, idt_B: 0.091
+
+[Rank 0] (epoch: 327, iters: 488, time: 0.074, data: 0.003) , D_A: 0.167, G_A: 0.544, cycle_A: 0.053, idt_A: 0.182, D_B: 0.008, G_B: 0.933, cycle_B: 0.159, idt_B: 0.085
+
+[Rank 0] (epoch: 327, iters: 688, time: 0.030, data: 0.003) , D_A: 0.151, G_A: 0.447, cycle_A: 0.070, idt_A: 0.183, D_B: 0.006, G_B: 0.884, cycle_B: 0.180, idt_B: 0.101
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 327 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 328, iters: 176, time: 0.094, data: 0.002) , D_A: 0.139, G_A: 0.500, cycle_A: 0.055, idt_A: 0.160, D_B: 0.008, G_B: 0.944, cycle_B: 0.143, idt_B: 0.086
+
+[Rank 0] (epoch: 328, iters: 376, time: 0.030, data: 0.003) , D_A: 0.118, G_A: 0.461, cycle_A: 0.039, idt_A: 0.163, D_B: 0.007, G_B: 0.930, cycle_B: 0.139, idt_B: 0.059
+
+[Rank 0] (epoch: 328, iters: 576, time: 0.030, data: 0.003) , D_A: 0.110, G_A: 0.385, cycle_A: 0.056, idt_A: 0.177, D_B: 0.006, G_B: 0.839, cycle_B: 0.148, idt_B: 0.074
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 328 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 329, iters: 64, time: 0.085, data: 0.003) , D_A: 0.124, G_A: 0.289, cycle_A: 0.061, idt_A: 0.172, D_B: 0.005, G_B: 0.882, cycle_B: 0.160, idt_B: 0.093
+
+saving the latest model (epoch 329, total_iters 20000)
+[Rank 0] (epoch: 329, iters: 264, time: 0.030, data: 0.003) , D_A: 0.112, G_A: 0.320, cycle_A: 0.049, idt_A: 0.173, D_B: 0.004, G_B: 1.126, cycle_B: 0.157, idt_B: 0.081
+
+[Rank 0] (epoch: 329, iters: 464, time: 0.030, data: 0.003) , D_A: 0.110, G_A: 0.482, cycle_A: 0.057, idt_A: 0.169, D_B: 0.005, G_B: 0.889, cycle_B: 0.144, idt_B: 0.081
+
+[Rank 0] (epoch: 329, iters: 664, time: 0.030, data: 0.003) , D_A: 0.145, G_A: 0.478, cycle_A: 0.043, idt_A: 0.184, D_B: 0.007, G_B: 0.892, cycle_B: 0.151, idt_B: 0.066
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 329 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 330, iters: 152, time: 0.080, data: 0.002) , D_A: 0.230, G_A: 0.547, cycle_A: 0.049, idt_A: 0.186, D_B: 0.004, G_B: 0.996, cycle_B: 0.161, idt_B: 0.078
+
+[Rank 0] (epoch: 330, iters: 352, time: 0.092, data: 0.001) , D_A: 0.157, G_A: 0.229, cycle_A: 0.052, idt_A: 0.167, D_B: 0.004, G_B: 0.924, cycle_B: 0.132, idt_B: 0.073
+
+[Rank 0] (epoch: 330, iters: 552, time: 0.030, data: 0.003) , D_A: 0.123, G_A: 0.450, cycle_A: 0.051, idt_A: 0.189, D_B: 0.004, G_B: 0.925, cycle_B: 0.151, idt_B: 0.081
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 330, iters 21360
+End of epoch 330 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 331, iters: 40, time: 0.090, data: 0.003) , D_A: 0.200, G_A: 0.672, cycle_A: 0.058, idt_A: 0.185, D_B: 0.003, G_B: 0.964, cycle_B: 0.159, idt_B: 0.090
+
+[Rank 0] (epoch: 331, iters: 240, time: 0.030, data: 0.003) , D_A: 0.155, G_A: 0.265, cycle_A: 0.056, idt_A: 0.175, D_B: 0.003, G_B: 1.061, cycle_B: 0.150, idt_B: 0.085
+
+[Rank 0] (epoch: 331, iters: 440, time: 0.030, data: 0.003) , D_A: 0.082, G_A: 0.621, cycle_A: 0.048, idt_A: 0.208, D_B: 0.003, G_B: 0.926, cycle_B: 0.152, idt_B: 0.076
+
+[Rank 0] (epoch: 331, iters: 640, time: 0.086, data: 0.003) , D_A: 0.132, G_A: 0.317, cycle_A: 0.060, idt_A: 0.185, D_B: 0.003, G_B: 1.013, cycle_B: 0.144, idt_B: 0.093
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 331 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 332, iters: 128, time: 0.081, data: 0.004) , D_A: 0.102, G_A: 0.369, cycle_A: 0.049, idt_A: 0.200, D_B: 0.003, G_B: 0.972, cycle_B: 0.150, idt_B: 0.075
+
+[Rank 0] (epoch: 332, iters: 328, time: 0.030, data: 0.004) , D_A: 0.128, G_A: 0.451, cycle_A: 0.063, idt_A: 0.163, D_B: 0.005, G_B: 1.083, cycle_B: 0.134, idt_B: 0.101
+
+[Rank 0] (epoch: 332, iters: 528, time: 0.030, data: 0.003) , D_A: 0.096, G_A: 0.453, cycle_A: 0.044, idt_A: 0.181, D_B: 0.005, G_B: 1.005, cycle_B: 0.152, idt_B: 0.068
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 332 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 333, iters: 16, time: 0.092, data: 0.003) , D_A: 0.101, G_A: 0.530, cycle_A: 0.054, idt_A: 0.168, D_B: 0.003, G_B: 0.901, cycle_B: 0.143, idt_B: 0.082
+
+[Rank 0] (epoch: 333, iters: 216, time: 0.074, data: 0.003) , D_A: 0.212, G_A: 0.208, cycle_A: 0.064, idt_A: 0.177, D_B: 0.005, G_B: 1.171, cycle_B: 0.154, idt_B: 0.103
+
+[Rank 0] (epoch: 333, iters: 416, time: 0.030, data: 0.002) , D_A: 0.156, G_A: 0.581, cycle_A: 0.052, idt_A: 0.146, D_B: 0.004, G_B: 0.933, cycle_B: 0.129, idt_B: 0.079
+
+[Rank 0] (epoch: 333, iters: 616, time: 0.030, data: 0.003) , D_A: 0.115, G_A: 0.520, cycle_A: 0.061, idt_A: 0.177, D_B: 0.003, G_B: 1.003, cycle_B: 0.148, idt_B: 0.088
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 333 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 334, iters: 104, time: 0.077, data: 0.003) , D_A: 0.127, G_A: 0.395, cycle_A: 0.055, idt_A: 0.183, D_B: 0.003, G_B: 0.907, cycle_B: 0.152, idt_B: 0.081
+
+[Rank 0] (epoch: 334, iters: 304, time: 0.030, data: 0.002) , D_A: 0.148, G_A: 0.474, cycle_A: 0.046, idt_A: 0.175, D_B: 0.003, G_B: 1.008, cycle_B: 0.147, idt_B: 0.075
+
+[Rank 0] (epoch: 334, iters: 504, time: 0.089, data: 0.003) , D_A: 0.141, G_A: 0.470, cycle_A: 0.054, idt_A: 0.171, D_B: 0.002, G_B: 1.010, cycle_B: 0.137, idt_B: 0.085
+
+[Rank 0] (epoch: 334, iters: 704, time: 0.030, data: 0.003) , D_A: 0.150, G_A: 0.553, cycle_A: 0.052, idt_A: 0.160, D_B: 0.002, G_B: 1.019, cycle_B: 0.134, idt_B: 0.082
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 334 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 335, iters: 192, time: 0.080, data: 0.003) , D_A: 0.145, G_A: 0.388, cycle_A: 0.057, idt_A: 0.173, D_B: 0.003, G_B: 1.135, cycle_B: 0.148, idt_B: 0.085
+
+[Rank 0] (epoch: 335, iters: 392, time: 0.030, data: 0.003) , D_A: 0.150, G_A: 0.314, cycle_A: 0.046, idt_A: 0.198, D_B: 0.002, G_B: 0.931, cycle_B: 0.135, idt_B: 0.068
+
+[Rank 0] (epoch: 335, iters: 592, time: 0.030, data: 0.003) , D_A: 0.149, G_A: 0.445, cycle_A: 0.052, idt_A: 0.203, D_B: 0.002, G_B: 0.985, cycle_B: 0.154, idt_B: 0.074
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 335, iters 24920
+End of epoch 335 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 336, iters: 80, time: 0.084, data: 0.003) , D_A: 0.160, G_A: 0.500, cycle_A: 0.048, idt_A: 0.166, D_B: 0.002, G_B: 0.924, cycle_B: 0.130, idt_B: 0.067
+
+saving the latest model (epoch 336, total_iters 25000)
+[Rank 0] (epoch: 336, iters: 280, time: 0.030, data: 0.002) , D_A: 0.104, G_A: 0.590, cycle_A: 0.048, idt_A: 0.165, D_B: 0.003, G_B: 0.848, cycle_B: 0.131, idt_B: 0.075
+
+[Rank 0] (epoch: 336, iters: 480, time: 0.030, data: 0.002) , D_A: 0.117, G_A: 0.480, cycle_A: 0.060, idt_A: 0.166, D_B: 0.003, G_B: 0.957, cycle_B: 0.139, idt_B: 0.095
+
+[Rank 0] (epoch: 336, iters: 680, time: 0.030, data: 0.002) , D_A: 0.150, G_A: 0.450, cycle_A: 0.058, idt_A: 0.196, D_B: 0.003, G_B: 1.115, cycle_B: 0.134, idt_B: 0.093
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 336 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 337, iters: 168, time: 0.084, data: 0.003) , D_A: 0.086, G_A: 0.474, cycle_A: 0.042, idt_A: 0.170, D_B: 0.003, G_B: 0.962, cycle_B: 0.137, idt_B: 0.065
+
+[Rank 0] (epoch: 337, iters: 368, time: 0.086, data: 0.001) , D_A: 0.095, G_A: 0.610, cycle_A: 0.053, idt_A: 0.179, D_B: 0.004, G_B: 1.010, cycle_B: 0.149, idt_B: 0.081
+
+[Rank 0] (epoch: 337, iters: 568, time: 0.030, data: 0.003) , D_A: 0.116, G_A: 0.451, cycle_A: 0.054, idt_A: 0.165, D_B: 0.003, G_B: 0.887, cycle_B: 0.142, idt_B: 0.079
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 337 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 338, iters: 56, time: 0.079, data: 0.003) , D_A: 0.135, G_A: 0.372, cycle_A: 0.053, idt_A: 0.161, D_B: 0.003, G_B: 1.000, cycle_B: 0.149, idt_B: 0.080
+
+[Rank 0] (epoch: 338, iters: 256, time: 0.030, data: 0.002) , D_A: 0.169, G_A: 0.428, cycle_A: 0.069, idt_A: 0.174, D_B: 0.003, G_B: 0.942, cycle_B: 0.146, idt_B: 0.094
+
+[Rank 0] (epoch: 338, iters: 456, time: 0.030, data: 0.003) , D_A: 0.142, G_A: 0.245, cycle_A: 0.077, idt_A: 0.178, D_B: 0.003, G_B: 1.007, cycle_B: 0.144, idt_B: 0.104
+
+[Rank 0] (epoch: 338, iters: 656, time: 0.073, data: 0.004) , D_A: 0.123, G_A: 0.404, cycle_A: 0.049, idt_A: 0.170, D_B: 0.003, G_B: 0.988, cycle_B: 0.152, idt_B: 0.071
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 338 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 339, iters: 144, time: 0.077, data: 0.003) , D_A: 0.073, G_A: 0.469, cycle_A: 0.072, idt_A: 0.169, D_B: 0.004, G_B: 0.955, cycle_B: 0.137, idt_B: 0.101
+
+[Rank 0] (epoch: 339, iters: 344, time: 0.030, data: 0.001) , D_A: 0.124, G_A: 0.484, cycle_A: 0.053, idt_A: 0.169, D_B: 0.002, G_B: 0.954, cycle_B: 0.139, idt_B: 0.081
+
+[Rank 0] (epoch: 339, iters: 544, time: 0.030, data: 0.005) , D_A: 0.119, G_A: 0.519, cycle_A: 0.052, idt_A: 0.163, D_B: 0.003, G_B: 0.964, cycle_B: 0.131, idt_B: 0.072
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 339 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 340, iters: 32, time: 0.080, data: 0.004) , D_A: 0.096, G_A: 0.478, cycle_A: 0.051, idt_A: 0.188, D_B: 0.003, G_B: 1.059, cycle_B: 0.147, idt_B: 0.074
+
+[Rank 0] (epoch: 340, iters: 232, time: 0.095, data: 0.003) , D_A: 0.113, G_A: 0.664, cycle_A: 0.056, idt_A: 0.185, D_B: 0.004, G_B: 1.146, cycle_B: 0.150, idt_B: 0.089
+
+[Rank 0] (epoch: 340, iters: 432, time: 0.030, data: 0.002) , D_A: 0.059, G_A: 0.818, cycle_A: 0.052, idt_A: 0.168, D_B: 0.002, G_B: 0.954, cycle_B: 0.148, idt_B: 0.075
+
+[Rank 0] (epoch: 340, iters: 632, time: 0.030, data: 0.003) , D_A: 0.065, G_A: 0.720, cycle_A: 0.047, idt_A: 0.167, D_B: 0.002, G_B: 0.986, cycle_B: 0.140, idt_B: 0.067
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 340, iters 28480
+End of epoch 340 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 341, iters: 120, time: 0.082, data: 0.003) , D_A: 0.156, G_A: 0.457, cycle_A: 0.055, idt_A: 0.158, D_B: 0.003, G_B: 0.937, cycle_B: 0.135, idt_B: 0.078
+
+[Rank 0] (epoch: 341, iters: 320, time: 0.030, data: 0.003) , D_A: 0.097, G_A: 0.395, cycle_A: 0.062, idt_A: 0.183, D_B: 0.002, G_B: 0.974, cycle_B: 0.153, idt_B: 0.096
+
+[Rank 0] (epoch: 341, iters: 520, time: 0.077, data: 0.003) , D_A: 0.118, G_A: 0.496, cycle_A: 0.046, idt_A: 0.159, D_B: 0.002, G_B: 1.016, cycle_B: 0.134, idt_B: 0.071
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 341 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 342, iters: 8, time: 0.091, data: 0.002) , D_A: 0.141, G_A: 0.353, cycle_A: 0.037, idt_A: 0.167, D_B: 0.009, G_B: 0.978, cycle_B: 0.154, idt_B: 0.055
+
+[Rank 0] (epoch: 342, iters: 208, time: 0.030, data: 0.002) , D_A: 0.126, G_A: 0.569, cycle_A: 0.051, idt_A: 0.166, D_B: 0.003, G_B: 0.998, cycle_B: 0.136, idt_B: 0.077
+
+[Rank 0] (epoch: 342, iters: 408, time: 0.030, data: 0.003) , D_A: 0.149, G_A: 0.460, cycle_A: 0.058, idt_A: 0.164, D_B: 0.003, G_B: 0.920, cycle_B: 0.145, idt_B: 0.088
+
+[Rank 0] (epoch: 342, iters: 608, time: 0.030, data: 0.002) , D_A: 0.131, G_A: 0.361, cycle_A: 0.055, idt_A: 0.167, D_B: 0.002, G_B: 1.003, cycle_B: 0.141, idt_B: 0.083
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 342 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 343, iters: 96, time: 0.082, data: 0.004) , D_A: 0.120, G_A: 0.449, cycle_A: 0.049, idt_A: 0.152, D_B: 0.002, G_B: 1.051, cycle_B: 0.134, idt_B: 0.078
+
+saving the latest model (epoch 343, total_iters 30000)
+[Rank 0] (epoch: 343, iters: 296, time: 0.030, data: 0.004) , D_A: 0.175, G_A: 0.719, cycle_A: 0.054, idt_A: 0.168, D_B: 0.002, G_B: 0.973, cycle_B: 0.147, idt_B: 0.081
+
+[Rank 0] (epoch: 343, iters: 496, time: 0.030, data: 0.002) , D_A: 0.168, G_A: 0.370, cycle_A: 0.043, idt_A: 0.173, D_B: 0.002, G_B: 0.990, cycle_B: 0.137, idt_B: 0.063
+
+[Rank 0] (epoch: 343, iters: 696, time: 0.030, data: 0.004) , D_A: 0.104, G_A: 0.408, cycle_A: 0.053, idt_A: 0.140, D_B: 0.002, G_B: 1.075, cycle_B: 0.117, idt_B: 0.071
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 343 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 344, iters: 184, time: 0.089, data: 0.002) , D_A: 0.103, G_A: 0.485, cycle_A: 0.054, idt_A: 0.183, D_B: 0.004, G_B: 1.049, cycle_B: 0.154, idt_B: 0.078
+
+[Rank 0] (epoch: 344, iters: 384, time: 0.091, data: 0.002) , D_A: 0.122, G_A: 0.440, cycle_A: 0.046, idt_A: 0.154, D_B: 0.003, G_B: 1.051, cycle_B: 0.132, idt_B: 0.068
+
+[Rank 0] (epoch: 344, iters: 584, time: 0.030, data: 0.003) , D_A: 0.122, G_A: 0.407, cycle_A: 0.056, idt_A: 0.158, D_B: 0.002, G_B: 0.956, cycle_B: 0.133, idt_B: 0.083
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 344 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 345, iters: 72, time: 0.082, data: 0.003) , D_A: 0.158, G_A: 0.478, cycle_A: 0.069, idt_A: 0.163, D_B: 0.003, G_B: 1.021, cycle_B: 0.132, idt_B: 0.103
+
+[Rank 0] (epoch: 345, iters: 272, time: 0.030, data: 0.004) , D_A: 0.109, G_A: 0.535, cycle_A: 0.041, idt_A: 0.157, D_B: 0.003, G_B: 1.064, cycle_B: 0.140, idt_B: 0.061
+
+[Rank 0] (epoch: 345, iters: 472, time: 0.030, data: 0.002) , D_A: 0.092, G_A: 0.582, cycle_A: 0.060, idt_A: 0.151, D_B: 0.002, G_B: 0.941, cycle_B: 0.128, idt_B: 0.090
+
+[Rank 0] (epoch: 345, iters: 672, time: 0.075, data: 0.002) , D_A: 0.130, G_A: 0.473, cycle_A: 0.057, idt_A: 0.185, D_B: 0.002, G_B: 0.989, cycle_B: 0.151, idt_B: 0.086
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 345, iters 32040
+End of epoch 345 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 346, iters: 160, time: 0.098, data: 0.003) , D_A: 0.128, G_A: 0.471, cycle_A: 0.064, idt_A: 0.175, D_B: 0.002, G_B: 0.997, cycle_B: 0.143, idt_B: 0.082
+
+[Rank 0] (epoch: 346, iters: 360, time: 0.030, data: 0.004) , D_A: 0.120, G_A: 0.409, cycle_A: 0.050, idt_A: 0.155, D_B: 0.002, G_B: 1.038, cycle_B: 0.134, idt_B: 0.072
+
+[Rank 0] (epoch: 346, iters: 560, time: 0.030, data: 0.002) , D_A: 0.130, G_A: 0.484, cycle_A: 0.050, idt_A: 0.185, D_B: 0.003, G_B: 1.063, cycle_B: 0.165, idt_B: 0.073
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 346 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 347, iters: 48, time: 0.081, data: 0.003) , D_A: 0.128, G_A: 0.369, cycle_A: 0.053, idt_A: 0.185, D_B: 0.003, G_B: 0.899, cycle_B: 0.155, idt_B: 0.081
+
+[Rank 0] (epoch: 347, iters: 248, time: 0.087, data: 0.003) , D_A: 0.058, G_A: 0.676, cycle_A: 0.048, idt_A: 0.185, D_B: 0.002, G_B: 0.946, cycle_B: 0.145, idt_B: 0.072
+
+[Rank 0] (epoch: 347, iters: 448, time: 0.030, data: 0.003) , D_A: 0.149, G_A: 0.566, cycle_A: 0.070, idt_A: 0.178, D_B: 0.004, G_B: 0.907, cycle_B: 0.144, idt_B: 0.090
+
+[Rank 0] (epoch: 347, iters: 648, time: 0.030, data: 0.003) , D_A: 0.153, G_A: 0.391, cycle_A: 0.054, idt_A: 0.170, D_B: 0.004, G_B: 0.982, cycle_B: 0.144, idt_B: 0.083
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 347 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 348, iters: 136, time: 0.084, data: 0.003) , D_A: 0.148, G_A: 0.374, cycle_A: 0.049, idt_A: 0.160, D_B: 0.002, G_B: 0.980, cycle_B: 0.134, idt_B: 0.076
+
+[Rank 0] (epoch: 348, iters: 336, time: 0.030, data: 0.002) , D_A: 0.140, G_A: 0.335, cycle_A: 0.044, idt_A: 0.177, D_B: 0.003, G_B: 0.989, cycle_B: 0.144, idt_B: 0.067
+
+[Rank 0] (epoch: 348, iters: 536, time: 0.087, data: 0.003) , D_A: 0.136, G_A: 0.482, cycle_A: 0.061, idt_A: 0.161, D_B: 0.003, G_B: 0.959, cycle_B: 0.134, idt_B: 0.090
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 348 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 349, iters: 24, time: 0.081, data: 0.003) , D_A: 0.148, G_A: 0.524, cycle_A: 0.059, idt_A: 0.164, D_B: 0.001, G_B: 1.014, cycle_B: 0.134, idt_B: 0.089
+
+[Rank 0] (epoch: 349, iters: 224, time: 0.030, data: 0.002) , D_A: 0.111, G_A: 0.436, cycle_A: 0.036, idt_A: 0.167, D_B: 0.002, G_B: 0.945, cycle_B: 0.133, idt_B: 0.057
+
+[Rank 0] (epoch: 349, iters: 424, time: 0.030, data: 0.004) , D_A: 0.138, G_A: 0.487, cycle_A: 0.048, idt_A: 0.169, D_B: 0.001, G_B: 0.942, cycle_B: 0.150, idt_B: 0.062
+
+[Rank 0] (epoch: 349, iters: 624, time: 0.030, data: 0.003) , D_A: 0.147, G_A: 0.328, cycle_A: 0.058, idt_A: 0.172, D_B: 0.002, G_B: 1.071, cycle_B: 0.138, idt_B: 0.088
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 349 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 350, iters: 112, time: 0.083, data: 0.003) , D_A: 0.138, G_A: 0.477, cycle_A: 0.042, idt_A: 0.165, D_B: 0.002, G_B: 0.997, cycle_B: 0.141, idt_B: 0.061
+
+saving the latest model (epoch 350, total_iters 35000)
+[Rank 0] (epoch: 350, iters: 312, time: 0.030, data: 0.002) , D_A: 0.122, G_A: 0.375, cycle_A: 0.037, idt_A: 0.156, D_B: 0.002, G_B: 0.920, cycle_B: 0.136, idt_B: 0.055
+
+[Rank 0] (epoch: 350, iters: 512, time: 0.030, data: 0.003) , D_A: 0.124, G_A: 0.599, cycle_A: 0.058, idt_A: 0.182, D_B: 0.004, G_B: 0.956, cycle_B: 0.139, idt_B: 0.093
+
+[Rank 0] (epoch: 350, iters: 712, time: 0.030, data: 0.003) , D_A: 0.137, G_A: 0.316, cycle_A: 0.055, idt_A: 0.168, D_B: 0.002, G_B: 0.989, cycle_B: 0.157, idt_B: 0.081
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 350, iters 35600
+End of epoch 350 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 351, iters: 200, time: 0.090, data: 1.069) , D_A: 0.191, G_A: 0.641, cycle_A: 0.052, idt_A: 0.180, D_B: 0.001, G_B: 0.963, cycle_B: 0.130, idt_B: 0.075
+
+[Rank 0] (epoch: 351, iters: 400, time: 0.076, data: 0.002) , D_A: 0.178, G_A: 0.750, cycle_A: 0.058, idt_A: 0.165, D_B: 0.002, G_B: 1.049, cycle_B: 0.135, idt_B: 0.088
+
+[Rank 0] (epoch: 351, iters: 600, time: 0.030, data: 0.003) , D_A: 0.161, G_A: 0.293, cycle_A: 0.046, idt_A: 0.167, D_B: 0.001, G_B: 0.974, cycle_B: 0.132, idt_B: 0.069
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 351 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 352, iters: 88, time: 0.086, data: 0.003) , D_A: 0.141, G_A: 0.371, cycle_A: 0.052, idt_A: 0.162, D_B: 0.001, G_B: 0.943, cycle_B: 0.129, idt_B: 0.080
+
+[Rank 0] (epoch: 352, iters: 288, time: 0.030, data: 0.003) , D_A: 0.140, G_A: 0.424, cycle_A: 0.056, idt_A: 0.152, D_B: 0.002, G_B: 0.963, cycle_B: 0.121, idt_B: 0.081
+
+[Rank 0] (epoch: 352, iters: 488, time: 0.030, data: 0.003) , D_A: 0.169, G_A: 0.286, cycle_A: 0.051, idt_A: 0.153, D_B: 0.001, G_B: 0.960, cycle_B: 0.130, idt_B: 0.076
+
+[Rank 0] (epoch: 352, iters: 688, time: 0.076, data: 0.003) , D_A: 0.147, G_A: 0.424, cycle_A: 0.044, idt_A: 0.158, D_B: 0.002, G_B: 1.069, cycle_B: 0.131, idt_B: 0.068
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 352 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 353, iters: 176, time: 0.078, data: 0.002) , D_A: 0.131, G_A: 0.505, cycle_A: 0.047, idt_A: 0.168, D_B: 0.003, G_B: 1.144, cycle_B: 0.142, idt_B: 0.066
+
+[Rank 0] (epoch: 353, iters: 376, time: 0.030, data: 0.001) , D_A: 0.203, G_A: 0.302, cycle_A: 0.060, idt_A: 0.171, D_B: 0.003, G_B: 0.985, cycle_B: 0.145, idt_B: 0.086
+
+[Rank 0] (epoch: 353, iters: 576, time: 0.030, data: 0.003) , D_A: 0.248, G_A: 0.166, cycle_A: 0.050, idt_A: 0.173, D_B: 0.004, G_B: 1.001, cycle_B: 0.133, idt_B: 0.068
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 353 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 354, iters: 64, time: 0.088, data: 0.003) , D_A: 0.146, G_A: 0.419, cycle_A: 0.051, idt_A: 0.154, D_B: 0.001, G_B: 1.021, cycle_B: 0.126, idt_B: 0.071
+
+[Rank 0] (epoch: 354, iters: 264, time: 0.080, data: 0.005) , D_A: 0.147, G_A: 0.473, cycle_A: 0.041, idt_A: 0.169, D_B: 0.002, G_B: 0.927, cycle_B: 0.146, idt_B: 0.062
+
+[Rank 0] (epoch: 354, iters: 464, time: 0.030, data: 0.002) , D_A: 0.157, G_A: 0.318, cycle_A: 0.042, idt_A: 0.185, D_B: 0.001, G_B: 1.038, cycle_B: 0.145, idt_B: 0.060
+
+[Rank 0] (epoch: 354, iters: 664, time: 0.030, data: 0.003) , D_A: 0.156, G_A: 0.472, cycle_A: 0.047, idt_A: 0.166, D_B: 0.001, G_B: 0.950, cycle_B: 0.129, idt_B: 0.072
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 354 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 355, iters: 152, time: 0.083, data: 0.002) , D_A: 0.138, G_A: 0.445, cycle_A: 0.059, idt_A: 0.176, D_B: 0.001, G_B: 0.969, cycle_B: 0.139, idt_B: 0.075
+
+[Rank 0] (epoch: 355, iters: 352, time: 0.030, data: 0.003) , D_A: 0.160, G_A: 0.334, cycle_A: 0.043, idt_A: 0.189, D_B: 0.001, G_B: 1.028, cycle_B: 0.141, idt_B: 0.066
+
+[Rank 0] (epoch: 355, iters: 552, time: 0.075, data: 0.003) , D_A: 0.131, G_A: 0.384, cycle_A: 0.046, idt_A: 0.166, D_B: 0.001, G_B: 0.952, cycle_B: 0.135, idt_B: 0.072
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 355, iters 39160
+End of epoch 355 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 356, iters: 40, time: 0.084, data: 0.002) , D_A: 0.114, G_A: 0.413, cycle_A: 0.046, idt_A: 0.179, D_B: 0.003, G_B: 0.924, cycle_B: 0.139, idt_B: 0.070
+
+[Rank 0] (epoch: 356, iters: 240, time: 0.030, data: 0.001) , D_A: 0.151, G_A: 0.480, cycle_A: 0.065, idt_A: 0.161, D_B: 0.002, G_B: 0.931, cycle_B: 0.127, idt_B: 0.084
+
+[Rank 0] (epoch: 356, iters: 440, time: 0.030, data: 0.002) , D_A: 0.140, G_A: 0.449, cycle_A: 0.054, idt_A: 0.150, D_B: 0.003, G_B: 1.032, cycle_B: 0.133, idt_B: 0.081
+
+[Rank 0] (epoch: 356, iters: 640, time: 0.030, data: 0.003) , D_A: 0.141, G_A: 0.568, cycle_A: 0.049, idt_A: 0.172, D_B: 0.002, G_B: 1.052, cycle_B: 0.132, idt_B: 0.066
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 356 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 357, iters: 128, time: 0.089, data: 0.003) , D_A: 0.155, G_A: 0.419, cycle_A: 0.060, idt_A: 0.142, D_B: 0.001, G_B: 0.977, cycle_B: 0.117, idt_B: 0.084
+
+saving the latest model (epoch 357, total_iters 40000)
+[Rank 0] (epoch: 357, iters: 328, time: 0.030, data: 0.003) , D_A: 0.130, G_A: 0.608, cycle_A: 0.057, idt_A: 0.196, D_B: 0.001, G_B: 0.986, cycle_B: 0.163, idt_B: 0.082
+
+[Rank 0] (epoch: 357, iters: 528, time: 0.030, data: 0.002) , D_A: 0.138, G_A: 0.599, cycle_A: 0.044, idt_A: 0.187, D_B: 0.001, G_B: 0.989, cycle_B: 0.142, idt_B: 0.066
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 357 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 358, iters: 16, time: 0.084, data: 0.003) , D_A: 0.121, G_A: 0.378, cycle_A: 0.051, idt_A: 0.181, D_B: 0.002, G_B: 1.078, cycle_B: 0.140, idt_B: 0.075
+
+[Rank 0] (epoch: 358, iters: 216, time: 0.030, data: 0.002) , D_A: 0.139, G_A: 0.395, cycle_A: 0.040, idt_A: 0.160, D_B: 0.001, G_B: 0.946, cycle_B: 0.127, idt_B: 0.062
+
+[Rank 0] (epoch: 358, iters: 416, time: 0.078, data: 0.003) , D_A: 0.146, G_A: 0.361, cycle_A: 0.049, idt_A: 0.192, D_B: 0.001, G_B: 0.957, cycle_B: 0.132, idt_B: 0.061
+
+[Rank 0] (epoch: 358, iters: 616, time: 0.030, data: 0.002) , D_A: 0.182, G_A: 0.226, cycle_A: 0.056, idt_A: 0.176, D_B: 0.002, G_B: 1.059, cycle_B: 0.136, idt_B: 0.073
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 358 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 359, iters: 104, time: 0.083, data: 0.003) , D_A: 0.129, G_A: 0.351, cycle_A: 0.051, idt_A: 0.169, D_B: 0.002, G_B: 1.082, cycle_B: 0.136, idt_B: 0.078
+
+[Rank 0] (epoch: 359, iters: 304, time: 0.030, data: 0.003) , D_A: 0.120, G_A: 0.481, cycle_A: 0.054, idt_A: 0.175, D_B: 0.001, G_B: 0.990, cycle_B: 0.141, idt_B: 0.081
+
+[Rank 0] (epoch: 359, iters: 504, time: 0.030, data: 0.004) , D_A: 0.154, G_A: 0.299, cycle_A: 0.054, idt_A: 0.151, D_B: 0.007, G_B: 0.965, cycle_B: 0.123, idt_B: 0.075
+
+[Rank 0] (epoch: 359, iters: 704, time: 0.081, data: 0.003) , D_A: 0.147, G_A: 0.370, cycle_A: 0.051, idt_A: 0.165, D_B: 0.001, G_B: 0.980, cycle_B: 0.161, idt_B: 0.074
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 359 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 360, iters: 192, time: 0.103, data: 0.003) , D_A: 0.136, G_A: 0.424, cycle_A: 0.061, idt_A: 0.152, D_B: 0.001, G_B: 0.994, cycle_B: 0.121, idt_B: 0.086
+
+[Rank 0] (epoch: 360, iters: 392, time: 0.030, data: 0.004) , D_A: 0.218, G_A: 0.872, cycle_A: 0.042, idt_A: 0.151, D_B: 0.003, G_B: 0.963, cycle_B: 0.121, idt_B: 0.065
+
+[Rank 0] (epoch: 360, iters: 592, time: 0.030, data: 0.004) , D_A: 0.148, G_A: 0.461, cycle_A: 0.056, idt_A: 0.174, D_B: 0.001, G_B: 0.977, cycle_B: 0.137, idt_B: 0.080
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 360, iters 42720
+End of epoch 360 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 361, iters: 80, time: 0.084, data: 0.003) , D_A: 0.178, G_A: 0.226, cycle_A: 0.045, idt_A: 0.159, D_B: 0.002, G_B: 1.014, cycle_B: 0.126, idt_B: 0.066
+
+[Rank 0] (epoch: 361, iters: 280, time: 0.099, data: 0.002) , D_A: 0.081, G_A: 0.527, cycle_A: 0.055, idt_A: 0.153, D_B: 0.001, G_B: 0.972, cycle_B: 0.131, idt_B: 0.084
+
+[Rank 0] (epoch: 361, iters: 480, time: 0.030, data: 0.003) , D_A: 0.235, G_A: 0.232, cycle_A: 0.060, idt_A: 0.166, D_B: 0.002, G_B: 0.966, cycle_B: 0.133, idt_B: 0.081
+
+[Rank 0] (epoch: 361, iters: 680, time: 0.030, data: 0.003) , D_A: 0.120, G_A: 0.398, cycle_A: 0.052, idt_A: 0.168, D_B: 0.001, G_B: 0.960, cycle_B: 0.137, idt_B: 0.076
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 361 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 362, iters: 168, time: 0.091, data: 0.002) , D_A: 0.121, G_A: 0.436, cycle_A: 0.051, idt_A: 0.173, D_B: 0.003, G_B: 0.999, cycle_B: 0.140, idt_B: 0.072
+
+[Rank 0] (epoch: 362, iters: 368, time: 0.030, data: 0.001) , D_A: 0.134, G_A: 0.403, cycle_A: 0.062, idt_A: 0.168, D_B: 0.004, G_B: 0.969, cycle_B: 0.141, idt_B: 0.093
+
+[Rank 0] (epoch: 362, iters: 568, time: 0.099, data: 0.003) , D_A: 0.147, G_A: 0.389, cycle_A: 0.045, idt_A: 0.152, D_B: 0.002, G_B: 0.962, cycle_B: 0.137, idt_B: 0.067
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 362 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 363, iters: 56, time: 0.083, data: 0.005) , D_A: 0.162, G_A: 0.439, cycle_A: 0.052, idt_A: 0.181, D_B: 0.001, G_B: 1.005, cycle_B: 0.144, idt_B: 0.075
+
+[Rank 0] (epoch: 363, iters: 256, time: 0.030, data: 0.003) , D_A: 0.152, G_A: 0.419, cycle_A: 0.040, idt_A: 0.174, D_B: 0.001, G_B: 0.998, cycle_B: 0.144, idt_B: 0.056
+
+[Rank 0] (epoch: 363, iters: 456, time: 0.030, data: 0.003) , D_A: 0.132, G_A: 0.354, cycle_A: 0.066, idt_A: 0.173, D_B: 0.001, G_B: 0.970, cycle_B: 0.141, idt_B: 0.095
+
+[Rank 0] (epoch: 363, iters: 656, time: 0.030, data: 0.003) , D_A: 0.150, G_A: 0.465, cycle_A: 0.050, idt_A: 0.195, D_B: 0.002, G_B: 1.023, cycle_B: 0.156, idt_B: 0.076
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 363 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 364, iters: 144, time: 0.083, data: 0.003) , D_A: 0.138, G_A: 0.540, cycle_A: 0.056, idt_A: 0.170, D_B: 0.003, G_B: 0.990, cycle_B: 0.142, idt_B: 0.079
+
+saving the latest model (epoch 364, total_iters 45000)
+[Rank 0] (epoch: 364, iters: 344, time: 0.030, data: 0.003) , D_A: 0.141, G_A: 0.412, cycle_A: 0.056, idt_A: 0.140, D_B: 0.002, G_B: 1.004, cycle_B: 0.121, idt_B: 0.086
+
+[Rank 0] (epoch: 364, iters: 544, time: 0.030, data: 0.003) , D_A: 0.162, G_A: 0.328, cycle_A: 0.059, idt_A: 0.178, D_B: 0.003, G_B: 0.968, cycle_B: 0.149, idt_B: 0.085
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 364 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 365, iters: 32, time: 0.084, data: 0.004) , D_A: 0.159, G_A: 0.371, cycle_A: 0.051, idt_A: 0.153, D_B: 0.001, G_B: 0.974, cycle_B: 0.134, idt_B: 0.069
+
+[Rank 0] (epoch: 365, iters: 232, time: 0.030, data: 0.003) , D_A: 0.188, G_A: 0.656, cycle_A: 0.054, idt_A: 0.144, D_B: 0.002, G_B: 0.986, cycle_B: 0.119, idt_B: 0.077
+
+[Rank 0] (epoch: 365, iters: 432, time: 0.092, data: 0.003) , D_A: 0.126, G_A: 0.431, cycle_A: 0.047, idt_A: 0.188, D_B: 0.003, G_B: 0.999, cycle_B: 0.136, idt_B: 0.067
+
+[Rank 0] (epoch: 365, iters: 632, time: 0.030, data: 0.004) , D_A: 0.153, G_A: 0.383, cycle_A: 0.054, idt_A: 0.154, D_B: 0.002, G_B: 1.011, cycle_B: 0.134, idt_B: 0.075
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 365, iters 46280
+End of epoch 365 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 366, iters: 120, time: 0.084, data: 0.003) , D_A: 0.165, G_A: 0.396, cycle_A: 0.043, idt_A: 0.159, D_B: 0.002, G_B: 1.004, cycle_B: 0.145, idt_B: 0.064
+
+[Rank 0] (epoch: 366, iters: 320, time: 0.030, data: 0.002) , D_A: 0.126, G_A: 0.432, cycle_A: 0.042, idt_A: 0.176, D_B: 0.001, G_B: 0.989, cycle_B: 0.133, idt_B: 0.060
+
+[Rank 0] (epoch: 366, iters: 520, time: 0.030, data: 0.003) , D_A: 0.247, G_A: 0.316, cycle_A: 0.047, idt_A: 0.182, D_B: 0.002, G_B: 0.959, cycle_B: 0.145, idt_B: 0.059
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 366 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 367, iters: 8, time: 0.080, data: 0.004) , D_A: 0.173, G_A: 0.380, cycle_A: 0.056, idt_A: 0.183, D_B: 0.002, G_B: 0.996, cycle_B: 0.154, idt_B: 0.079
+
+[Rank 0] (epoch: 367, iters: 208, time: 0.030, data: 0.002) , D_A: 0.210, G_A: 0.247, cycle_A: 0.063, idt_A: 0.167, D_B: 0.001, G_B: 0.997, cycle_B: 0.144, idt_B: 0.094
+
+[Rank 0] (epoch: 367, iters: 408, time: 0.030, data: 0.003) , D_A: 0.148, G_A: 0.458, cycle_A: 0.055, idt_A: 0.217, D_B: 0.001, G_B: 0.980, cycle_B: 0.162, idt_B: 0.078
+
+[Rank 0] (epoch: 367, iters: 608, time: 0.030, data: 0.003) , D_A: 0.183, G_A: 0.272, cycle_A: 0.046, idt_A: 0.153, D_B: 0.003, G_B: 1.010, cycle_B: 0.137, idt_B: 0.066
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 367 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 368, iters: 96, time: 0.082, data: 0.003) , D_A: 0.135, G_A: 0.399, cycle_A: 0.059, idt_A: 0.160, D_B: 0.001, G_B: 1.039, cycle_B: 0.146, idt_B: 0.088
+
+[Rank 0] (epoch: 368, iters: 296, time: 0.076, data: 0.002) , D_A: 0.169, G_A: 0.355, cycle_A: 0.054, idt_A: 0.160, D_B: 0.001, G_B: 0.987, cycle_B: 0.155, idt_B: 0.075
+
+[Rank 0] (epoch: 368, iters: 496, time: 0.030, data: 0.003) , D_A: 0.134, G_A: 0.361, cycle_A: 0.054, idt_A: 0.175, D_B: 0.001, G_B: 0.967, cycle_B: 0.142, idt_B: 0.076
+
+[Rank 0] (epoch: 368, iters: 696, time: 0.030, data: 0.003) , D_A: 0.092, G_A: 0.843, cycle_A: 0.058, idt_A: 0.169, D_B: 0.002, G_B: 1.003, cycle_B: 0.129, idt_B: 0.079
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 368 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 369, iters: 184, time: 0.085, data: 0.002) , D_A: 0.029, G_A: 1.058, cycle_A: 0.047, idt_A: 0.202, D_B: 0.001, G_B: 0.982, cycle_B: 0.139, idt_B: 0.061
+
+[Rank 0] (epoch: 369, iters: 384, time: 0.030, data: 0.002) , D_A: 0.033, G_A: 1.162, cycle_A: 0.059, idt_A: 0.183, D_B: 0.002, G_B: 1.002, cycle_B: 0.131, idt_B: 0.076
+
+[Rank 0] (epoch: 369, iters: 584, time: 0.092, data: 0.003) , D_A: 0.025, G_A: 0.956, cycle_A: 0.063, idt_A: 0.151, D_B: 0.001, G_B: 0.963, cycle_B: 0.131, idt_B: 0.076
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 369 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 370, iters: 72, time: 0.090, data: 0.003) , D_A: 0.023, G_A: 0.696, cycle_A: 0.068, idt_A: 0.169, D_B: 0.002, G_B: 0.970, cycle_B: 0.136, idt_B: 0.087
+
+[Rank 0] (epoch: 370, iters: 272, time: 0.030, data: 0.002) , D_A: 0.023, G_A: 0.783, cycle_A: 0.067, idt_A: 0.162, D_B: 0.003, G_B: 0.957, cycle_B: 0.140, idt_B: 0.081
+
+[Rank 0] (epoch: 370, iters: 472, time: 0.030, data: 0.003) , D_A: 0.036, G_A: 0.656, cycle_A: 0.072, idt_A: 0.189, D_B: 0.002, G_B: 1.040, cycle_B: 0.157, idt_B: 0.080
+
+[Rank 0] (epoch: 370, iters: 672, time: 0.030, data: 0.003) , D_A: 0.033, G_A: 0.784, cycle_A: 0.077, idt_A: 0.217, D_B: 0.003, G_B: 1.038, cycle_B: 0.155, idt_B: 0.091
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 370, iters 49840
+End of epoch 370 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 371, iters: 160, time: 0.085, data: 0.002) , D_A: 0.042, G_A: 0.748, cycle_A: 0.068, idt_A: 0.199, D_B: 0.002, G_B: 0.955, cycle_B: 0.157, idt_B: 0.069
+
+saving the latest model (epoch 371, total_iters 50000)
+[Rank 0] (epoch: 371, iters: 360, time: 0.030, data: 0.001) , D_A: 0.035, G_A: 0.787, cycle_A: 0.078, idt_A: 0.180, D_B: 0.001, G_B: 0.969, cycle_B: 0.144, idt_B: 0.087
+
+[Rank 0] (epoch: 371, iters: 560, time: 0.030, data: 0.003) , D_A: 0.022, G_A: 0.849, cycle_A: 0.066, idt_A: 0.199, D_B: 0.003, G_B: 0.969, cycle_B: 0.145, idt_B: 0.073
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 371 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 372, iters: 48, time: 0.086, data: 0.003) , D_A: 0.018, G_A: 1.046, cycle_A: 0.065, idt_A: 0.168, D_B: 0.002, G_B: 0.930, cycle_B: 0.128, idt_B: 0.067
+
+[Rank 0] (epoch: 372, iters: 248, time: 0.030, data: 0.002) , D_A: 0.042, G_A: 0.700, cycle_A: 0.063, idt_A: 0.176, D_B: 0.002, G_B: 1.059, cycle_B: 0.135, idt_B: 0.063
+
+[Rank 0] (epoch: 372, iters: 448, time: 0.078, data: 0.002) , D_A: 0.022, G_A: 1.025, cycle_A: 0.055, idt_A: 0.176, D_B: 0.001, G_B: 1.052, cycle_B: 0.132, idt_B: 0.060
+
+[Rank 0] (epoch: 372, iters: 648, time: 0.030, data: 0.002) , D_A: 0.023, G_A: 0.948, cycle_A: 0.088, idt_A: 0.175, D_B: 0.002, G_B: 1.046, cycle_B: 0.133, idt_B: 0.083
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 372 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 373, iters: 136, time: 0.090, data: 0.004) , D_A: 0.024, G_A: 0.761, cycle_A: 0.072, idt_A: 0.183, D_B: 0.002, G_B: 0.919, cycle_B: 0.134, idt_B: 0.074
+
+[Rank 0] (epoch: 373, iters: 336, time: 0.030, data: 0.001) , D_A: 0.017, G_A: 0.893, cycle_A: 0.068, idt_A: 0.191, D_B: 0.001, G_B: 0.939, cycle_B: 0.132, idt_B: 0.070
+
+[Rank 0] (epoch: 373, iters: 536, time: 0.030, data: 0.003) , D_A: 0.019, G_A: 0.797, cycle_A: 0.069, idt_A: 0.181, D_B: 0.002, G_B: 0.973, cycle_B: 0.146, idt_B: 0.072
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 373 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 374, iters: 24, time: 0.085, data: 0.003) , D_A: 0.018, G_A: 1.036, cycle_A: 0.068, idt_A: 0.208, D_B: 0.004, G_B: 0.967, cycle_B: 0.147, idt_B: 0.063
+
+[Rank 0] (epoch: 374, iters: 224, time: 0.030, data: 0.002) , D_A: 0.025, G_A: 0.754, cycle_A: 0.078, idt_A: 0.177, D_B: 0.005, G_B: 1.036, cycle_B: 0.133, idt_B: 0.081
+
+[Rank 0] (epoch: 374, iters: 424, time: 0.030, data: 0.003) , D_A: 0.018, G_A: 0.777, cycle_A: 0.066, idt_A: 0.199, D_B: 0.002, G_B: 0.937, cycle_B: 0.150, idt_B: 0.071
+
+[Rank 0] (epoch: 374, iters: 624, time: 0.030, data: 0.003) , D_A: 0.027, G_A: 0.997, cycle_A: 0.069, idt_A: 0.193, D_B: 0.005, G_B: 0.970, cycle_B: 0.150, idt_B: 0.077
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 374 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 375, iters: 112, time: 0.083, data: 0.002) , D_A: 0.020, G_A: 0.784, cycle_A: 0.061, idt_A: 0.161, D_B: 0.002, G_B: 0.954, cycle_B: 0.122, idt_B: 0.063
+
+[Rank 0] (epoch: 375, iters: 312, time: 0.079, data: 0.002) , D_A: 0.020, G_A: 0.901, cycle_A: 0.078, idt_A: 0.194, D_B: 0.002, G_B: 1.021, cycle_B: 0.133, idt_B: 0.076
+
+[Rank 0] (epoch: 375, iters: 512, time: 0.030, data: 0.003) , D_A: 0.018, G_A: 0.906, cycle_A: 0.099, idt_A: 0.171, D_B: 0.001, G_B: 0.988, cycle_B: 0.140, idt_B: 0.100
+
+[Rank 0] (epoch: 375, iters: 712, time: 0.030, data: 0.003) , D_A: 0.012, G_A: 0.978, cycle_A: 0.091, idt_A: 0.158, D_B: 0.002, G_B: 0.952, cycle_B: 0.135, idt_B: 0.084
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 375, iters 53400
+End of epoch 375 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 376, iters: 200, time: 0.093, data: 0.920) , D_A: 0.023, G_A: 0.862, cycle_A: 0.070, idt_A: 0.184, D_B: 0.002, G_B: 1.048, cycle_B: 0.148, idt_B: 0.066
+
+[Rank 0] (epoch: 376, iters: 400, time: 0.030, data: 0.001) , D_A: 0.014, G_A: 0.942, cycle_A: 0.123, idt_A: 0.181, D_B: 0.006, G_B: 1.019, cycle_B: 0.142, idt_B: 0.101
+
+[Rank 0] (epoch: 376, iters: 600, time: 0.095, data: 0.003) , D_A: 0.014, G_A: 0.988, cycle_A: 0.074, idt_A: 0.195, D_B: 0.001, G_B: 1.018, cycle_B: 0.156, idt_B: 0.076
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 376 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 377, iters: 88, time: 0.079, data: 0.002) , D_A: 0.012, G_A: 0.872, cycle_A: 0.087, idt_A: 0.177, D_B: 0.002, G_B: 0.941, cycle_B: 0.134, idt_B: 0.086
+
+[Rank 0] (epoch: 377, iters: 288, time: 0.030, data: 0.001) , D_A: 0.020, G_A: 0.811, cycle_A: 0.070, idt_A: 0.171, D_B: 0.002, G_B: 0.974, cycle_B: 0.133, idt_B: 0.064
+
+[Rank 0] (epoch: 377, iters: 488, time: 0.030, data: 0.003) , D_A: 0.024, G_A: 1.111, cycle_A: 0.072, idt_A: 0.185, D_B: 0.001, G_B: 0.977, cycle_B: 0.140, idt_B: 0.067
+
+[Rank 0] (epoch: 377, iters: 688, time: 0.030, data: 0.002) , D_A: 0.013, G_A: 1.092, cycle_A: 0.089, idt_A: 0.183, D_B: 0.002, G_B: 0.973, cycle_B: 0.151, idt_B: 0.074
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 377 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 378, iters: 176, time: 0.096, data: 0.002) , D_A: 0.009, G_A: 1.022, cycle_A: 0.068, idt_A: 0.194, D_B: 0.001, G_B: 0.998, cycle_B: 0.155, idt_B: 0.064
+
+saving the latest model (epoch 378, total_iters 55000)
+[Rank 0] (epoch: 378, iters: 376, time: 0.030, data: 0.001) , D_A: 0.010, G_A: 1.073, cycle_A: 0.069, idt_A: 0.172, D_B: 0.001, G_B: 0.984, cycle_B: 0.131, idt_B: 0.057
+
+[Rank 0] (epoch: 378, iters: 576, time: 0.030, data: 0.003) , D_A: 0.017, G_A: 0.993, cycle_A: 0.078, idt_A: 0.193, D_B: 0.001, G_B: 0.968, cycle_B: 0.150, idt_B: 0.071
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 378 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 379, iters: 64, time: 0.093, data: 0.002) , D_A: 0.014, G_A: 0.783, cycle_A: 0.068, idt_A: 0.193, D_B: 0.001, G_B: 1.006, cycle_B: 0.153, idt_B: 0.063
+
+[Rank 0] (epoch: 379, iters: 264, time: 0.030, data: 0.003) , D_A: 0.011, G_A: 0.843, cycle_A: 0.068, idt_A: 0.170, D_B: 0.001, G_B: 0.995, cycle_B: 0.128, idt_B: 0.066
+
+[Rank 0] (epoch: 379, iters: 464, time: 0.077, data: 0.002) , D_A: 0.013, G_A: 0.900, cycle_A: 0.089, idt_A: 0.204, D_B: 0.005, G_B: 1.034, cycle_B: 0.147, idt_B: 0.081
+
+[Rank 0] (epoch: 379, iters: 664, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 0.946, cycle_A: 0.077, idt_A: 0.172, D_B: 0.002, G_B: 0.971, cycle_B: 0.135, idt_B: 0.065
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 379 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 380, iters: 152, time: 0.083, data: 0.002) , D_A: 0.012, G_A: 0.793, cycle_A: 0.078, idt_A: 0.198, D_B: 0.001, G_B: 1.011, cycle_B: 0.154, idt_B: 0.081
+
+[Rank 0] (epoch: 380, iters: 352, time: 0.030, data: 0.002) , D_A: 0.013, G_A: 1.006, cycle_A: 0.079, idt_A: 0.204, D_B: 0.001, G_B: 1.010, cycle_B: 0.144, idt_B: 0.073
+
+[Rank 0] (epoch: 380, iters: 552, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 0.853, cycle_A: 0.079, idt_A: 0.174, D_B: 0.002, G_B: 0.989, cycle_B: 0.133, idt_B: 0.071
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 380, iters 56960
+End of epoch 380 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 381, iters: 40, time: 0.094, data: 0.003) , D_A: 0.012, G_A: 0.822, cycle_A: 0.088, idt_A: 0.172, D_B: 0.002, G_B: 1.050, cycle_B: 0.135, idt_B: 0.083
+
+[Rank 0] (epoch: 381, iters: 240, time: 0.030, data: 0.002) , D_A: 0.012, G_A: 1.184, cycle_A: 0.291, idt_A: 0.226, D_B: 0.001, G_B: 0.953, cycle_B: 0.155, idt_B: 0.085
+
+[Rank 0] (epoch: 381, iters: 440, time: 0.030, data: 0.005) , D_A: 0.009, G_A: 0.980, cycle_A: 0.089, idt_A: 0.207, D_B: 0.003, G_B: 1.062, cycle_B: 0.151, idt_B: 0.085
+
+[Rank 0] (epoch: 381, iters: 640, time: 0.030, data: 0.003) , D_A: 0.010, G_A: 0.870, cycle_A: 0.103, idt_A: 0.186, D_B: 0.001, G_B: 1.027, cycle_B: 0.143, idt_B: 0.103
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 381 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 382, iters: 128, time: 0.100, data: 0.003) , D_A: 0.007, G_A: 0.913, cycle_A: 0.090, idt_A: 0.176, D_B: 0.001, G_B: 1.022, cycle_B: 0.133, idt_B: 0.085
+
+[Rank 0] (epoch: 382, iters: 328, time: 0.090, data: 0.003) , D_A: 0.009, G_A: 1.057, cycle_A: 0.087, idt_A: 0.210, D_B: 0.001, G_B: 0.997, cycle_B: 0.154, idt_B: 0.082
+
+[Rank 0] (epoch: 382, iters: 528, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 0.926, cycle_A: 0.075, idt_A: 0.174, D_B: 0.001, G_B: 1.019, cycle_B: 0.135, idt_B: 0.075
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 382 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 383, iters: 16, time: 0.096, data: 0.003) , D_A: 0.007, G_A: 0.969, cycle_A: 0.049, idt_A: 0.182, D_B: 0.001, G_B: 0.980, cycle_B: 0.140, idt_B: 0.056
+
+[Rank 0] (epoch: 383, iters: 216, time: 0.030, data: 0.003) , D_A: 0.008, G_A: 1.035, cycle_A: 0.059, idt_A: 0.219, D_B: 0.001, G_B: 0.982, cycle_B: 0.152, idt_B: 0.047
+
+[Rank 0] (epoch: 383, iters: 416, time: 0.030, data: 0.003) , D_A: 0.016, G_A: 0.909, cycle_A: 0.074, idt_A: 0.195, D_B: 0.001, G_B: 1.025, cycle_B: 0.145, idt_B: 0.072
+
+[Rank 0] (epoch: 383, iters: 616, time: 0.079, data: 0.003) , D_A: 0.006, G_A: 0.958, cycle_A: 0.060, idt_A: 0.180, D_B: 0.001, G_B: 0.992, cycle_B: 0.136, idt_B: 0.058
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 383 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 384, iters: 104, time: 0.086, data: 0.003) , D_A: 0.006, G_A: 1.011, cycle_A: 0.080, idt_A: 0.166, D_B: 0.001, G_B: 1.012, cycle_B: 0.115, idt_B: 0.071
+
+[Rank 0] (epoch: 384, iters: 304, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 0.999, cycle_A: 0.089, idt_A: 0.175, D_B: 0.001, G_B: 1.000, cycle_B: 0.128, idt_B: 0.080
+
+[Rank 0] (epoch: 384, iters: 504, time: 0.030, data: 0.002) , D_A: 0.009, G_A: 0.920, cycle_A: 0.098, idt_A: 0.198, D_B: 0.001, G_B: 0.965, cycle_B: 0.145, idt_B: 0.095
+
+[Rank 0] (epoch: 384, iters: 704, time: 0.030, data: 0.003) , D_A: 0.008, G_A: 0.877, cycle_A: 0.073, idt_A: 0.172, D_B: 0.001, G_B: 0.973, cycle_B: 0.131, idt_B: 0.072
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 384 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 385, iters: 192, time: 0.094, data: 0.002) , D_A: 0.008, G_A: 0.944, cycle_A: 0.092, idt_A: 0.191, D_B: 0.001, G_B: 1.002, cycle_B: 0.142, idt_B: 0.085
+
+saving the latest model (epoch 385, total_iters 60000)
+[Rank 0] (epoch: 385, iters: 392, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 1.082, cycle_A: 0.093, idt_A: 0.190, D_B: 0.006, G_B: 0.963, cycle_B: 0.146, idt_B: 0.086
+
+[Rank 0] (epoch: 385, iters: 592, time: 0.030, data: 0.001) , D_A: 0.006, G_A: 0.962, cycle_A: 0.082, idt_A: 0.175, D_B: 0.001, G_B: 1.028, cycle_B: 0.128, idt_B: 0.085
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 385, iters 60520
+End of epoch 385 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 386, iters: 80, time: 0.091, data: 0.003) , D_A: 0.008, G_A: 0.994, cycle_A: 0.078, idt_A: 0.174, D_B: 0.001, G_B: 0.999, cycle_B: 0.126, idt_B: 0.079
+
+[Rank 0] (epoch: 386, iters: 280, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.949, cycle_A: 0.074, idt_A: 0.179, D_B: 0.002, G_B: 1.037, cycle_B: 0.129, idt_B: 0.077
+
+[Rank 0] (epoch: 386, iters: 480, time: 0.092, data: 0.002) , D_A: 0.006, G_A: 1.075, cycle_A: 0.074, idt_A: 0.172, D_B: 0.001, G_B: 0.931, cycle_B: 0.124, idt_B: 0.073
+
+[Rank 0] (epoch: 386, iters: 680, time: 0.030, data: 0.001) , D_A: 0.009, G_A: 0.998, cycle_A: 0.067, idt_A: 0.198, D_B: 0.000, G_B: 0.982, cycle_B: 0.151, idt_B: 0.067
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 386 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 387, iters: 168, time: 0.085, data: 0.002) , D_A: 0.005, G_A: 0.907, cycle_A: 0.079, idt_A: 0.167, D_B: 0.001, G_B: 0.974, cycle_B: 0.121, idt_B: 0.085
+
+[Rank 0] (epoch: 387, iters: 368, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 1.011, cycle_A: 0.095, idt_A: 0.193, D_B: 0.001, G_B: 1.004, cycle_B: 0.133, idt_B: 0.078
+
+[Rank 0] (epoch: 387, iters: 568, time: 0.030, data: 0.004) , D_A: 0.007, G_A: 0.990, cycle_A: 0.053, idt_A: 0.195, D_B: 0.001, G_B: 0.976, cycle_B: 0.140, idt_B: 0.060
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 387 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 388, iters: 56, time: 0.114, data: 0.003) , D_A: 0.006, G_A: 0.911, cycle_A: 0.097, idt_A: 0.196, D_B: 0.001, G_B: 0.967, cycle_B: 0.149, idt_B: 0.086
+
+[Rank 0] (epoch: 388, iters: 256, time: 0.030, data: 0.004) , D_A: 0.006, G_A: 1.071, cycle_A: 0.078, idt_A: 0.178, D_B: 0.001, G_B: 0.967, cycle_B: 0.131, idt_B: 0.075
+
+[Rank 0] (epoch: 388, iters: 456, time: 0.030, data: 0.002) , D_A: 0.006, G_A: 1.000, cycle_A: 0.090, idt_A: 0.195, D_B: 0.001, G_B: 1.070, cycle_B: 0.148, idt_B: 0.070
+
+[Rank 0] (epoch: 388, iters: 656, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.936, cycle_A: 0.089, idt_A: 0.207, D_B: 0.001, G_B: 1.033, cycle_B: 0.132, idt_B: 0.085
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 388 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 389, iters: 144, time: 0.110, data: 0.003) , D_A: 0.005, G_A: 0.878, cycle_A: 0.057, idt_A: 0.182, D_B: 0.001, G_B: 0.983, cycle_B: 0.129, idt_B: 0.058
+
+[Rank 0] (epoch: 389, iters: 344, time: 0.085, data: 0.004) , D_A: 0.005, G_A: 0.910, cycle_A: 0.069, idt_A: 0.214, D_B: 0.001, G_B: 1.009, cycle_B: 0.155, idt_B: 0.073
+
+[Rank 0] (epoch: 389, iters: 544, time: 0.030, data: 0.002) , D_A: 0.005, G_A: 0.938, cycle_A: 0.058, idt_A: 0.177, D_B: 0.001, G_B: 0.978, cycle_B: 0.123, idt_B: 0.061
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 389 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 390, iters: 32, time: 0.092, data: 0.004) , D_A: 0.004, G_A: 0.844, cycle_A: 0.065, idt_A: 0.157, D_B: 0.005, G_B: 1.016, cycle_B: 0.109, idt_B: 0.062
+
+[Rank 0] (epoch: 390, iters: 232, time: 0.030, data: 0.004) , D_A: 0.011, G_A: 1.093, cycle_A: 0.092, idt_A: 0.149, D_B: 0.000, G_B: 0.983, cycle_B: 0.102, idt_B: 0.094
+
+[Rank 0] (epoch: 390, iters: 432, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.863, cycle_A: 0.044, idt_A: 0.149, D_B: 0.000, G_B: 0.996, cycle_B: 0.115, idt_B: 0.047
+
+[Rank 0] (epoch: 390, iters: 632, time: 0.081, data: 0.003) , D_A: 0.006, G_A: 1.018, cycle_A: 0.080, idt_A: 0.179, D_B: 0.001, G_B: 1.036, cycle_B: 0.121, idt_B: 0.082
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 390, iters 64080
+End of epoch 390 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 391, iters: 120, time: 0.090, data: 0.004) , D_A: 0.006, G_A: 1.163, cycle_A: 0.185, idt_A: 0.182, D_B: 0.001, G_B: 1.029, cycle_B: 0.134, idt_B: 0.074
+
+[Rank 0] (epoch: 391, iters: 320, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 0.914, cycle_A: 0.077, idt_A: 0.182, D_B: 0.002, G_B: 0.966, cycle_B: 0.134, idt_B: 0.080
+
+[Rank 0] (epoch: 391, iters: 520, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 0.950, cycle_A: 0.078, idt_A: 0.191, D_B: 0.001, G_B: 1.029, cycle_B: 0.141, idt_B: 0.079
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 391 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 392, iters: 8, time: 0.112, data: 0.002) , D_A: 0.006, G_A: 0.860, cycle_A: 0.048, idt_A: 0.172, D_B: 0.004, G_B: 1.006, cycle_B: 0.125, idt_B: 0.048
+
+[Rank 0] (epoch: 392, iters: 208, time: 0.082, data: 0.002) , D_A: 0.005, G_A: 1.005, cycle_A: 0.056, idt_A: 0.181, D_B: 0.001, G_B: 1.016, cycle_B: 0.136, idt_B: 0.060
+
+saving the latest model (epoch 392, total_iters 65000)
+[Rank 0] (epoch: 392, iters: 408, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 1.047, cycle_A: 0.088, idt_A: 0.192, D_B: 0.000, G_B: 0.988, cycle_B: 0.141, idt_B: 0.078
+
+[Rank 0] (epoch: 392, iters: 608, time: 0.030, data: 0.003) , D_A: 0.009, G_A: 1.028, cycle_A: 0.307, idt_A: 0.199, D_B: 0.003, G_B: 1.017, cycle_B: 0.141, idt_B: 0.097
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 392 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 393, iters: 96, time: 0.093, data: 0.003) , D_A: 0.004, G_A: 0.997, cycle_A: 0.071, idt_A: 0.183, D_B: 0.001, G_B: 0.978, cycle_B: 0.132, idt_B: 0.069
+
+[Rank 0] (epoch: 393, iters: 296, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 1.020, cycle_A: 0.078, idt_A: 0.170, D_B: 0.001, G_B: 0.975, cycle_B: 0.132, idt_B: 0.071
+
+[Rank 0] (epoch: 393, iters: 496, time: 0.096, data: 0.003) , D_A: 0.004, G_A: 1.017, cycle_A: 0.066, idt_A: 0.162, D_B: 0.001, G_B: 0.974, cycle_B: 0.122, idt_B: 0.072
+
+[Rank 0] (epoch: 393, iters: 696, time: 0.030, data: 0.001) , D_A: 0.006, G_A: 0.996, cycle_A: 0.055, idt_A: 0.179, D_B: 0.001, G_B: 0.978, cycle_B: 0.145, idt_B: 0.063
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 393 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 394, iters: 184, time: 0.096, data: 0.002) , D_A: 0.004, G_A: 0.944, cycle_A: 0.079, idt_A: 0.209, D_B: 0.002, G_B: 1.047, cycle_B: 0.158, idt_B: 0.078
+
+[Rank 0] (epoch: 394, iters: 384, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.938, cycle_A: 0.057, idt_A: 0.183, D_B: 0.265, G_B: 0.119, cycle_B: 0.136, idt_B: 0.063
+
+[Rank 0] (epoch: 394, iters: 584, time: 0.030, data: 0.006) , D_A: 0.005, G_A: 0.899, cycle_A: 0.052, idt_A: 0.161, D_B: 0.080, G_B: 0.141, cycle_B: 0.253, idt_B: 0.062
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 394 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 395, iters: 72, time: 0.088, data: 0.003) , D_A: 0.018, G_A: 1.067, cycle_A: 0.097, idt_A: 0.152, D_B: 0.102, G_B: 0.263, cycle_B: 0.178, idt_B: 0.094
+
+[Rank 0] (epoch: 395, iters: 272, time: 0.030, data: 0.001) , D_A: 0.003, G_A: 0.984, cycle_A: 0.082, idt_A: 0.164, D_B: 0.037, G_B: 0.410, cycle_B: 0.212, idt_B: 0.082
+
+[Rank 0] (epoch: 395, iters: 472, time: 0.030, data: 0.002) , D_A: 0.005, G_A: 0.900, cycle_A: 0.080, idt_A: 0.187, D_B: 0.120, G_B: 0.267, cycle_B: 0.232, idt_B: 0.093
+
+[Rank 0] (epoch: 395, iters: 672, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.978, cycle_A: 0.122, idt_A: 0.188, D_B: 0.109, G_B: 0.347, cycle_B: 0.188, idt_B: 0.118
+
+learning rate 0.0000800 -> 0.0000800
+saving the model at the end of epoch 395, iters 67640
+End of epoch 395 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 396, iters: 160, time: 0.090, data: 0.002) , D_A: 0.004, G_A: 0.918, cycle_A: 0.069, idt_A: 0.179, D_B: 0.145, G_B: 0.397, cycle_B: 0.191, idt_B: 0.074
+
+[Rank 0] (epoch: 396, iters: 360, time: 0.101, data: 0.002) , D_A: 0.002, G_A: 0.987, cycle_A: 0.058, idt_A: 0.159, D_B: 0.186, G_B: 0.347, cycle_B: 0.155, idt_B: 0.071
+
+[Rank 0] (epoch: 396, iters: 560, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.943, cycle_A: 0.076, idt_A: 0.215, D_B: 0.196, G_B: 0.221, cycle_B: 0.193, idt_B: 0.094
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 396 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 397, iters: 48, time: 0.112, data: 0.003) , D_A: 0.005, G_A: 0.941, cycle_A: 0.120, idt_A: 0.162, D_B: 0.139, G_B: 0.334, cycle_B: 0.159, idt_B: 0.075
+
+[Rank 0] (epoch: 397, iters: 248, time: 0.029, data: 0.003) , D_A: 0.004, G_A: 1.062, cycle_A: 0.085, idt_A: 0.185, D_B: 0.132, G_B: 0.224, cycle_B: 0.186, idt_B: 0.097
+
+[Rank 0] (epoch: 397, iters: 448, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 1.056, cycle_A: 0.087, idt_A: 0.167, D_B: 0.238, G_B: 1.154, cycle_B: 0.181, idt_B: 0.097
+
+[Rank 0] (epoch: 397, iters: 648, time: 0.080, data: 0.003) , D_A: 0.004, G_A: 0.930, cycle_A: 0.083, idt_A: 0.191, D_B: 0.101, G_B: 0.163, cycle_B: 0.191, idt_B: 0.102
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 397 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 398, iters: 136, time: 0.104, data: 0.003) , D_A: 0.003, G_A: 0.996, cycle_A: 0.071, idt_A: 0.171, D_B: 0.101, G_B: 0.758, cycle_B: 0.165, idt_B: 0.079
+
+[Rank 0] (epoch: 398, iters: 336, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.017, cycle_A: 0.071, idt_A: 0.197, D_B: 0.149, G_B: 0.411, cycle_B: 0.181, idt_B: 0.075
+
+[Rank 0] (epoch: 398, iters: 536, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.939, cycle_A: 0.090, idt_A: 0.169, D_B: 0.126, G_B: 1.421, cycle_B: 0.155, idt_B: 0.116
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 398 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 399, iters: 24, time: 0.103, data: 0.002) , D_A: 0.004, G_A: 1.081, cycle_A: 0.093, idt_A: 0.180, D_B: 0.031, G_B: 1.065, cycle_B: 0.167, idt_B: 0.103
+
+[Rank 0] (epoch: 399, iters: 224, time: 0.089, data: 0.002) , D_A: 0.004, G_A: 0.893, cycle_A: 0.091, idt_A: 0.159, D_B: 0.005, G_B: 1.055, cycle_B: 0.147, idt_B: 0.112
+
+saving the latest model (epoch 399, total_iters 70000)
+[Rank 0] (epoch: 399, iters: 424, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.929, cycle_A: 0.066, idt_A: 0.158, D_B: 0.051, G_B: 0.557, cycle_B: 0.149, idt_B: 0.074
+
+[Rank 0] (epoch: 399, iters: 624, time: 0.030, data: 0.002) , D_A: 0.029, G_A: 1.060, cycle_A: 0.077, idt_A: 0.183, D_B: 0.059, G_B: 0.873, cycle_B: 0.168, idt_B: 0.082
+
+learning rate 0.0000800 -> 0.0000800
+End of epoch 399 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 400, iters: 112, time: 0.087, data: 0.003) , D_A: 0.004, G_A: 0.989, cycle_A: 0.140, idt_A: 0.188, D_B: 0.010, G_B: 0.908, cycle_B: 0.174, idt_B: 0.095
+
+[Rank 0] (epoch: 400, iters: 312, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.946, cycle_A: 0.072, idt_A: 0.161, D_B: 0.017, G_B: 1.107, cycle_B: 0.161, idt_B: 0.078
+
+[Rank 0] (epoch: 400, iters: 512, time: 0.090, data: 0.003) , D_A: 0.006, G_A: 0.992, cycle_A: 0.067, idt_A: 0.167, D_B: 0.025, G_B: 0.826, cycle_B: 0.153, idt_B: 0.077
+
+[Rank 0] (epoch: 400, iters: 712, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 1.052, cycle_A: 0.068, idt_A: 0.172, D_B: 0.011, G_B: 0.712, cycle_B: 0.163, idt_B: 0.074
+
+learning rate 0.0000800 -> 0.0000792
+saving the model at the end of epoch 400, iters 71200
+End of epoch 400 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 401, iters: 200, time: 0.093, data: 1.143) , D_A: 0.006, G_A: 0.943, cycle_A: 0.061, idt_A: 0.162, D_B: 0.081, G_B: 0.883, cycle_B: 0.146, idt_B: 0.076
+
+[Rank 0] (epoch: 401, iters: 400, time: 0.030, data: 0.001) , D_A: 0.004, G_A: 0.957, cycle_A: 0.070, idt_A: 0.169, D_B: 0.018, G_B: 0.740, cycle_B: 0.153, idt_B: 0.081
+
+[Rank 0] (epoch: 401, iters: 600, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.001, cycle_A: 0.062, idt_A: 0.169, D_B: 0.030, G_B: 0.645, cycle_B: 0.145, idt_B: 0.069
+
+learning rate 0.0000792 -> 0.0000784
+End of epoch 401 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 402, iters: 88, time: 0.086, data: 0.003) , D_A: 0.006, G_A: 0.909, cycle_A: 0.080, idt_A: 0.170, D_B: 0.006, G_B: 0.905, cycle_B: 0.141, idt_B: 0.088
+
+[Rank 0] (epoch: 402, iters: 288, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.981, cycle_A: 0.068, idt_A: 0.178, D_B: 0.050, G_B: 0.497, cycle_B: 0.186, idt_B: 0.074
+
+[Rank 0] (epoch: 402, iters: 488, time: 0.030, data: 0.002) , D_A: 0.023, G_A: 0.852, cycle_A: 0.075, idt_A: 0.168, D_B: 0.015, G_B: 0.856, cycle_B: 0.172, idt_B: 0.089
+
+[Rank 0] (epoch: 402, iters: 688, time: 0.030, data: 0.002) , D_A: 0.002, G_A: 1.028, cycle_A: 0.062, idt_A: 0.153, D_B: 0.064, G_B: 0.534, cycle_B: 0.150, idt_B: 0.073
+
+learning rate 0.0000784 -> 0.0000776
+End of epoch 402 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 403, iters: 176, time: 0.095, data: 0.002) , D_A: 0.006, G_A: 0.982, cycle_A: 0.049, idt_A: 0.174, D_B: 0.149, G_B: 0.548, cycle_B: 0.172, idt_B: 0.063
+
+[Rank 0] (epoch: 403, iters: 376, time: 0.099, data: 0.004) , D_A: 0.005, G_A: 0.912, cycle_A: 0.094, idt_A: 0.159, D_B: 0.134, G_B: 0.372, cycle_B: 0.152, idt_B: 0.097
+
+[Rank 0] (epoch: 403, iters: 576, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.968, cycle_A: 0.093, idt_A: 0.179, D_B: 0.137, G_B: 0.554, cycle_B: 0.166, idt_B: 0.108
+
+learning rate 0.0000776 -> 0.0000768
+End of epoch 403 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 404, iters: 64, time: 0.096, data: 0.003) , D_A: 0.011, G_A: 0.699, cycle_A: 0.073, idt_A: 0.172, D_B: 0.126, G_B: 0.807, cycle_B: 0.161, idt_B: 0.085
+
+[Rank 0] (epoch: 404, iters: 264, time: 0.030, data: 0.004) , D_A: 0.041, G_A: 0.573, cycle_A: 0.080, idt_A: 0.155, D_B: 0.156, G_B: 0.248, cycle_B: 0.160, idt_B: 0.081
+
+[Rank 0] (epoch: 404, iters: 464, time: 0.030, data: 0.003) , D_A: 0.027, G_A: 1.403, cycle_A: 0.099, idt_A: 0.263, D_B: 0.043, G_B: 0.569, cycle_B: 0.214, idt_B: 0.105
+
+[Rank 0] (epoch: 404, iters: 664, time: 0.092, data: 0.003) , D_A: 0.017, G_A: 0.758, cycle_A: 0.074, idt_A: 0.177, D_B: 0.022, G_B: 0.805, cycle_B: 0.152, idt_B: 0.083
+
+learning rate 0.0000768 -> 0.0000760
+End of epoch 404 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 405, iters: 152, time: 0.090, data: 0.002) , D_A: 0.017, G_A: 0.797, cycle_A: 0.071, idt_A: 0.175, D_B: 0.078, G_B: 0.507, cycle_B: 0.160, idt_B: 0.085
+
+[Rank 0] (epoch: 405, iters: 352, time: 0.030, data: 0.002) , D_A: 0.024, G_A: 0.982, cycle_A: 0.097, idt_A: 0.163, D_B: 0.046, G_B: 0.351, cycle_B: 0.145, idt_B: 0.094
+
+[Rank 0] (epoch: 405, iters: 552, time: 0.030, data: 0.002) , D_A: 0.014, G_A: 0.782, cycle_A: 0.092, idt_A: 0.157, D_B: 0.009, G_B: 0.948, cycle_B: 0.149, idt_B: 0.105
+
+learning rate 0.0000760 -> 0.0000752
+saving the model at the end of epoch 405, iters 74760
+End of epoch 405 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 406, iters: 40, time: 0.083, data: 0.003) , D_A: 0.053, G_A: 0.661, cycle_A: 0.075, idt_A: 0.171, D_B: 0.008, G_B: 0.900, cycle_B: 0.159, idt_B: 0.087
+
+[Rank 0] (epoch: 406, iters: 240, time: 0.093, data: 0.002) , D_A: 0.013, G_A: 0.863, cycle_A: 0.058, idt_A: 0.180, D_B: 0.119, G_B: 0.197, cycle_B: 0.178, idt_B: 0.065
+
+saving the latest model (epoch 406, total_iters 75000)
+[Rank 0] (epoch: 406, iters: 440, time: 0.030, data: 0.002) , D_A: 0.074, G_A: 0.421, cycle_A: 0.067, idt_A: 0.164, D_B: 0.071, G_B: 0.832, cycle_B: 0.136, idt_B: 0.086
+
+[Rank 0] (epoch: 406, iters: 640, time: 0.030, data: 0.004) , D_A: 0.020, G_A: 0.734, cycle_A: 0.074, idt_A: 0.175, D_B: 0.007, G_B: 0.964, cycle_B: 0.145, idt_B: 0.094
+
+learning rate 0.0000752 -> 0.0000745
+End of epoch 406 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 407, iters: 128, time: 0.088, data: 0.002) , D_A: 0.028, G_A: 0.604, cycle_A: 0.077, idt_A: 0.165, D_B: 0.028, G_B: 0.931, cycle_B: 0.154, idt_B: 0.098
+
+[Rank 0] (epoch: 407, iters: 328, time: 0.030, data: 0.002) , D_A: 0.007, G_A: 1.060, cycle_A: 0.067, idt_A: 0.195, D_B: 0.011, G_B: 0.879, cycle_B: 0.149, idt_B: 0.089
+
+[Rank 0] (epoch: 407, iters: 528, time: 0.102, data: 0.003) , D_A: 0.009, G_A: 0.927, cycle_A: 0.056, idt_A: 0.162, D_B: 0.021, G_B: 0.980, cycle_B: 0.143, idt_B: 0.082
+
+learning rate 0.0000745 -> 0.0000737
+End of epoch 407 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 408, iters: 16, time: 0.093, data: 0.002) , D_A: 0.018, G_A: 0.653, cycle_A: 0.074, idt_A: 0.169, D_B: 0.006, G_B: 0.862, cycle_B: 0.140, idt_B: 0.085
+
+[Rank 0] (epoch: 408, iters: 216, time: 0.030, data: 0.002) , D_A: 0.017, G_A: 0.850, cycle_A: 0.089, idt_A: 0.174, D_B: 0.004, G_B: 1.015, cycle_B: 0.140, idt_B: 0.104
+
+[Rank 0] (epoch: 408, iters: 416, time: 0.030, data: 0.004) , D_A: 0.010, G_A: 1.056, cycle_A: 0.064, idt_A: 0.158, D_B: 0.002, G_B: 0.980, cycle_B: 0.131, idt_B: 0.075
+
+[Rank 0] (epoch: 408, iters: 616, time: 0.030, data: 0.002) , D_A: 0.009, G_A: 0.845, cycle_A: 0.057, idt_A: 0.164, D_B: 0.002, G_B: 0.959, cycle_B: 0.131, idt_B: 0.072
+
+learning rate 0.0000737 -> 0.0000729
+End of epoch 408 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 409, iters: 104, time: 0.091, data: 0.004) , D_A: 0.014, G_A: 0.740, cycle_A: 0.056, idt_A: 0.164, D_B: 0.005, G_B: 1.061, cycle_B: 0.141, idt_B: 0.068
+
+[Rank 0] (epoch: 409, iters: 304, time: 0.030, data: 0.002) , D_A: 0.152, G_A: 0.236, cycle_A: 0.066, idt_A: 0.175, D_B: 0.003, G_B: 0.951, cycle_B: 0.132, idt_B: 0.084
+
+[Rank 0] (epoch: 409, iters: 504, time: 0.030, data: 0.003) , D_A: 0.018, G_A: 0.935, cycle_A: 0.059, idt_A: 0.178, D_B: 0.004, G_B: 1.088, cycle_B: 0.149, idt_B: 0.080
+
+[Rank 0] (epoch: 409, iters: 704, time: 0.030, data: 0.002) , D_A: 0.030, G_A: 1.039, cycle_A: 0.077, idt_A: 0.179, D_B: 0.003, G_B: 0.971, cycle_B: 0.144, idt_B: 0.097
+
+learning rate 0.0000729 -> 0.0000721
+End of epoch 409 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 410, iters: 192, time: 0.099, data: 0.002) , D_A: 0.011, G_A: 0.832, cycle_A: 0.074, idt_A: 0.151, D_B: 0.006, G_B: 1.003, cycle_B: 0.121, idt_B: 0.096
+
+[Rank 0] (epoch: 410, iters: 392, time: 0.085, data: 0.004) , D_A: 0.012, G_A: 0.829, cycle_A: 0.054, idt_A: 0.160, D_B: 0.005, G_B: 0.898, cycle_B: 0.147, idt_B: 0.068
+
+[Rank 0] (epoch: 410, iters: 592, time: 0.030, data: 0.003) , D_A: 0.009, G_A: 1.071, cycle_A: 0.071, idt_A: 0.164, D_B: 0.003, G_B: 0.933, cycle_B: 0.166, idt_B: 0.083
+
+learning rate 0.0000721 -> 0.0000713
+saving the model at the end of epoch 410, iters 78320
+End of epoch 410 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 411, iters: 80, time: 0.109, data: 0.004) , D_A: 0.015, G_A: 0.876, cycle_A: 0.059, idt_A: 0.177, D_B: 0.022, G_B: 0.607, cycle_B: 0.159, idt_B: 0.071
+
+[Rank 0] (epoch: 411, iters: 280, time: 0.030, data: 0.002) , D_A: 0.010, G_A: 1.131, cycle_A: 0.082, idt_A: 0.177, D_B: 0.037, G_B: 0.734, cycle_B: 0.151, idt_B: 0.094
+
+[Rank 0] (epoch: 411, iters: 480, time: 0.030, data: 0.002) , D_A: 0.010, G_A: 0.905, cycle_A: 0.065, idt_A: 0.162, D_B: 0.009, G_B: 0.964, cycle_B: 0.141, idt_B: 0.077
+
+[Rank 0] (epoch: 411, iters: 680, time: 0.083, data: 0.003) , D_A: 0.024, G_A: 1.061, cycle_A: 0.059, idt_A: 0.150, D_B: 0.003, G_B: 0.907, cycle_B: 0.121, idt_B: 0.079
+
+learning rate 0.0000713 -> 0.0000705
+End of epoch 411 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 412, iters: 168, time: 0.108, data: 0.002) , D_A: 0.011, G_A: 0.837, cycle_A: 0.057, idt_A: 0.169, D_B: 0.002, G_B: 1.003, cycle_B: 0.144, idt_B: 0.077
+
+[Rank 0] (epoch: 412, iters: 368, time: 0.030, data: 0.003) , D_A: 0.009, G_A: 1.102, cycle_A: 0.061, idt_A: 0.143, D_B: 0.002, G_B: 0.982, cycle_B: 0.129, idt_B: 0.088
+
+[Rank 0] (epoch: 412, iters: 568, time: 0.030, data: 0.003) , D_A: 0.064, G_A: 1.276, cycle_A: 0.068, idt_A: 0.161, D_B: 0.003, G_B: 0.932, cycle_B: 0.138, idt_B: 0.093
+
+learning rate 0.0000705 -> 0.0000697
+End of epoch 412 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 413, iters: 56, time: 0.101, data: 0.002) , D_A: 0.020, G_A: 0.956, cycle_A: 0.075, idt_A: 0.207, D_B: 0.003, G_B: 0.956, cycle_B: 0.153, idt_B: 0.067
+
+[Rank 0] (epoch: 413, iters: 256, time: 0.085, data: 0.001) , D_A: 0.052, G_A: 0.843, cycle_A: 0.063, idt_A: 0.191, D_B: 0.002, G_B: 0.977, cycle_B: 0.145, idt_B: 0.079
+
+saving the latest model (epoch 413, total_iters 80000)
+[Rank 0] (epoch: 413, iters: 456, time: 0.030, data: 0.003) , D_A: 0.024, G_A: 0.926, cycle_A: 0.054, idt_A: 0.177, D_B: 0.003, G_B: 0.904, cycle_B: 0.135, idt_B: 0.074
+
+[Rank 0] (epoch: 413, iters: 656, time: 0.030, data: 0.002) , D_A: 0.017, G_A: 0.782, cycle_A: 0.054, idt_A: 0.169, D_B: 0.002, G_B: 0.945, cycle_B: 0.137, idt_B: 0.068
+
+learning rate 0.0000697 -> 0.0000689
+End of epoch 413 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 414, iters: 144, time: 0.089, data: 0.003) , D_A: 0.015, G_A: 1.162, cycle_A: 0.049, idt_A: 0.169, D_B: 0.007, G_B: 0.763, cycle_B: 0.159, idt_B: 0.065
+
+[Rank 0] (epoch: 414, iters: 344, time: 0.030, data: 0.003) , D_A: 0.011, G_A: 1.033, cycle_A: 0.060, idt_A: 0.162, D_B: 0.004, G_B: 0.865, cycle_B: 0.143, idt_B: 0.080
+
+[Rank 0] (epoch: 414, iters: 544, time: 0.097, data: 0.003) , D_A: 0.008, G_A: 1.106, cycle_A: 0.049, idt_A: 0.189, D_B: 0.033, G_B: 0.361, cycle_B: 0.173, idt_B: 0.064
+
+learning rate 0.0000689 -> 0.0000681
+End of epoch 414 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 415, iters: 32, time: 0.096, data: 0.002) , D_A: 0.009, G_A: 1.040, cycle_A: 0.062, idt_A: 0.142, D_B: 0.007, G_B: 1.183, cycle_B: 0.132, idt_B: 0.083
+
+[Rank 0] (epoch: 415, iters: 232, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 1.014, cycle_A: 0.044, idt_A: 0.152, D_B: 0.002, G_B: 0.951, cycle_B: 0.138, idt_B: 0.059
+
+[Rank 0] (epoch: 415, iters: 432, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 1.053, cycle_A: 0.057, idt_A: 0.146, D_B: 0.002, G_B: 0.969, cycle_B: 0.131, idt_B: 0.072
+
+[Rank 0] (epoch: 415, iters: 632, time: 0.030, data: 0.005) , D_A: 0.008, G_A: 0.862, cycle_A: 0.042, idt_A: 0.162, D_B: 0.002, G_B: 0.981, cycle_B: 0.145, idt_B: 0.056
+
+learning rate 0.0000681 -> 0.0000673
+saving the model at the end of epoch 415, iters 81880
+End of epoch 415 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 416, iters: 120, time: 0.105, data: 0.006) , D_A: 0.010, G_A: 1.206, cycle_A: 0.055, idt_A: 0.162, D_B: 0.002, G_B: 0.967, cycle_B: 0.140, idt_B: 0.071
+
+[Rank 0] (epoch: 416, iters: 320, time: 0.030, data: 0.003) , D_A: 0.008, G_A: 0.901, cycle_A: 0.053, idt_A: 0.174, D_B: 0.001, G_B: 0.977, cycle_B: 0.151, idt_B: 0.064
+
+[Rank 0] (epoch: 416, iters: 520, time: 0.030, data: 0.003) , D_A: 0.017, G_A: 1.052, cycle_A: 0.055, idt_A: 0.152, D_B: 0.003, G_B: 0.926, cycle_B: 0.152, idt_B: 0.076
+
+learning rate 0.0000673 -> 0.0000665
+End of epoch 416 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 417, iters: 8, time: 0.086, data: 0.002) , D_A: 0.009, G_A: 1.085, cycle_A: 0.061, idt_A: 0.158, D_B: 0.003, G_B: 1.040, cycle_B: 0.164, idt_B: 0.079
+
+[Rank 0] (epoch: 417, iters: 208, time: 0.030, data: 0.003) , D_A: 0.010, G_A: 0.963, cycle_A: 0.053, idt_A: 0.179, D_B: 0.005, G_B: 0.859, cycle_B: 0.163, idt_B: 0.066
+
+[Rank 0] (epoch: 417, iters: 408, time: 0.122, data: 0.003) , D_A: 0.006, G_A: 0.906, cycle_A: 0.049, idt_A: 0.173, D_B: 0.002, G_B: 1.028, cycle_B: 0.167, idt_B: 0.062
+
+[Rank 0] (epoch: 417, iters: 608, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 0.852, cycle_A: 0.056, idt_A: 0.171, D_B: 0.002, G_B: 0.912, cycle_B: 0.142, idt_B: 0.075
+
+learning rate 0.0000665 -> 0.0000657
+End of epoch 417 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 418, iters: 96, time: 0.092, data: 0.002) , D_A: 0.008, G_A: 0.994, cycle_A: 0.039, idt_A: 0.171, D_B: 0.001, G_B: 0.951, cycle_B: 0.151, idt_B: 0.052
+
+[Rank 0] (epoch: 418, iters: 296, time: 0.030, data: 0.004) , D_A: 0.006, G_A: 0.968, cycle_A: 0.055, idt_A: 0.150, D_B: 0.002, G_B: 0.953, cycle_B: 0.131, idt_B: 0.073
+
+[Rank 0] (epoch: 418, iters: 496, time: 0.030, data: 0.004) , D_A: 0.058, G_A: 0.988, cycle_A: 0.057, idt_A: 0.166, D_B: 0.002, G_B: 0.914, cycle_B: 0.143, idt_B: 0.072
+
+[Rank 0] (epoch: 418, iters: 696, time: 0.089, data: 0.004) , D_A: 0.007, G_A: 0.922, cycle_A: 0.064, idt_A: 0.157, D_B: 0.003, G_B: 0.874, cycle_B: 0.143, idt_B: 0.081
+
+learning rate 0.0000657 -> 0.0000650
+End of epoch 418 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 419, iters: 184, time: 0.110, data: 0.002) , D_A: 0.007, G_A: 1.081, cycle_A: 0.052, idt_A: 0.167, D_B: 0.003, G_B: 0.985, cycle_B: 0.149, idt_B: 0.060
+
+[Rank 0] (epoch: 419, iters: 384, time: 0.030, data: 0.002) , D_A: 0.005, G_A: 1.022, cycle_A: 0.054, idt_A: 0.180, D_B: 0.001, G_B: 0.969, cycle_B: 0.148, idt_B: 0.069
+
+[Rank 0] (epoch: 419, iters: 584, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 0.928, cycle_A: 0.060, idt_A: 0.175, D_B: 0.001, G_B: 0.957, cycle_B: 0.150, idt_B: 0.071
+
+learning rate 0.0000650 -> 0.0000642
+End of epoch 419 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 420, iters: 72, time: 0.097, data: 0.003) , D_A: 0.023, G_A: 0.828, cycle_A: 0.058, idt_A: 0.168, D_B: 0.003, G_B: 0.854, cycle_B: 0.148, idt_B: 0.070
+
+[Rank 0] (epoch: 420, iters: 272, time: 0.093, data: 0.002) , D_A: 0.006, G_A: 1.071, cycle_A: 0.055, idt_A: 0.151, D_B: 0.004, G_B: 0.895, cycle_B: 0.143, idt_B: 0.067
+
+saving the latest model (epoch 420, total_iters 85000)
+[Rank 0] (epoch: 420, iters: 472, time: 0.030, data: 0.002) , D_A: 0.007, G_A: 0.971, cycle_A: 0.043, idt_A: 0.148, D_B: 0.002, G_B: 1.056, cycle_B: 0.139, idt_B: 0.056
+
+[Rank 0] (epoch: 420, iters: 672, time: 0.030, data: 0.002) , D_A: 0.009, G_A: 0.942, cycle_A: 0.068, idt_A: 0.147, D_B: 0.007, G_B: 1.195, cycle_B: 0.148, idt_B: 0.083
+
+learning rate 0.0000642 -> 0.0000634
+saving the model at the end of epoch 420, iters 85440
+End of epoch 420 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 421, iters: 160, time: 0.092, data: 0.003) , D_A: 0.006, G_A: 0.965, cycle_A: 0.057, idt_A: 0.154, D_B: 0.005, G_B: 0.784, cycle_B: 0.141, idt_B: 0.065
+
+[Rank 0] (epoch: 421, iters: 360, time: 0.030, data: 0.003) , D_A: 0.018, G_A: 0.738, cycle_A: 0.059, idt_A: 0.167, D_B: 0.003, G_B: 0.917, cycle_B: 0.157, idt_B: 0.066
+
+[Rank 0] (epoch: 421, iters: 560, time: 0.090, data: 0.004) , D_A: 0.009, G_A: 0.997, cycle_A: 0.076, idt_A: 0.153, D_B: 0.002, G_B: 0.958, cycle_B: 0.157, idt_B: 0.095
+
+learning rate 0.0000634 -> 0.0000626
+End of epoch 421 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 422, iters: 48, time: 0.092, data: 0.002) , D_A: 0.014, G_A: 0.767, cycle_A: 0.051, idt_A: 0.172, D_B: 0.002, G_B: 0.989, cycle_B: 0.162, idt_B: 0.067
+
+[Rank 0] (epoch: 422, iters: 248, time: 0.030, data: 0.001) , D_A: 0.009, G_A: 0.906, cycle_A: 0.053, idt_A: 0.158, D_B: 0.002, G_B: 0.933, cycle_B: 0.142, idt_B: 0.064
+
+[Rank 0] (epoch: 422, iters: 448, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 0.977, cycle_A: 0.063, idt_A: 0.167, D_B: 0.003, G_B: 1.147, cycle_B: 0.164, idt_B: 0.085
+
+[Rank 0] (epoch: 422, iters: 648, time: 0.030, data: 0.002) , D_A: 0.021, G_A: 0.809, cycle_A: 0.053, idt_A: 0.174, D_B: 0.006, G_B: 0.829, cycle_B: 0.156, idt_B: 0.065
+
+learning rate 0.0000626 -> 0.0000618
+End of epoch 422 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 423, iters: 136, time: 0.100, data: 0.002) , D_A: 0.017, G_A: 0.778, cycle_A: 0.072, idt_A: 0.148, D_B: 0.003, G_B: 0.952, cycle_B: 0.134, idt_B: 0.087
+
+[Rank 0] (epoch: 423, iters: 336, time: 0.030, data: 0.002) , D_A: 0.016, G_A: 0.726, cycle_A: 0.059, idt_A: 0.159, D_B: 0.003, G_B: 0.975, cycle_B: 0.141, idt_B: 0.073
+
+[Rank 0] (epoch: 423, iters: 536, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.946, cycle_A: 0.051, idt_A: 0.144, D_B: 0.002, G_B: 1.022, cycle_B: 0.131, idt_B: 0.068
+
+learning rate 0.0000618 -> 0.0000610
+End of epoch 423 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 424, iters: 24, time: 0.102, data: 0.003) , D_A: 0.010, G_A: 0.988, cycle_A: 0.058, idt_A: 0.161, D_B: 0.003, G_B: 0.921, cycle_B: 0.148, idt_B: 0.074
+
+[Rank 0] (epoch: 424, iters: 224, time: 0.030, data: 0.003) , D_A: 0.009, G_A: 0.867, cycle_A: 0.052, idt_A: 0.172, D_B: 0.007, G_B: 1.258, cycle_B: 0.171, idt_B: 0.066
+
+[Rank 0] (epoch: 424, iters: 424, time: 0.084, data: 0.003) , D_A: 0.008, G_A: 1.104, cycle_A: 0.036, idt_A: 0.165, D_B: 0.006, G_B: 1.142, cycle_B: 0.160, idt_B: 0.050
+
+[Rank 0] (epoch: 424, iters: 624, time: 0.030, data: 0.002) , D_A: 0.007, G_A: 1.013, cycle_A: 0.036, idt_A: 0.171, D_B: 0.003, G_B: 0.903, cycle_B: 0.167, idt_B: 0.049
+
+learning rate 0.0000610 -> 0.0000602
+End of epoch 424 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 425, iters: 112, time: 0.093, data: 0.003) , D_A: 0.008, G_A: 0.964, cycle_A: 0.064, idt_A: 0.185, D_B: 0.004, G_B: 0.865, cycle_B: 0.169, idt_B: 0.089
+
+[Rank 0] (epoch: 425, iters: 312, time: 0.030, data: 0.002) , D_A: 0.005, G_A: 0.962, cycle_A: 0.046, idt_A: 0.172, D_B: 0.003, G_B: 0.899, cycle_B: 0.155, idt_B: 0.061
+
+[Rank 0] (epoch: 425, iters: 512, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.999, cycle_A: 0.046, idt_A: 0.146, D_B: 0.004, G_B: 0.880, cycle_B: 0.131, idt_B: 0.056
+
+[Rank 0] (epoch: 425, iters: 712, time: 0.086, data: 0.004) , D_A: 0.004, G_A: 0.917, cycle_A: 0.060, idt_A: 0.166, D_B: 0.003, G_B: 1.106, cycle_B: 0.151, idt_B: 0.074
+
+learning rate 0.0000602 -> 0.0000594
+saving the model at the end of epoch 425, iters 89000
+End of epoch 425 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 426, iters: 200, time: 0.088, data: 1.058) , D_A: 0.007, G_A: 0.995, cycle_A: 0.065, idt_A: 0.178, D_B: 0.003, G_B: 0.924, cycle_B: 0.147, idt_B: 0.082
+
+[Rank 0] (epoch: 426, iters: 400, time: 0.030, data: 0.001) , D_A: 0.006, G_A: 0.938, cycle_A: 0.057, idt_A: 0.143, D_B: 0.002, G_B: 0.948, cycle_B: 0.135, idt_B: 0.066
+
+[Rank 0] (epoch: 426, iters: 600, time: 0.030, data: 0.002) , D_A: 0.006, G_A: 1.151, cycle_A: 0.055, idt_A: 0.137, D_B: 0.003, G_B: 0.903, cycle_B: 0.127, idt_B: 0.068
+
+learning rate 0.0000594 -> 0.0000586
+End of epoch 426 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 427, iters: 88, time: 0.098, data: 0.003) , D_A: 0.007, G_A: 0.943, cycle_A: 0.064, idt_A: 0.166, D_B: 0.002, G_B: 0.972, cycle_B: 0.145, idt_B: 0.083
+
+[Rank 0] (epoch: 427, iters: 288, time: 0.081, data: 0.002) , D_A: 0.009, G_A: 0.884, cycle_A: 0.052, idt_A: 0.158, D_B: 0.003, G_B: 0.904, cycle_B: 0.138, idt_B: 0.064
+
+saving the latest model (epoch 427, total_iters 90000)
+[Rank 0] (epoch: 427, iters: 488, time: 0.030, data: 0.002) , D_A: 0.006, G_A: 0.847, cycle_A: 0.040, idt_A: 0.157, D_B: 0.002, G_B: 0.955, cycle_B: 0.148, idt_B: 0.053
+
+[Rank 0] (epoch: 427, iters: 688, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.963, cycle_A: 0.066, idt_A: 0.146, D_B: 0.002, G_B: 1.029, cycle_B: 0.136, idt_B: 0.087
+
+learning rate 0.0000586 -> 0.0000578
+End of epoch 427 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 428, iters: 176, time: 0.097, data: 0.002) , D_A: 0.008, G_A: 1.000, cycle_A: 0.066, idt_A: 0.146, D_B: 0.003, G_B: 0.886, cycle_B: 0.136, idt_B: 0.086
+
+[Rank 0] (epoch: 428, iters: 376, time: 0.030, data: 0.003) , D_A: 0.009, G_A: 0.842, cycle_A: 0.068, idt_A: 0.166, D_B: 0.003, G_B: 0.927, cycle_B: 0.150, idt_B: 0.082
+
+[Rank 0] (epoch: 428, iters: 576, time: 0.088, data: 0.003) , D_A: 0.007, G_A: 0.918, cycle_A: 0.062, idt_A: 0.171, D_B: 0.002, G_B: 0.972, cycle_B: 0.165, idt_B: 0.083
+
+learning rate 0.0000578 -> 0.0000570
+End of epoch 428 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 429, iters: 64, time: 0.104, data: 0.003) , D_A: 0.005, G_A: 0.959, cycle_A: 0.044, idt_A: 0.163, D_B: 0.002, G_B: 0.979, cycle_B: 0.152, idt_B: 0.058
+
+[Rank 0] (epoch: 429, iters: 264, time: 0.030, data: 0.004) , D_A: 0.005, G_A: 1.053, cycle_A: 0.059, idt_A: 0.145, D_B: 0.003, G_B: 1.028, cycle_B: 0.139, idt_B: 0.078
+
+[Rank 0] (epoch: 429, iters: 464, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 1.062, cycle_A: 0.056, idt_A: 0.158, D_B: 0.002, G_B: 1.003, cycle_B: 0.143, idt_B: 0.071
+
+[Rank 0] (epoch: 429, iters: 664, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.946, cycle_A: 0.045, idt_A: 0.156, D_B: 0.002, G_B: 1.017, cycle_B: 0.149, idt_B: 0.058
+
+learning rate 0.0000570 -> 0.0000562
+End of epoch 429 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 430, iters: 152, time: 0.090, data: 0.002) , D_A: 0.005, G_A: 1.028, cycle_A: 0.065, idt_A: 0.146, D_B: 0.002, G_B: 0.948, cycle_B: 0.133, idt_B: 0.086
+
+[Rank 0] (epoch: 430, iters: 352, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 0.934, cycle_A: 0.065, idt_A: 0.160, D_B: 0.002, G_B: 0.995, cycle_B: 0.156, idt_B: 0.086
+
+[Rank 0] (epoch: 430, iters: 552, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.960, cycle_A: 0.056, idt_A: 0.166, D_B: 0.002, G_B: 0.979, cycle_B: 0.163, idt_B: 0.067
+
+learning rate 0.0000562 -> 0.0000554
+saving the model at the end of epoch 430, iters 92560
+End of epoch 430 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 431, iters: 40, time: 0.090, data: 0.004) , D_A: 0.004, G_A: 0.987, cycle_A: 0.056, idt_A: 0.147, D_B: 0.002, G_B: 0.948, cycle_B: 0.140, idt_B: 0.072
+
+[Rank 0] (epoch: 431, iters: 240, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.952, cycle_A: 0.060, idt_A: 0.161, D_B: 0.002, G_B: 0.981, cycle_B: 0.153, idt_B: 0.079
+
+[Rank 0] (epoch: 431, iters: 440, time: 0.090, data: 0.003) , D_A: 0.003, G_A: 0.949, cycle_A: 0.057, idt_A: 0.147, D_B: 0.002, G_B: 0.965, cycle_B: 0.138, idt_B: 0.072
+
+[Rank 0] (epoch: 431, iters: 640, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 1.000, cycle_A: 0.046, idt_A: 0.155, D_B: 0.002, G_B: 0.974, cycle_B: 0.151, idt_B: 0.062
+
+learning rate 0.0000554 -> 0.0000547
+End of epoch 431 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 432, iters: 128, time: 0.091, data: 0.003) , D_A: 0.002, G_A: 1.026, cycle_A: 0.061, idt_A: 0.152, D_B: 0.001, G_B: 1.000, cycle_B: 0.144, idt_B: 0.076
+
+[Rank 0] (epoch: 432, iters: 328, time: 0.030, data: 0.004) , D_A: 0.003, G_A: 0.916, cycle_A: 0.039, idt_A: 0.164, D_B: 0.002, G_B: 0.998, cycle_B: 0.161, idt_B: 0.052
+
+[Rank 0] (epoch: 432, iters: 528, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.885, cycle_A: 0.061, idt_A: 0.157, D_B: 0.003, G_B: 0.960, cycle_B: 0.149, idt_B: 0.077
+
+learning rate 0.0000547 -> 0.0000539
+End of epoch 432 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 433, iters: 16, time: 0.098, data: 0.003) , D_A: 0.033, G_A: 0.734, cycle_A: 0.047, idt_A: 0.148, D_B: 0.002, G_B: 0.945, cycle_B: 0.146, idt_B: 0.053
+
+[Rank 0] (epoch: 433, iters: 216, time: 0.030, data: 0.002) , D_A: 0.014, G_A: 1.002, cycle_A: 0.048, idt_A: 0.138, D_B: 0.001, G_B: 0.960, cycle_B: 0.134, idt_B: 0.056
+
+[Rank 0] (epoch: 433, iters: 416, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 1.137, cycle_A: 0.057, idt_A: 0.173, D_B: 0.004, G_B: 0.978, cycle_B: 0.165, idt_B: 0.072
+
+[Rank 0] (epoch: 433, iters: 616, time: 0.030, data: 0.004) , D_A: 0.028, G_A: 0.755, cycle_A: 0.052, idt_A: 0.156, D_B: 0.002, G_B: 0.995, cycle_B: 0.147, idt_B: 0.060
+
+learning rate 0.0000539 -> 0.0000531
+End of epoch 433 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 434, iters: 104, time: 0.092, data: 0.004) , D_A: 0.008, G_A: 1.154, cycle_A: 0.059, idt_A: 0.143, D_B: 0.002, G_B: 0.975, cycle_B: 0.141, idt_B: 0.072
+
+[Rank 0] (epoch: 434, iters: 304, time: 0.094, data: 0.001) , D_A: 0.007, G_A: 1.105, cycle_A: 0.058, idt_A: 0.142, D_B: 0.001, G_B: 1.023, cycle_B: 0.140, idt_B: 0.072
+
+saving the latest model (epoch 434, total_iters 95000)
+[Rank 0] (epoch: 434, iters: 504, time: 0.030, data: 0.001) , D_A: 0.004, G_A: 1.077, cycle_A: 0.053, idt_A: 0.151, D_B: 0.001, G_B: 0.994, cycle_B: 0.153, idt_B: 0.068
+
+[Rank 0] (epoch: 434, iters: 704, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 0.834, cycle_A: 0.072, idt_A: 0.157, D_B: 0.002, G_B: 0.938, cycle_B: 0.152, idt_B: 0.088
+
+learning rate 0.0000531 -> 0.0000523
+End of epoch 434 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 435, iters: 192, time: 0.091, data: 0.002) , D_A: 0.004, G_A: 0.996, cycle_A: 0.052, idt_A: 0.163, D_B: 0.001, G_B: 0.965, cycle_B: 0.154, idt_B: 0.068
+
+[Rank 0] (epoch: 435, iters: 392, time: 0.030, data: 0.002) , D_A: 0.006, G_A: 0.901, cycle_A: 0.066, idt_A: 0.140, D_B: 0.001, G_B: 0.982, cycle_B: 0.136, idt_B: 0.086
+
+[Rank 0] (epoch: 435, iters: 592, time: 0.105, data: 0.004) , D_A: 0.006, G_A: 0.996, cycle_A: 0.060, idt_A: 0.135, D_B: 0.001, G_B: 0.995, cycle_B: 0.135, idt_B: 0.076
+
+learning rate 0.0000523 -> 0.0000515
+saving the model at the end of epoch 435, iters 96120
+End of epoch 435 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 436, iters: 80, time: 0.091, data: 0.003) , D_A: 0.004, G_A: 0.994, cycle_A: 0.049, idt_A: 0.151, D_B: 0.001, G_B: 0.998, cycle_B: 0.142, idt_B: 0.064
+
+[Rank 0] (epoch: 436, iters: 280, time: 0.030, data: 0.001) , D_A: 0.004, G_A: 0.994, cycle_A: 0.059, idt_A: 0.164, D_B: 0.001, G_B: 1.008, cycle_B: 0.153, idt_B: 0.077
+
+[Rank 0] (epoch: 436, iters: 480, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.891, cycle_A: 0.066, idt_A: 0.166, D_B: 0.001, G_B: 1.007, cycle_B: 0.153, idt_B: 0.085
+
+[Rank 0] (epoch: 436, iters: 680, time: 0.030, data: 0.005) , D_A: 0.007, G_A: 0.805, cycle_A: 0.062, idt_A: 0.173, D_B: 0.001, G_B: 0.977, cycle_B: 0.152, idt_B: 0.080
+
+learning rate 0.0000515 -> 0.0000507
+End of epoch 436 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 437, iters: 168, time: 0.100, data: 0.002) , D_A: 0.006, G_A: 1.138, cycle_A: 0.056, idt_A: 0.142, D_B: 0.001, G_B: 0.974, cycle_B: 0.136, idt_B: 0.070
+
+[Rank 0] (epoch: 437, iters: 368, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.937, cycle_A: 0.057, idt_A: 0.157, D_B: 0.001, G_B: 0.993, cycle_B: 0.145, idt_B: 0.074
+
+[Rank 0] (epoch: 437, iters: 568, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.979, cycle_A: 0.068, idt_A: 0.155, D_B: 0.001, G_B: 1.002, cycle_B: 0.148, idt_B: 0.089
+
+learning rate 0.0000507 -> 0.0000499
+End of epoch 437 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 438, iters: 56, time: 0.113, data: 0.003) , D_A: 0.004, G_A: 1.141, cycle_A: 0.047, idt_A: 0.156, D_B: 0.001, G_B: 0.992, cycle_B: 0.146, idt_B: 0.060
+
+[Rank 0] (epoch: 438, iters: 256, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 1.025, cycle_A: 0.048, idt_A: 0.157, D_B: 0.001, G_B: 0.991, cycle_B: 0.145, idt_B: 0.064
+
+[Rank 0] (epoch: 438, iters: 456, time: 0.097, data: 0.003) , D_A: 0.004, G_A: 1.002, cycle_A: 0.066, idt_A: 0.153, D_B: 0.001, G_B: 1.010, cycle_B: 0.148, idt_B: 0.087
+
+[Rank 0] (epoch: 438, iters: 656, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.010, cycle_A: 0.048, idt_A: 0.154, D_B: 0.001, G_B: 0.996, cycle_B: 0.143, idt_B: 0.064
+
+learning rate 0.0000499 -> 0.0000491
+End of epoch 438 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 439, iters: 144, time: 0.093, data: 0.003) , D_A: 0.006, G_A: 1.125, cycle_A: 0.052, idt_A: 0.145, D_B: 0.001, G_B: 0.982, cycle_B: 0.132, idt_B: 0.069
+
+[Rank 0] (epoch: 439, iters: 344, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 1.007, cycle_A: 0.046, idt_A: 0.147, D_B: 0.001, G_B: 0.978, cycle_B: 0.143, idt_B: 0.060
+
+[Rank 0] (epoch: 439, iters: 544, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.964, cycle_A: 0.073, idt_A: 0.152, D_B: 0.001, G_B: 0.977, cycle_B: 0.144, idt_B: 0.094
+
+learning rate 0.0000491 -> 0.0000483
+End of epoch 439 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 440, iters: 32, time: 0.098, data: 0.002) , D_A: 0.009, G_A: 1.173, cycle_A: 0.049, idt_A: 0.134, D_B: 0.001, G_B: 0.987, cycle_B: 0.135, idt_B: 0.064
+
+[Rank 0] (epoch: 440, iters: 232, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 1.058, cycle_A: 0.056, idt_A: 0.136, D_B: 0.001, G_B: 0.998, cycle_B: 0.136, idt_B: 0.071
+
+[Rank 0] (epoch: 440, iters: 432, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 0.913, cycle_A: 0.057, idt_A: 0.166, D_B: 0.001, G_B: 0.987, cycle_B: 0.167, idt_B: 0.077
+
+[Rank 0] (epoch: 440, iters: 632, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.934, cycle_A: 0.061, idt_A: 0.129, D_B: 0.001, G_B: 1.015, cycle_B: 0.133, idt_B: 0.077
+
+learning rate 0.0000483 -> 0.0000475
+saving the model at the end of epoch 440, iters 99680
+End of epoch 440 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 441, iters: 120, time: 0.092, data: 0.004) , D_A: 0.005, G_A: 1.048, cycle_A: 0.049, idt_A: 0.143, D_B: 0.001, G_B: 0.994, cycle_B: 0.136, idt_B: 0.062
+
+[Rank 0] (epoch: 441, iters: 320, time: 0.097, data: 0.002) , D_A: 0.004, G_A: 1.057, cycle_A: 0.058, idt_A: 0.158, D_B: 0.001, G_B: 0.987, cycle_B: 0.160, idt_B: 0.079
+
+saving the latest model (epoch 441, total_iters 100000)
+[Rank 0] (epoch: 441, iters: 520, time: 0.030, data: 0.001) , D_A: 0.005, G_A: 0.903, cycle_A: 0.041, idt_A: 0.148, D_B: 0.002, G_B: 1.007, cycle_B: 0.146, idt_B: 0.053
+
+learning rate 0.0000475 -> 0.0000467
+End of epoch 441 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 442, iters: 8, time: 0.096, data: 0.003) , D_A: 0.011, G_A: 0.843, cycle_A: 0.057, idt_A: 0.137, D_B: 0.001, G_B: 0.994, cycle_B: 0.141, idt_B: 0.071
+
+[Rank 0] (epoch: 442, iters: 208, time: 0.030, data: 0.003) , D_A: 0.008, G_A: 1.124, cycle_A: 0.054, idt_A: 0.159, D_B: 0.001, G_B: 0.984, cycle_B: 0.158, idt_B: 0.069
+
+[Rank 0] (epoch: 442, iters: 408, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.913, cycle_A: 0.053, idt_A: 0.152, D_B: 0.001, G_B: 1.004, cycle_B: 0.151, idt_B: 0.070
+
+[Rank 0] (epoch: 442, iters: 608, time: 0.087, data: 0.003) , D_A: 0.005, G_A: 0.941, cycle_A: 0.055, idt_A: 0.150, D_B: 0.001, G_B: 1.000, cycle_B: 0.142, idt_B: 0.065
+
+learning rate 0.0000467 -> 0.0000459
+End of epoch 442 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 443, iters: 96, time: 0.098, data: 0.003) , D_A: 0.007, G_A: 0.923, cycle_A: 0.047, idt_A: 0.159, D_B: 0.001, G_B: 0.965, cycle_B: 0.144, idt_B: 0.057
+
+[Rank 0] (epoch: 443, iters: 296, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 1.052, cycle_A: 0.045, idt_A: 0.121, D_B: 0.001, G_B: 1.006, cycle_B: 0.116, idt_B: 0.058
+
+[Rank 0] (epoch: 443, iters: 496, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 0.865, cycle_A: 0.054, idt_A: 0.154, D_B: 0.001, G_B: 1.008, cycle_B: 0.151, idt_B: 0.069
+
+[Rank 0] (epoch: 443, iters: 696, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.953, cycle_A: 0.041, idt_A: 0.133, D_B: 0.001, G_B: 1.003, cycle_B: 0.127, idt_B: 0.050
+
+learning rate 0.0000459 -> 0.0000451
+End of epoch 443 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 444, iters: 184, time: 0.113, data: 0.002) , D_A: 0.003, G_A: 1.001, cycle_A: 0.046, idt_A: 0.132, D_B: 0.001, G_B: 0.973, cycle_B: 0.130, idt_B: 0.058
+
+[Rank 0] (epoch: 444, iters: 384, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.903, cycle_A: 0.053, idt_A: 0.140, D_B: 0.001, G_B: 0.981, cycle_B: 0.129, idt_B: 0.068
+
+[Rank 0] (epoch: 444, iters: 584, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 1.023, cycle_A: 0.027, idt_A: 0.162, D_B: 0.001, G_B: 1.006, cycle_B: 0.154, idt_B: 0.035
+
+learning rate 0.0000451 -> 0.0000444
+End of epoch 444 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 445, iters: 72, time: 0.098, data: 0.003) , D_A: 0.006, G_A: 0.927, cycle_A: 0.055, idt_A: 0.163, D_B: 0.000, G_B: 0.995, cycle_B: 0.144, idt_B: 0.070
+
+[Rank 0] (epoch: 445, iters: 272, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.968, cycle_A: 0.066, idt_A: 0.144, D_B: 0.001, G_B: 0.979, cycle_B: 0.136, idt_B: 0.089
+
+[Rank 0] (epoch: 445, iters: 472, time: 0.099, data: 0.004) , D_A: 0.005, G_A: 0.959, cycle_A: 0.062, idt_A: 0.149, D_B: 0.001, G_B: 0.977, cycle_B: 0.142, idt_B: 0.079
+
+[Rank 0] (epoch: 445, iters: 672, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.931, cycle_A: 0.055, idt_A: 0.146, D_B: 0.001, G_B: 1.002, cycle_B: 0.141, idt_B: 0.070
+
+learning rate 0.0000444 -> 0.0000436
+saving the model at the end of epoch 445, iters 103240
+End of epoch 445 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 446, iters: 160, time: 0.098, data: 0.002) , D_A: 0.005, G_A: 0.938, cycle_A: 0.065, idt_A: 0.140, D_B: 0.001, G_B: 1.002, cycle_B: 0.137, idt_B: 0.083
+
+[Rank 0] (epoch: 446, iters: 360, time: 0.030, data: 0.004) , D_A: 0.004, G_A: 0.955, cycle_A: 0.050, idt_A: 0.148, D_B: 0.001, G_B: 0.991, cycle_B: 0.140, idt_B: 0.059
+
+[Rank 0] (epoch: 446, iters: 560, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 1.065, cycle_A: 0.053, idt_A: 0.142, D_B: 0.001, G_B: 0.985, cycle_B: 0.135, idt_B: 0.068
+
+learning rate 0.0000436 -> 0.0000428
+End of epoch 446 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 447, iters: 48, time: 0.092, data: 0.003) , D_A: 0.003, G_A: 0.967, cycle_A: 0.052, idt_A: 0.129, D_B: 0.001, G_B: 0.996, cycle_B: 0.123, idt_B: 0.066
+
+[Rank 0] (epoch: 447, iters: 248, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 1.033, cycle_A: 0.065, idt_A: 0.171, D_B: 0.001, G_B: 1.000, cycle_B: 0.150, idt_B: 0.081
+
+[Rank 0] (epoch: 447, iters: 448, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.090, cycle_A: 0.046, idt_A: 0.134, D_B: 0.001, G_B: 0.975, cycle_B: 0.131, idt_B: 0.057
+
+[Rank 0] (epoch: 447, iters: 648, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.929, cycle_A: 0.060, idt_A: 0.144, D_B: 0.001, G_B: 1.021, cycle_B: 0.136, idt_B: 0.074
+
+learning rate 0.0000428 -> 0.0000420
+End of epoch 447 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 448, iters: 136, time: 0.101, data: 0.003) , D_A: 0.005, G_A: 0.962, cycle_A: 0.054, idt_A: 0.140, D_B: 0.000, G_B: 0.998, cycle_B: 0.135, idt_B: 0.068
+
+[Rank 0] (epoch: 448, iters: 336, time: 0.097, data: 0.001) , D_A: 0.007, G_A: 1.028, cycle_A: 0.061, idt_A: 0.145, D_B: 0.001, G_B: 0.987, cycle_B: 0.137, idt_B: 0.073
+
+saving the latest model (epoch 448, total_iters 105000)
+[Rank 0] (epoch: 448, iters: 536, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 1.008, cycle_A: 0.042, idt_A: 0.139, D_B: 0.001, G_B: 1.020, cycle_B: 0.136, idt_B: 0.050
+
+learning rate 0.0000420 -> 0.0000412
+End of epoch 448 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 449, iters: 24, time: 0.099, data: 0.002) , D_A: 0.004, G_A: 0.947, cycle_A: 0.054, idt_A: 0.160, D_B: 0.001, G_B: 0.989, cycle_B: 0.147, idt_B: 0.063
+
+[Rank 0] (epoch: 449, iters: 224, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.932, cycle_A: 0.049, idt_A: 0.149, D_B: 0.001, G_B: 0.980, cycle_B: 0.140, idt_B: 0.062
+
+[Rank 0] (epoch: 449, iters: 424, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.940, cycle_A: 0.062, idt_A: 0.171, D_B: 0.001, G_B: 1.024, cycle_B: 0.161, idt_B: 0.075
+
+[Rank 0] (epoch: 449, iters: 624, time: 0.086, data: 0.002) , D_A: 0.003, G_A: 0.975, cycle_A: 0.057, idt_A: 0.158, D_B: 0.001, G_B: 1.003, cycle_B: 0.150, idt_B: 0.072
+
+learning rate 0.0000412 -> 0.0000404
+End of epoch 449 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 450, iters: 112, time: 0.100, data: 0.003) , D_A: 0.005, G_A: 1.104, cycle_A: 0.050, idt_A: 0.156, D_B: 0.001, G_B: 1.035, cycle_B: 0.160, idt_B: 0.062
+
+[Rank 0] (epoch: 450, iters: 312, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.957, cycle_A: 0.056, idt_A: 0.149, D_B: 0.001, G_B: 0.983, cycle_B: 0.147, idt_B: 0.068
+
+[Rank 0] (epoch: 450, iters: 512, time: 0.029, data: 0.003) , D_A: 0.003, G_A: 1.006, cycle_A: 0.054, idt_A: 0.141, D_B: 0.001, G_B: 0.997, cycle_B: 0.135, idt_B: 0.067
+
+[Rank 0] (epoch: 450, iters: 712, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 1.049, cycle_A: 0.077, idt_A: 0.141, D_B: 0.001, G_B: 1.005, cycle_B: 0.135, idt_B: 0.089
+
+learning rate 0.0000404 -> 0.0000396
+saving the model at the end of epoch 450, iters 106800
+End of epoch 450 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 451, iters: 200, time: 0.093, data: 1.027) , D_A: 0.004, G_A: 0.983, cycle_A: 0.059, idt_A: 0.166, D_B: 0.001, G_B: 1.001, cycle_B: 0.154, idt_B: 0.076
+
+[Rank 0] (epoch: 451, iters: 400, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.962, cycle_A: 0.051, idt_A: 0.140, D_B: 0.001, G_B: 0.993, cycle_B: 0.139, idt_B: 0.066
+
+[Rank 0] (epoch: 451, iters: 600, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 0.973, cycle_A: 0.048, idt_A: 0.148, D_B: 0.001, G_B: 0.976, cycle_B: 0.142, idt_B: 0.063
+
+learning rate 0.0000396 -> 0.0000388
+End of epoch 451 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 452, iters: 88, time: 0.102, data: 0.003) , D_A: 0.005, G_A: 0.914, cycle_A: 0.066, idt_A: 0.167, D_B: 0.001, G_B: 1.014, cycle_B: 0.156, idt_B: 0.084
+
+[Rank 0] (epoch: 452, iters: 288, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.998, cycle_A: 0.052, idt_A: 0.145, D_B: 0.001, G_B: 0.995, cycle_B: 0.139, idt_B: 0.063
+
+[Rank 0] (epoch: 452, iters: 488, time: 0.090, data: 0.003) , D_A: 0.003, G_A: 0.998, cycle_A: 0.043, idt_A: 0.138, D_B: 0.001, G_B: 1.007, cycle_B: 0.131, idt_B: 0.051
+
+[Rank 0] (epoch: 452, iters: 688, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.920, cycle_A: 0.049, idt_A: 0.140, D_B: 0.001, G_B: 0.973, cycle_B: 0.129, idt_B: 0.060
+
+learning rate 0.0000388 -> 0.0000380
+End of epoch 452 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 453, iters: 176, time: 0.102, data: 0.002) , D_A: 0.005, G_A: 0.952, cycle_A: 0.051, idt_A: 0.179, D_B: 0.001, G_B: 0.972, cycle_B: 0.155, idt_B: 0.057
+
+[Rank 0] (epoch: 453, iters: 376, time: 0.030, data: 0.002) , D_A: 0.007, G_A: 0.807, cycle_A: 0.063, idt_A: 0.150, D_B: 0.001, G_B: 0.999, cycle_B: 0.140, idt_B: 0.078
+
+[Rank 0] (epoch: 453, iters: 576, time: 0.030, data: 0.002) , D_A: 0.021, G_A: 0.685, cycle_A: 0.050, idt_A: 0.155, D_B: 0.001, G_B: 0.965, cycle_B: 0.152, idt_B: 0.043
+
+learning rate 0.0000380 -> 0.0000372
+End of epoch 453 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 454, iters: 64, time: 0.092, data: 0.003) , D_A: 0.021, G_A: 0.832, cycle_A: 0.065, idt_A: 0.157, D_B: 0.001, G_B: 0.957, cycle_B: 0.149, idt_B: 0.079
+
+[Rank 0] (epoch: 454, iters: 264, time: 0.030, data: 0.004) , D_A: 0.008, G_A: 0.985, cycle_A: 0.071, idt_A: 0.151, D_B: 0.001, G_B: 0.977, cycle_B: 0.139, idt_B: 0.086
+
+[Rank 0] (epoch: 454, iters: 464, time: 0.030, data: 0.003) , D_A: 0.010, G_A: 0.955, cycle_A: 0.061, idt_A: 0.147, D_B: 0.001, G_B: 0.987, cycle_B: 0.141, idt_B: 0.073
+
+[Rank 0] (epoch: 454, iters: 664, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.978, cycle_A: 0.051, idt_A: 0.151, D_B: 0.001, G_B: 0.959, cycle_B: 0.144, idt_B: 0.059
+
+learning rate 0.0000372 -> 0.0000364
+End of epoch 454 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 455, iters: 152, time: 0.101, data: 0.002) , D_A: 0.007, G_A: 0.842, cycle_A: 0.050, idt_A: 0.139, D_B: 0.001, G_B: 1.004, cycle_B: 0.138, idt_B: 0.062
+
+[Rank 0] (epoch: 455, iters: 352, time: 0.098, data: 0.003) , D_A: 0.005, G_A: 0.956, cycle_A: 0.056, idt_A: 0.137, D_B: 0.002, G_B: 1.018, cycle_B: 0.147, idt_B: 0.066
+
+saving the latest model (epoch 455, total_iters 110000)
+[Rank 0] (epoch: 455, iters: 552, time: 0.030, data: 0.003) , D_A: 0.010, G_A: 0.950, cycle_A: 0.063, idt_A: 0.151, D_B: 0.002, G_B: 1.009, cycle_B: 0.144, idt_B: 0.075
+
+learning rate 0.0000364 -> 0.0000356
+saving the model at the end of epoch 455, iters 110360
+End of epoch 455 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 456, iters: 40, time: 0.100, data: 0.003) , D_A: 0.005, G_A: 0.945, cycle_A: 0.050, idt_A: 0.149, D_B: 0.002, G_B: 0.949, cycle_B: 0.152, idt_B: 0.062
+
+[Rank 0] (epoch: 456, iters: 240, time: 0.030, data: 0.002) , D_A: 0.009, G_A: 0.994, cycle_A: 0.063, idt_A: 0.153, D_B: 0.001, G_B: 0.970, cycle_B: 0.154, idt_B: 0.081
+
+[Rank 0] (epoch: 456, iters: 440, time: 0.030, data: 0.003) , D_A: 0.010, G_A: 1.028, cycle_A: 0.047, idt_A: 0.151, D_B: 0.001, G_B: 0.984, cycle_B: 0.149, idt_B: 0.061
+
+[Rank 0] (epoch: 456, iters: 640, time: 0.090, data: 0.003) , D_A: 0.008, G_A: 1.087, cycle_A: 0.046, idt_A: 0.140, D_B: 0.001, G_B: 0.980, cycle_B: 0.147, idt_B: 0.061
+
+learning rate 0.0000356 -> 0.0000349
+End of epoch 456 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 457, iters: 128, time: 0.101, data: 0.003) , D_A: 0.005, G_A: 0.885, cycle_A: 0.054, idt_A: 0.145, D_B: 0.001, G_B: 1.005, cycle_B: 0.139, idt_B: 0.068
+
+[Rank 0] (epoch: 457, iters: 328, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 0.906, cycle_A: 0.049, idt_A: 0.149, D_B: 0.001, G_B: 1.012, cycle_B: 0.149, idt_B: 0.061
+
+[Rank 0] (epoch: 457, iters: 528, time: 0.030, data: 0.003) , D_A: 0.007, G_A: 0.994, cycle_A: 0.055, idt_A: 0.139, D_B: 0.001, G_B: 0.989, cycle_B: 0.137, idt_B: 0.075
+
+learning rate 0.0000349 -> 0.0000341
+End of epoch 457 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 458, iters: 16, time: 0.105, data: 0.003) , D_A: 0.006, G_A: 0.883, cycle_A: 0.048, idt_A: 0.143, D_B: 0.001, G_B: 0.995, cycle_B: 0.136, idt_B: 0.062
+
+[Rank 0] (epoch: 458, iters: 216, time: 0.108, data: 0.003) , D_A: 0.005, G_A: 0.990, cycle_A: 0.040, idt_A: 0.145, D_B: 0.001, G_B: 0.998, cycle_B: 0.143, idt_B: 0.052
+
+[Rank 0] (epoch: 458, iters: 416, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 1.067, cycle_A: 0.054, idt_A: 0.144, D_B: 0.001, G_B: 0.999, cycle_B: 0.146, idt_B: 0.071
+
+[Rank 0] (epoch: 458, iters: 616, time: 0.030, data: 0.004) , D_A: 0.006, G_A: 0.886, cycle_A: 0.046, idt_A: 0.162, D_B: 0.001, G_B: 0.983, cycle_B: 0.166, idt_B: 0.063
+
+learning rate 0.0000341 -> 0.0000333
+End of epoch 458 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 459, iters: 104, time: 0.091, data: 0.002) , D_A: 0.004, G_A: 1.016, cycle_A: 0.057, idt_A: 0.137, D_B: 0.001, G_B: 1.013, cycle_B: 0.138, idt_B: 0.077
+
+[Rank 0] (epoch: 459, iters: 304, time: 0.030, data: 0.002) , D_A: 0.006, G_A: 0.858, cycle_A: 0.043, idt_A: 0.126, D_B: 0.001, G_B: 1.004, cycle_B: 0.128, idt_B: 0.058
+
+[Rank 0] (epoch: 459, iters: 504, time: 0.099, data: 0.004) , D_A: 0.004, G_A: 1.010, cycle_A: 0.055, idt_A: 0.149, D_B: 0.001, G_B: 0.971, cycle_B: 0.143, idt_B: 0.071
+
+[Rank 0] (epoch: 459, iters: 704, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.994, cycle_A: 0.057, idt_A: 0.144, D_B: 0.001, G_B: 0.971, cycle_B: 0.139, idt_B: 0.075
+
+learning rate 0.0000333 -> 0.0000325
+End of epoch 459 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 460, iters: 192, time: 0.099, data: 0.001) , D_A: 0.004, G_A: 0.953, cycle_A: 0.052, idt_A: 0.140, D_B: 0.002, G_B: 1.006, cycle_B: 0.136, idt_B: 0.068
+
+[Rank 0] (epoch: 460, iters: 392, time: 0.030, data: 0.004) , D_A: 0.005, G_A: 0.977, cycle_A: 0.043, idt_A: 0.138, D_B: 0.001, G_B: 0.991, cycle_B: 0.139, idt_B: 0.054
+
+[Rank 0] (epoch: 460, iters: 592, time: 0.043, data: 0.003) , D_A: 0.006, G_A: 0.917, cycle_A: 0.050, idt_A: 0.146, D_B: 0.001, G_B: 0.960, cycle_B: 0.143, idt_B: 0.063
+
+learning rate 0.0000325 -> 0.0000317
+saving the model at the end of epoch 460, iters 113920
+End of epoch 460 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 461, iters: 80, time: 0.095, data: 0.007) , D_A: 0.003, G_A: 1.091, cycle_A: 0.049, idt_A: 0.132, D_B: 0.001, G_B: 0.996, cycle_B: 0.126, idt_B: 0.061
+
+[Rank 0] (epoch: 461, iters: 280, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 1.008, cycle_A: 0.054, idt_A: 0.129, D_B: 0.001, G_B: 0.994, cycle_B: 0.130, idt_B: 0.068
+
+[Rank 0] (epoch: 461, iters: 480, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.995, cycle_A: 0.050, idt_A: 0.142, D_B: 0.001, G_B: 1.024, cycle_B: 0.138, idt_B: 0.063
+
+[Rank 0] (epoch: 461, iters: 680, time: 0.030, data: 0.002) , D_A: 0.005, G_A: 0.926, cycle_A: 0.045, idt_A: 0.149, D_B: 0.001, G_B: 1.003, cycle_B: 0.149, idt_B: 0.057
+
+learning rate 0.0000317 -> 0.0000309
+End of epoch 461 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 462, iters: 168, time: 0.097, data: 0.001) , D_A: 0.003, G_A: 0.947, cycle_A: 0.060, idt_A: 0.146, D_B: 0.001, G_B: 1.028, cycle_B: 0.148, idt_B: 0.083
+
+[Rank 0] (epoch: 462, iters: 368, time: 0.099, data: 0.004) , D_A: 0.003, G_A: 1.021, cycle_A: 0.065, idt_A: 0.123, D_B: 0.001, G_B: 0.969, cycle_B: 0.122, idt_B: 0.085
+
+saving the latest model (epoch 462, total_iters 115000)
+[Rank 0] (epoch: 462, iters: 568, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.940, cycle_A: 0.039, idt_A: 0.142, D_B: 0.001, G_B: 1.029, cycle_B: 0.149, idt_B: 0.055
+
+learning rate 0.0000309 -> 0.0000301
+End of epoch 462 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 463, iters: 56, time: 0.103, data: 0.003) , D_A: 0.003, G_A: 0.999, cycle_A: 0.053, idt_A: 0.149, D_B: 0.001, G_B: 0.984, cycle_B: 0.145, idt_B: 0.070
+
+[Rank 0] (epoch: 463, iters: 256, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.965, cycle_A: 0.057, idt_A: 0.155, D_B: 0.001, G_B: 1.016, cycle_B: 0.155, idt_B: 0.072
+
+[Rank 0] (epoch: 463, iters: 456, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 1.010, cycle_A: 0.070, idt_A: 0.152, D_B: 0.001, G_B: 1.004, cycle_B: 0.159, idt_B: 0.095
+
+[Rank 0] (epoch: 463, iters: 656, time: 0.093, data: 0.003) , D_A: 0.004, G_A: 0.949, cycle_A: 0.065, idt_A: 0.135, D_B: 0.001, G_B: 1.006, cycle_B: 0.133, idt_B: 0.085
+
+learning rate 0.0000301 -> 0.0000293
+End of epoch 463 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 464, iters: 144, time: 0.107, data: 0.002) , D_A: 0.003, G_A: 1.062, cycle_A: 0.050, idt_A: 0.147, D_B: 0.003, G_B: 0.972, cycle_B: 0.138, idt_B: 0.062
+
+[Rank 0] (epoch: 464, iters: 344, time: 0.030, data: 0.001) , D_A: 0.006, G_A: 0.852, cycle_A: 0.056, idt_A: 0.143, D_B: 0.001, G_B: 1.019, cycle_B: 0.142, idt_B: 0.068
+
+[Rank 0] (epoch: 464, iters: 544, time: 0.030, data: 0.002) , D_A: 0.005, G_A: 0.911, cycle_A: 0.039, idt_A: 0.140, D_B: 0.001, G_B: 1.073, cycle_B: 0.144, idt_B: 0.051
+
+learning rate 0.0000293 -> 0.0000285
+End of epoch 464 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 465, iters: 32, time: 0.094, data: 0.003) , D_A: 0.003, G_A: 0.925, cycle_A: 0.061, idt_A: 0.139, D_B: 0.001, G_B: 0.987, cycle_B: 0.145, idt_B: 0.081
+
+[Rank 0] (epoch: 465, iters: 232, time: 0.093, data: 0.003) , D_A: 0.003, G_A: 0.949, cycle_A: 0.040, idt_A: 0.150, D_B: 0.001, G_B: 0.997, cycle_B: 0.147, idt_B: 0.053
+
+[Rank 0] (epoch: 465, iters: 432, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.931, cycle_A: 0.036, idt_A: 0.142, D_B: 0.001, G_B: 0.994, cycle_B: 0.131, idt_B: 0.048
+
+[Rank 0] (epoch: 465, iters: 632, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.975, cycle_A: 0.047, idt_A: 0.142, D_B: 0.001, G_B: 1.018, cycle_B: 0.139, idt_B: 0.056
+
+learning rate 0.0000285 -> 0.0000277
+saving the model at the end of epoch 465, iters 117480
+End of epoch 465 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 466, iters: 120, time: 0.095, data: 0.003) , D_A: 0.005, G_A: 0.924, cycle_A: 0.058, idt_A: 0.145, D_B: 0.001, G_B: 0.915, cycle_B: 0.137, idt_B: 0.072
+
+[Rank 0] (epoch: 466, iters: 320, time: 0.030, data: 0.002) , D_A: 0.008, G_A: 0.856, cycle_A: 0.058, idt_A: 0.152, D_B: 0.001, G_B: 0.961, cycle_B: 0.141, idt_B: 0.069
+
+[Rank 0] (epoch: 466, iters: 520, time: 0.103, data: 0.003) , D_A: 0.006, G_A: 1.014, cycle_A: 0.056, idt_A: 0.139, D_B: 0.001, G_B: 0.976, cycle_B: 0.128, idt_B: 0.062
+
+learning rate 0.0000277 -> 0.0000269
+End of epoch 466 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 467, iters: 8, time: 0.122, data: 0.002) , D_A: 0.005, G_A: 0.964, cycle_A: 0.066, idt_A: 0.133, D_B: 0.001, G_B: 1.033, cycle_B: 0.131, idt_B: 0.074
+
+[Rank 0] (epoch: 467, iters: 208, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.944, cycle_A: 0.054, idt_A: 0.131, D_B: 0.001, G_B: 1.014, cycle_B: 0.126, idt_B: 0.070
+
+[Rank 0] (epoch: 467, iters: 408, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.939, cycle_A: 0.053, idt_A: 0.139, D_B: 0.001, G_B: 1.026, cycle_B: 0.139, idt_B: 0.068
+
+[Rank 0] (epoch: 467, iters: 608, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.962, cycle_A: 0.070, idt_A: 0.142, D_B: 0.001, G_B: 1.009, cycle_B: 0.141, idt_B: 0.090
+
+learning rate 0.0000269 -> 0.0000261
+End of epoch 467 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 468, iters: 96, time: 0.099, data: 0.004) , D_A: 0.003, G_A: 0.998, cycle_A: 0.044, idt_A: 0.140, D_B: 0.001, G_B: 0.984, cycle_B: 0.139, idt_B: 0.054
+
+[Rank 0] (epoch: 468, iters: 296, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 1.004, cycle_A: 0.043, idt_A: 0.149, D_B: 0.001, G_B: 0.927, cycle_B: 0.147, idt_B: 0.054
+
+[Rank 0] (epoch: 468, iters: 496, time: 0.030, data: 0.003) , D_A: 0.006, G_A: 0.941, cycle_A: 0.052, idt_A: 0.143, D_B: 0.001, G_B: 1.000, cycle_B: 0.147, idt_B: 0.062
+
+[Rank 0] (epoch: 468, iters: 696, time: 0.030, data: 0.004) , D_A: 0.003, G_A: 0.960, cycle_A: 0.058, idt_A: 0.140, D_B: 0.001, G_B: 0.986, cycle_B: 0.139, idt_B: 0.076
+
+learning rate 0.0000261 -> 0.0000253
+End of epoch 468 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 469, iters: 184, time: 0.102, data: 0.002) , D_A: 0.004, G_A: 1.016, cycle_A: 0.040, idt_A: 0.141, D_B: 0.001, G_B: 0.962, cycle_B: 0.138, idt_B: 0.049
+
+[Rank 0] (epoch: 469, iters: 384, time: 0.100, data: 0.002) , D_A: 0.003, G_A: 0.962, cycle_A: 0.065, idt_A: 0.147, D_B: 0.001, G_B: 1.049, cycle_B: 0.145, idt_B: 0.084
+
+saving the latest model (epoch 469, total_iters 120000)
+[Rank 0] (epoch: 469, iters: 584, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.993, cycle_A: 0.046, idt_A: 0.156, D_B: 0.001, G_B: 1.012, cycle_B: 0.155, idt_B: 0.059
+
+learning rate 0.0000253 -> 0.0000246
+End of epoch 469 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 470, iters: 72, time: 0.121, data: 0.003) , D_A: 0.003, G_A: 1.076, cycle_A: 0.058, idt_A: 0.149, D_B: 0.001, G_B: 0.966, cycle_B: 0.139, idt_B: 0.072
+
+[Rank 0] (epoch: 470, iters: 272, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.016, cycle_A: 0.041, idt_A: 0.133, D_B: 0.001, G_B: 0.969, cycle_B: 0.127, idt_B: 0.053
+
+[Rank 0] (epoch: 470, iters: 472, time: 0.029, data: 0.003) , D_A: 0.003, G_A: 0.981, cycle_A: 0.057, idt_A: 0.141, D_B: 0.001, G_B: 0.987, cycle_B: 0.120, idt_B: 0.069
+
+[Rank 0] (epoch: 470, iters: 672, time: 0.091, data: 0.004) , D_A: 0.004, G_A: 0.936, cycle_A: 0.054, idt_A: 0.149, D_B: 0.001, G_B: 1.003, cycle_B: 0.143, idt_B: 0.065
+
+learning rate 0.0000246 -> 0.0000238
+saving the model at the end of epoch 470, iters 121040
+End of epoch 470 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 471, iters: 160, time: 0.111, data: 0.003) , D_A: 0.003, G_A: 1.053, cycle_A: 0.040, idt_A: 0.159, D_B: 0.001, G_B: 0.974, cycle_B: 0.145, idt_B: 0.049
+
+[Rank 0] (epoch: 471, iters: 360, time: 0.030, data: 0.004) , D_A: 0.004, G_A: 1.003, cycle_A: 0.057, idt_A: 0.143, D_B: 0.001, G_B: 1.005, cycle_B: 0.141, idt_B: 0.069
+
+[Rank 0] (epoch: 471, iters: 560, time: 0.030, data: 0.002) , D_A: 0.002, G_A: 1.013, cycle_A: 0.047, idt_A: 0.133, D_B: 0.001, G_B: 0.959, cycle_B: 0.130, idt_B: 0.059
+
+learning rate 0.0000238 -> 0.0000230
+End of epoch 471 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 472, iters: 48, time: 0.122, data: 0.003) , D_A: 0.003, G_A: 1.007, cycle_A: 0.036, idt_A: 0.145, D_B: 0.000, G_B: 0.988, cycle_B: 0.139, idt_B: 0.044
+
+[Rank 0] (epoch: 472, iters: 248, time: 0.105, data: 0.003) , D_A: 0.003, G_A: 1.040, cycle_A: 0.048, idt_A: 0.136, D_B: 0.001, G_B: 0.957, cycle_B: 0.131, idt_B: 0.059
+
+[Rank 0] (epoch: 472, iters: 448, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.964, cycle_A: 0.050, idt_A: 0.131, D_B: 0.001, G_B: 0.988, cycle_B: 0.129, idt_B: 0.063
+
+[Rank 0] (epoch: 472, iters: 648, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 1.037, cycle_A: 0.064, idt_A: 0.138, D_B: 0.001, G_B: 0.962, cycle_B: 0.131, idt_B: 0.080
+
+learning rate 0.0000230 -> 0.0000222
+End of epoch 472 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 473, iters: 136, time: 0.107, data: 0.002) , D_A: 0.002, G_A: 0.986, cycle_A: 0.057, idt_A: 0.132, D_B: 0.001, G_B: 0.950, cycle_B: 0.117, idt_B: 0.069
+
+[Rank 0] (epoch: 473, iters: 336, time: 0.030, data: 0.004) , D_A: 0.003, G_A: 0.981, cycle_A: 0.047, idt_A: 0.133, D_B: 0.001, G_B: 1.025, cycle_B: 0.126, idt_B: 0.055
+
+[Rank 0] (epoch: 473, iters: 536, time: 0.086, data: 0.003) , D_A: 0.003, G_A: 1.003, cycle_A: 0.040, idt_A: 0.142, D_B: 0.000, G_B: 0.992, cycle_B: 0.140, idt_B: 0.049
+
+learning rate 0.0000222 -> 0.0000214
+End of epoch 473 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 474, iters: 24, time: 0.129, data: 0.003) , D_A: 0.003, G_A: 0.953, cycle_A: 0.054, idt_A: 0.139, D_B: 0.001, G_B: 1.052, cycle_B: 0.129, idt_B: 0.068
+
+[Rank 0] (epoch: 474, iters: 224, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.005, cycle_A: 0.043, idt_A: 0.128, D_B: 0.001, G_B: 0.991, cycle_B: 0.128, idt_B: 0.052
+
+[Rank 0] (epoch: 474, iters: 424, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.935, cycle_A: 0.045, idt_A: 0.143, D_B: 0.001, G_B: 0.968, cycle_B: 0.139, idt_B: 0.056
+
+[Rank 0] (epoch: 474, iters: 624, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 1.028, cycle_A: 0.068, idt_A: 0.142, D_B: 0.001, G_B: 0.975, cycle_B: 0.139, idt_B: 0.082
+
+learning rate 0.0000214 -> 0.0000206
+End of epoch 474 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 475, iters: 112, time: 0.093, data: 0.003) , D_A: 0.003, G_A: 0.984, cycle_A: 0.047, idt_A: 0.134, D_B: 0.000, G_B: 1.014, cycle_B: 0.134, idt_B: 0.057
+
+[Rank 0] (epoch: 475, iters: 312, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.964, cycle_A: 0.045, idt_A: 0.162, D_B: 0.001, G_B: 0.971, cycle_B: 0.150, idt_B: 0.052
+
+[Rank 0] (epoch: 475, iters: 512, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 1.010, cycle_A: 0.064, idt_A: 0.143, D_B: 0.001, G_B: 0.952, cycle_B: 0.143, idt_B: 0.077
+
+[Rank 0] (epoch: 475, iters: 712, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.912, cycle_A: 0.058, idt_A: 0.142, D_B: 0.001, G_B: 1.007, cycle_B: 0.140, idt_B: 0.071
+
+learning rate 0.0000206 -> 0.0000198
+saving the model at the end of epoch 475, iters 124600
+End of epoch 475 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 476, iters: 200, time: 0.102, data: 1.125) , D_A: 0.004, G_A: 1.053, cycle_A: 0.055, idt_A: 0.153, D_B: 0.001, G_B: 1.013, cycle_B: 0.149, idt_B: 0.067
+
+[Rank 0] (epoch: 476, iters: 400, time: 0.087, data: 0.002) , D_A: 0.004, G_A: 1.066, cycle_A: 0.047, idt_A: 0.137, D_B: 0.001, G_B: 1.030, cycle_B: 0.138, idt_B: 0.056
+
+saving the latest model (epoch 476, total_iters 125000)
+[Rank 0] (epoch: 476, iters: 600, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.914, cycle_A: 0.039, idt_A: 0.137, D_B: 0.001, G_B: 1.037, cycle_B: 0.135, idt_B: 0.045
+
+learning rate 0.0000198 -> 0.0000190
+End of epoch 476 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 477, iters: 88, time: 0.102, data: 0.003) , D_A: 0.003, G_A: 1.019, cycle_A: 0.055, idt_A: 0.127, D_B: 0.001, G_B: 1.046, cycle_B: 0.126, idt_B: 0.064
+
+[Rank 0] (epoch: 477, iters: 288, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.954, cycle_A: 0.053, idt_A: 0.138, D_B: 0.001, G_B: 0.962, cycle_B: 0.130, idt_B: 0.064
+
+[Rank 0] (epoch: 477, iters: 488, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 1.022, cycle_A: 0.058, idt_A: 0.137, D_B: 0.001, G_B: 1.017, cycle_B: 0.137, idt_B: 0.072
+
+[Rank 0] (epoch: 477, iters: 688, time: 0.085, data: 0.003) , D_A: 0.003, G_A: 0.973, cycle_A: 0.043, idt_A: 0.132, D_B: 0.001, G_B: 0.950, cycle_B: 0.124, idt_B: 0.047
+
+learning rate 0.0000190 -> 0.0000182
+End of epoch 477 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 478, iters: 176, time: 0.110, data: 0.004) , D_A: 0.003, G_A: 1.022, cycle_A: 0.063, idt_A: 0.127, D_B: 0.001, G_B: 0.948, cycle_B: 0.129, idt_B: 0.074
+
+[Rank 0] (epoch: 478, iters: 376, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.974, cycle_A: 0.057, idt_A: 0.142, D_B: 0.001, G_B: 1.012, cycle_B: 0.138, idt_B: 0.065
+
+[Rank 0] (epoch: 478, iters: 576, time: 0.029, data: 0.003) , D_A: 0.002, G_A: 1.004, cycle_A: 0.056, idt_A: 0.124, D_B: 0.000, G_B: 1.022, cycle_B: 0.117, idt_B: 0.064
+
+learning rate 0.0000182 -> 0.0000174
+End of epoch 478 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 479, iters: 64, time: 0.095, data: 0.002) , D_A: 0.002, G_A: 1.003, cycle_A: 0.041, idt_A: 0.138, D_B: 0.000, G_B: 0.985, cycle_B: 0.136, idt_B: 0.049
+
+[Rank 0] (epoch: 479, iters: 264, time: 0.102, data: 0.003) , D_A: 0.003, G_A: 1.063, cycle_A: 0.054, idt_A: 0.128, D_B: 0.000, G_B: 1.007, cycle_B: 0.126, idt_B: 0.066
+
+[Rank 0] (epoch: 479, iters: 464, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.975, cycle_A: 0.063, idt_A: 0.156, D_B: 0.001, G_B: 1.028, cycle_B: 0.146, idt_B: 0.076
+
+[Rank 0] (epoch: 479, iters: 664, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.913, cycle_A: 0.036, idt_A: 0.139, D_B: 0.000, G_B: 1.003, cycle_B: 0.135, idt_B: 0.045
+
+learning rate 0.0000174 -> 0.0000166
+End of epoch 479 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 480, iters: 152, time: 0.097, data: 0.003) , D_A: 0.003, G_A: 0.999, cycle_A: 0.062, idt_A: 0.136, D_B: 0.001, G_B: 0.975, cycle_B: 0.134, idt_B: 0.078
+
+[Rank 0] (epoch: 480, iters: 352, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.958, cycle_A: 0.049, idt_A: 0.147, D_B: 0.000, G_B: 1.001, cycle_B: 0.147, idt_B: 0.057
+
+[Rank 0] (epoch: 480, iters: 552, time: 0.112, data: 0.003) , D_A: 0.002, G_A: 1.001, cycle_A: 0.053, idt_A: 0.135, D_B: 0.001, G_B: 0.960, cycle_B: 0.124, idt_B: 0.062
+
+learning rate 0.0000166 -> 0.0000158
+saving the model at the end of epoch 480, iters 128160
+End of epoch 480 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 481, iters: 40, time: 0.090, data: 0.003) , D_A: 0.002, G_A: 0.981, cycle_A: 0.052, idt_A: 0.139, D_B: 0.000, G_B: 1.017, cycle_B: 0.137, idt_B: 0.064
+
+[Rank 0] (epoch: 481, iters: 240, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 1.008, cycle_A: 0.062, idt_A: 0.145, D_B: 0.000, G_B: 0.981, cycle_B: 0.141, idt_B: 0.071
+
+[Rank 0] (epoch: 481, iters: 440, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.937, cycle_A: 0.039, idt_A: 0.128, D_B: 0.000, G_B: 1.013, cycle_B: 0.124, idt_B: 0.048
+
+[Rank 0] (epoch: 481, iters: 640, time: 0.030, data: 0.003) , D_A: 0.004, G_A: 0.937, cycle_A: 0.052, idt_A: 0.141, D_B: 0.000, G_B: 1.007, cycle_B: 0.139, idt_B: 0.060
+
+learning rate 0.0000158 -> 0.0000150
+End of epoch 481 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 482, iters: 128, time: 0.101, data: 0.002) , D_A: 0.003, G_A: 0.902, cycle_A: 0.048, idt_A: 0.153, D_B: 0.000, G_B: 0.990, cycle_B: 0.147, idt_B: 0.056
+
+[Rank 0] (epoch: 482, iters: 328, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.975, cycle_A: 0.060, idt_A: 0.148, D_B: 0.001, G_B: 1.005, cycle_B: 0.140, idt_B: 0.069
+
+[Rank 0] (epoch: 482, iters: 528, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.918, cycle_A: 0.056, idt_A: 0.146, D_B: 0.001, G_B: 0.976, cycle_B: 0.139, idt_B: 0.064
+
+learning rate 0.0000150 -> 0.0000143
+End of epoch 482 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 483, iters: 16, time: 0.096, data: 0.003) , D_A: 0.002, G_A: 1.017, cycle_A: 0.066, idt_A: 0.137, D_B: 0.000, G_B: 0.976, cycle_B: 0.134, idt_B: 0.076
+
+[Rank 0] (epoch: 483, iters: 216, time: 0.030, data: 0.004) , D_A: 0.003, G_A: 0.952, cycle_A: 0.056, idt_A: 0.142, D_B: 0.001, G_B: 0.939, cycle_B: 0.141, idt_B: 0.066
+
+[Rank 0] (epoch: 483, iters: 416, time: 0.097, data: 0.004) , D_A: 0.003, G_A: 1.051, cycle_A: 0.049, idt_A: 0.154, D_B: 0.000, G_B: 0.994, cycle_B: 0.153, idt_B: 0.058
+
+saving the latest model (epoch 483, total_iters 130000)
+[Rank 0] (epoch: 483, iters: 616, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.980, cycle_A: 0.065, idt_A: 0.144, D_B: 0.001, G_B: 0.997, cycle_B: 0.142, idt_B: 0.078
+
+learning rate 0.0000143 -> 0.0000135
+End of epoch 483 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 484, iters: 104, time: 0.105, data: 0.003) , D_A: 0.003, G_A: 0.952, cycle_A: 0.051, idt_A: 0.130, D_B: 0.000, G_B: 1.008, cycle_B: 0.128, idt_B: 0.054
+
+[Rank 0] (epoch: 484, iters: 304, time: 0.030, data: 0.002) , D_A: 0.002, G_A: 0.968, cycle_A: 0.053, idt_A: 0.128, D_B: 0.001, G_B: 0.982, cycle_B: 0.125, idt_B: 0.065
+
+[Rank 0] (epoch: 484, iters: 504, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.989, cycle_A: 0.052, idt_A: 0.145, D_B: 0.000, G_B: 1.007, cycle_B: 0.136, idt_B: 0.062
+
+[Rank 0] (epoch: 484, iters: 704, time: 0.087, data: 0.004) , D_A: 0.003, G_A: 0.953, cycle_A: 0.067, idt_A: 0.138, D_B: 0.001, G_B: 0.945, cycle_B: 0.135, idt_B: 0.076
+
+learning rate 0.0000135 -> 0.0000127
+End of epoch 484 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 485, iters: 192, time: 0.105, data: 0.002) , D_A: 0.007, G_A: 0.955, cycle_A: 0.062, idt_A: 0.138, D_B: 0.001, G_B: 0.979, cycle_B: 0.129, idt_B: 0.075
+
+[Rank 0] (epoch: 485, iters: 392, time: 0.030, data: 0.004) , D_A: 0.002, G_A: 0.986, cycle_A: 0.053, idt_A: 0.125, D_B: 0.000, G_B: 0.999, cycle_B: 0.124, idt_B: 0.057
+
+[Rank 0] (epoch: 485, iters: 592, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.987, cycle_A: 0.069, idt_A: 0.151, D_B: 0.000, G_B: 0.985, cycle_B: 0.143, idt_B: 0.077
+
+learning rate 0.0000127 -> 0.0000119
+saving the model at the end of epoch 485, iters 131720
+End of epoch 485 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 486, iters: 80, time: 0.098, data: 0.003) , D_A: 0.002, G_A: 0.945, cycle_A: 0.075, idt_A: 0.130, D_B: 0.000, G_B: 1.007, cycle_B: 0.125, idt_B: 0.084
+
+[Rank 0] (epoch: 486, iters: 280, time: 0.099, data: 0.002) , D_A: 0.002, G_A: 1.006, cycle_A: 0.054, idt_A: 0.132, D_B: 0.000, G_B: 0.976, cycle_B: 0.130, idt_B: 0.063
+
+[Rank 0] (epoch: 486, iters: 480, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.962, cycle_A: 0.051, idt_A: 0.143, D_B: 0.000, G_B: 0.995, cycle_B: 0.144, idt_B: 0.055
+
+[Rank 0] (epoch: 486, iters: 680, time: 0.030, data: 0.006) , D_A: 0.004, G_A: 0.981, cycle_A: 0.055, idt_A: 0.138, D_B: 0.001, G_B: 0.957, cycle_B: 0.131, idt_B: 0.062
+
+learning rate 0.0000119 -> 0.0000111
+End of epoch 486 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 487, iters: 168, time: 0.097, data: 0.003) , D_A: 0.002, G_A: 0.996, cycle_A: 0.052, idt_A: 0.137, D_B: 0.000, G_B: 1.013, cycle_B: 0.129, idt_B: 0.059
+
+[Rank 0] (epoch: 487, iters: 368, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.037, cycle_A: 0.057, idt_A: 0.146, D_B: 0.000, G_B: 0.967, cycle_B: 0.138, idt_B: 0.065
+
+[Rank 0] (epoch: 487, iters: 568, time: 0.094, data: 0.003) , D_A: 0.003, G_A: 0.981, cycle_A: 0.050, idt_A: 0.145, D_B: 0.000, G_B: 1.029, cycle_B: 0.141, idt_B: 0.058
+
+learning rate 0.0000111 -> 0.0000103
+End of epoch 487 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 488, iters: 56, time: 0.101, data: 0.002) , D_A: 0.003, G_A: 0.985, cycle_A: 0.052, idt_A: 0.168, D_B: 0.000, G_B: 0.997, cycle_B: 0.163, idt_B: 0.060
+
+[Rank 0] (epoch: 488, iters: 256, time: 0.030, data: 0.002) , D_A: 0.002, G_A: 0.981, cycle_A: 0.044, idt_A: 0.138, D_B: 0.000, G_B: 0.979, cycle_B: 0.128, idt_B: 0.054
+
+[Rank 0] (epoch: 488, iters: 456, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.928, cycle_A: 0.053, idt_A: 0.133, D_B: 0.000, G_B: 0.977, cycle_B: 0.126, idt_B: 0.059
+
+[Rank 0] (epoch: 488, iters: 656, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.974, cycle_A: 0.049, idt_A: 0.155, D_B: 0.000, G_B: 1.000, cycle_B: 0.146, idt_B: 0.058
+
+learning rate 0.0000103 -> 0.0000095
+End of epoch 488 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 489, iters: 144, time: 0.096, data: 0.002) , D_A: 0.003, G_A: 0.918, cycle_A: 0.046, idt_A: 0.140, D_B: 0.000, G_B: 0.988, cycle_B: 0.135, idt_B: 0.049
+
+[Rank 0] (epoch: 489, iters: 344, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.975, cycle_A: 0.064, idt_A: 0.145, D_B: 0.000, G_B: 1.028, cycle_B: 0.137, idt_B: 0.069
+
+[Rank 0] (epoch: 489, iters: 544, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.944, cycle_A: 0.043, idt_A: 0.150, D_B: 0.000, G_B: 0.971, cycle_B: 0.139, idt_B: 0.046
+
+learning rate 0.0000095 -> 0.0000087
+End of epoch 489 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 490, iters: 32, time: 0.148, data: 0.002) , D_A: 0.003, G_A: 0.952, cycle_A: 0.054, idt_A: 0.147, D_B: 0.000, G_B: 0.994, cycle_B: 0.143, idt_B: 0.063
+
+[Rank 0] (epoch: 490, iters: 232, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.998, cycle_A: 0.063, idt_A: 0.141, D_B: 0.000, G_B: 0.987, cycle_B: 0.134, idt_B: 0.067
+
+[Rank 0] (epoch: 490, iters: 432, time: 0.092, data: 0.003) , D_A: 0.002, G_A: 0.966, cycle_A: 0.043, idt_A: 0.140, D_B: 0.000, G_B: 0.993, cycle_B: 0.133, idt_B: 0.053
+
+saving the latest model (epoch 490, total_iters 135000)
+[Rank 0] (epoch: 490, iters: 632, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.989, cycle_A: 0.068, idt_A: 0.136, D_B: 0.000, G_B: 0.991, cycle_B: 0.133, idt_B: 0.076
+
+learning rate 0.0000087 -> 0.0000079
+saving the model at the end of epoch 490, iters 135280
+End of epoch 490 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 491, iters: 120, time: 0.102, data: 0.003) , D_A: 0.005, G_A: 1.012, cycle_A: 0.058, idt_A: 0.143, D_B: 0.000, G_B: 0.995, cycle_B: 0.141, idt_B: 0.062
+
+[Rank 0] (epoch: 491, iters: 320, time: 0.030, data: 0.001) , D_A: 0.003, G_A: 1.039, cycle_A: 0.059, idt_A: 0.155, D_B: 0.000, G_B: 0.989, cycle_B: 0.145, idt_B: 0.063
+
+[Rank 0] (epoch: 491, iters: 520, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.982, cycle_A: 0.058, idt_A: 0.127, D_B: 0.000, G_B: 0.989, cycle_B: 0.124, idt_B: 0.066
+
+learning rate 0.0000079 -> 0.0000071
+End of epoch 491 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 492, iters: 8, time: 0.106, data: 0.002) , D_A: 0.003, G_A: 1.010, cycle_A: 0.066, idt_A: 0.139, D_B: 0.000, G_B: 0.993, cycle_B: 0.131, idt_B: 0.075
+
+[Rank 0] (epoch: 492, iters: 208, time: 0.030, data: 0.004) , D_A: 0.003, G_A: 1.080, cycle_A: 0.062, idt_A: 0.149, D_B: 0.000, G_B: 0.988, cycle_B: 0.140, idt_B: 0.072
+
+[Rank 0] (epoch: 492, iters: 408, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.984, cycle_A: 0.050, idt_A: 0.138, D_B: 0.000, G_B: 0.981, cycle_B: 0.134, idt_B: 0.054
+
+[Rank 0] (epoch: 492, iters: 608, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.984, cycle_A: 0.058, idt_A: 0.129, D_B: 0.000, G_B: 0.998, cycle_B: 0.121, idt_B: 0.067
+
+learning rate 0.0000071 -> 0.0000063
+End of epoch 492 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 493, iters: 96, time: 0.099, data: 0.003) , D_A: 0.003, G_A: 0.981, cycle_A: 0.051, idt_A: 0.146, D_B: 0.000, G_B: 0.995, cycle_B: 0.143, idt_B: 0.057
+
+[Rank 0] (epoch: 493, iters: 296, time: 0.095, data: 0.006) , D_A: 0.002, G_A: 0.986, cycle_A: 0.047, idt_A: 0.140, D_B: 0.000, G_B: 1.013, cycle_B: 0.134, idt_B: 0.052
+
+[Rank 0] (epoch: 493, iters: 496, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 1.002, cycle_A: 0.058, idt_A: 0.158, D_B: 0.000, G_B: 1.000, cycle_B: 0.151, idt_B: 0.063
+
+[Rank 0] (epoch: 493, iters: 696, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.976, cycle_A: 0.062, idt_A: 0.136, D_B: 0.000, G_B: 1.003, cycle_B: 0.127, idt_B: 0.070
+
+learning rate 0.0000063 -> 0.0000055
+End of epoch 493 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 494, iters: 184, time: 0.098, data: 0.003) , D_A: 0.003, G_A: 1.004, cycle_A: 0.054, idt_A: 0.150, D_B: 0.000, G_B: 0.977, cycle_B: 0.145, idt_B: 0.062
+
+[Rank 0] (epoch: 494, iters: 384, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 0.989, cycle_A: 0.060, idt_A: 0.144, D_B: 0.000, G_B: 0.986, cycle_B: 0.138, idt_B: 0.065
+
+[Rank 0] (epoch: 494, iters: 584, time: 0.104, data: 0.003) , D_A: 0.005, G_A: 1.027, cycle_A: 0.054, idt_A: 0.159, D_B: 0.000, G_B: 1.010, cycle_B: 0.156, idt_B: 0.058
+
+learning rate 0.0000055 -> 0.0000048
+End of epoch 494 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 495, iters: 72, time: 0.104, data: 0.004) , D_A: 0.003, G_A: 0.990, cycle_A: 0.051, idt_A: 0.137, D_B: 0.000, G_B: 0.988, cycle_B: 0.136, idt_B: 0.059
+
+[Rank 0] (epoch: 495, iters: 272, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.962, cycle_A: 0.044, idt_A: 0.131, D_B: 0.000, G_B: 0.997, cycle_B: 0.127, idt_B: 0.050
+
+[Rank 0] (epoch: 495, iters: 472, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 1.072, cycle_A: 0.061, idt_A: 0.148, D_B: 0.000, G_B: 0.987, cycle_B: 0.141, idt_B: 0.064
+
+[Rank 0] (epoch: 495, iters: 672, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 1.008, cycle_A: 0.083, idt_A: 0.138, D_B: 0.000, G_B: 1.000, cycle_B: 0.138, idt_B: 0.087
+
+learning rate 0.0000048 -> 0.0000040
+saving the model at the end of epoch 495, iters 138840
+End of epoch 495 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 496, iters: 160, time: 0.109, data: 0.002) , D_A: 0.003, G_A: 1.009, cycle_A: 0.056, idt_A: 0.153, D_B: 0.000, G_B: 0.990, cycle_B: 0.150, idt_B: 0.059
+
+[Rank 0] (epoch: 496, iters: 360, time: 0.030, data: 0.003) , D_A: 0.005, G_A: 0.960, cycle_A: 0.052, idt_A: 0.141, D_B: 0.000, G_B: 1.009, cycle_B: 0.139, idt_B: 0.057
+
+[Rank 0] (epoch: 496, iters: 560, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.955, cycle_A: 0.052, idt_A: 0.144, D_B: 0.000, G_B: 0.989, cycle_B: 0.138, idt_B: 0.058
+
+learning rate 0.0000040 -> 0.0000032
+End of epoch 496 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 497, iters: 48, time: 0.096, data: 0.003) , D_A: 0.002, G_A: 1.021, cycle_A: 0.059, idt_A: 0.138, D_B: 0.000, G_B: 0.994, cycle_B: 0.134, idt_B: 0.063
+
+[Rank 0] (epoch: 497, iters: 248, time: 0.030, data: 0.003) , D_A: 0.003, G_A: 0.972, cycle_A: 0.063, idt_A: 0.147, D_B: 0.000, G_B: 1.001, cycle_B: 0.142, idt_B: 0.072
+
+[Rank 0] (epoch: 497, iters: 448, time: 0.111, data: 0.003) , D_A: 0.004, G_A: 0.952, cycle_A: 0.054, idt_A: 0.151, D_B: 0.000, G_B: 1.015, cycle_B: 0.147, idt_B: 0.058
+
+saving the latest model (epoch 497, total_iters 140000)
+[Rank 0] (epoch: 497, iters: 648, time: 0.030, data: 0.002) , D_A: 0.003, G_A: 1.002, cycle_A: 0.056, idt_A: 0.132, D_B: 0.000, G_B: 0.997, cycle_B: 0.132, idt_B: 0.060
+
+learning rate 0.0000032 -> 0.0000024
+End of epoch 497 / 500 	 Time Taken: 21 sec
+[Rank 0] (epoch: 498, iters: 136, time: 0.125, data: 0.004) , D_A: 0.003, G_A: 1.009, cycle_A: 0.074, idt_A: 0.159, D_B: 0.000, G_B: 1.013, cycle_B: 0.151, idt_B: 0.088
+
+[Rank 0] (epoch: 498, iters: 336, time: 0.030, data: 0.001) , D_A: 0.002, G_A: 1.005, cycle_A: 0.065, idt_A: 0.135, D_B: 0.001, G_B: 0.998, cycle_B: 0.129, idt_B: 0.070
+
+[Rank 0] (epoch: 498, iters: 536, time: 0.030, data: 0.002) , D_A: 0.002, G_A: 1.001, cycle_A: 0.055, idt_A: 0.155, D_B: 0.000, G_B: 1.011, cycle_B: 0.155, idt_B: 0.063
+
+learning rate 0.0000024 -> 0.0000016
+End of epoch 498 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 499, iters: 24, time: 0.127, data: 0.003) , D_A: 0.003, G_A: 0.974, cycle_A: 0.068, idt_A: 0.136, D_B: 0.000, G_B: 1.006, cycle_B: 0.137, idt_B: 0.074
+
+[Rank 0] (epoch: 499, iters: 224, time: 0.030, data: 0.002) , D_A: 0.002, G_A: 0.978, cycle_A: 0.061, idt_A: 0.140, D_B: 0.000, G_B: 1.004, cycle_B: 0.140, idt_B: 0.068
+
+[Rank 0] (epoch: 499, iters: 424, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.991, cycle_A: 0.062, idt_A: 0.146, D_B: 0.000, G_B: 1.010, cycle_B: 0.146, idt_B: 0.067
+
+[Rank 0] (epoch: 499, iters: 624, time: 0.030, data: 0.002) , D_A: 0.004, G_A: 0.999, cycle_A: 0.066, idt_A: 0.145, D_B: 0.000, G_B: 1.006, cycle_B: 0.142, idt_B: 0.077
+
+learning rate 0.0000016 -> 0.0000008
+End of epoch 499 / 500 	 Time Taken: 20 sec
+[Rank 0] (epoch: 500, iters: 112, time: 0.139, data: 0.002) , D_A: 0.003, G_A: 0.989, cycle_A: 0.060, idt_A: 0.139, D_B: 0.000, G_B: 0.989, cycle_B: 0.133, idt_B: 0.068
+
+[Rank 0] (epoch: 500, iters: 312, time: 0.091, data: 0.002) , D_A: 0.003, G_A: 0.981, cycle_A: 0.064, idt_A: 0.131, D_B: 0.000, G_B: 0.994, cycle_B: 0.128, idt_B: 0.077
+
+[Rank 0] (epoch: 500, iters: 512, time: 0.030, data: 0.002) , D_A: 0.002, G_A: 0.971, cycle_A: 0.050, idt_A: 0.142, D_B: 0.000, G_B: 1.002, cycle_B: 0.139, idt_B: 0.054
+
+[Rank 0] (epoch: 500, iters: 712, time: 0.030, data: 0.003) , D_A: 0.002, G_A: 0.972, cycle_A: 0.062, idt_A: 0.150, D_B: 0.000, G_B: 1.008, cycle_B: 0.147, idt_B: 0.071
+
+learning rate 0.0000008 -> 0.0000000
+saving the model at the end of epoch 500, iters 142400
+End of epoch 500 / 500 	 Time Taken: 21 sec

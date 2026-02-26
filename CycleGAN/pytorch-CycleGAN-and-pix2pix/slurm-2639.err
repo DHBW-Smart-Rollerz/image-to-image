@@ -1,0 +1,14 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+Traceback (most recent call last):
+  File "/workspace/CycleGAN/train.py", line 38, in <module>
+    model.setup(opt)  # regular setup: load and print networks; create schedulers
+  File "/workspace/CycleGAN/models/base_model.py", line 110, in setup
+    net.load_state_dict(state_dict)
+  File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 2153, in load_state_dict
+    raise RuntimeError('Error(s) in loading state_dict for {}:\n\t{}'.format(
+RuntimeError: Error(s) in loading state_dict for NLayerDiscriminator:
+	Missing key(s) in state_dict: "model.14.weight", "model.14.bias", "model.17.weight", "model.17.bias". 
+	size mismatch for model.11.weight: copying a param with shape torch.Size([1, 512, 4, 4]) from checkpoint, the shape in current model is torch.Size([512, 512, 4, 4]).
+	size mismatch for model.11.bias: copying a param with shape torch.Size([1]) from checkpoint, the shape in current model is torch.Size([512]).
+srun: error: deep-thought: task 0: Exited with exit code 1

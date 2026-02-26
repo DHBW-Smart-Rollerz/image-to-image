@@ -1,0 +1,7 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:141: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 805: MPS client failed to connect to the MPS control daemon or the MPS server (Triggered internally at /opt/conda/conda-bld/pytorch_1708025847130/work/c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+slurmstepd-deep-thought: error: pyxis: child 3729789 failed with error code: 1
+slurmstepd-deep-thought: error: Detected 1 oom_kill event in StepId=2654.0. Some of the step tasks have been OOM Killed.
+srun: error: deep-thought: task 0: Out Of Memory

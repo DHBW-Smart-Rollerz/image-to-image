@@ -1,0 +1,51 @@
+========================================
+SLURM Job Started: 2632
+========================================
+CPUs per task: 6
+Total CPUs available: 6
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-7ddba2ed-df4b-dc75-7427-48b0707999d0)
+========================================
+Starte CycleGAN Training via Pyxis...
+Installiere Dependencies...
+Defaulting to user installation because normal site-packages is not writeable
+Collecting dominate
+  Downloading dominate-2.9.1-py2.py3-none-any.whl.metadata (13 kB)
+Collecting visdom
+  Downloading visdom-0.2.4.tar.gz (1.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 42.2 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: numpy>=1.8 in /opt/conda/lib/python3.10/site-packages (from visdom) (1.26.3)
+Collecting scipy (from visdom)
+  Downloading scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 448.6 MB/s eta 0:00:00
+Requirement already satisfied: requests in /opt/conda/lib/python3.10/site-packages (from visdom) (2.31.0)
+Collecting tornado (from visdom)
+  Downloading tornado-6.5.4-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.8 kB)
+Requirement already satisfied: six in /opt/conda/lib/python3.10/site-packages (from visdom) (1.16.0)
+Requirement already satisfied: jsonpatch in /opt/conda/lib/python3.10/site-packages (from visdom) (1.32)
+Collecting websocket-client (from visdom)
+  Downloading websocket_client-1.9.0-py3-none-any.whl.metadata (8.3 kB)
+Requirement already satisfied: networkx in /opt/conda/lib/python3.10/site-packages (from visdom) (3.1)
+Requirement already satisfied: pillow in /opt/conda/lib/python3.10/site-packages (from visdom) (10.2.0)
+Requirement already satisfied: jsonpointer>=1.9 in /opt/conda/lib/python3.10/site-packages (from jsonpatch->visdom) (2.1)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.0.4)
+Requirement already satisfied: idna<4,>=2.5 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (3.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2024.2.2)
+Downloading dominate-2.9.1-py2.py3-none-any.whl (29 kB)
+Downloading scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (37.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 37.7/37.7 MB 42.8 MB/s eta 0:00:00
+Downloading tornado-6.5.4-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (445 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 445.3/445.3 kB 63.5 MB/s eta 0:00:00
+Downloading websocket_client-1.9.0-py3-none-any.whl (82 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 82.6/82.6 kB 196.2 MB/s eta 0:00:00
+Building wheels for collected packages: visdom
+  Building wheel for visdom (setup.py): started
+  Building wheel for visdom (setup.py): finished with status 'done'
+  Created wheel for visdom: filename=visdom-0.2.4-py3-none-any.whl size=1408194 sha256=b294e4bb0568e70ad151f2e26fadde34e938705c84c2457d5c22fbbbed69d3d7
+  Stored in directory: /tmp/pip-ephem-wheel-cache-76_l7lv5/wheels/42/29/49/5bed207bac4578e4d2c0c5fc0226bfd33a7e2953ea56356855
+Successfully built visdom
+Installing collected packages: websocket-client, tornado, scipy, dominate, visdom
+Successfully installed dominate-2.9.1 scipy-1.15.3 tornado-6.5.4 visdom-0.2.4 websocket-client-1.9.0
+Starte Training...

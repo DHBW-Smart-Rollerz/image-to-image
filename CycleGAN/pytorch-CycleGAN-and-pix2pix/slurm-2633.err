@@ -1,0 +1,21 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+  WARNING: The scripts wandb and wb are installed in '/workspace/home/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Traceback (most recent call last):
+  File "/workspace/CycleGAN/train.py", line 33, in <module>
+    dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+  File "/workspace/CycleGAN/data/__init__.py", line 60, in create_dataset
+    data_loader = CustomDatasetDataLoader(opt)
+  File "/workspace/CycleGAN/data/__init__.py", line 82, in __init__
+    self.sampler = DistributedSampler(self.dataset, shuffle=not opt.serial_batches)
+  File "/opt/conda/lib/python3.10/site-packages/torch/utils/data/distributed.py", line 68, in __init__
+    num_replicas = dist.get_world_size()
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 1555, in get_world_size
+    return _get_group_size(group)
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 836, in _get_group_size
+    default_pg = _get_default_group()
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 977, in _get_default_group
+    raise ValueError(
+ValueError: Default process group has not been initialized, please make sure to call init_process_group.
+srun: error: deep-thought: task 0: Exited with exit code 1
