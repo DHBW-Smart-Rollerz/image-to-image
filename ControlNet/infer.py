@@ -27,8 +27,13 @@ CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"
 LORA_ROAD_PATH = "output_lora/sim2real_dashcam.safetensors"
 LORA_CAR_PATH = "output_lora/sim2real_car.safetensors"  # LoRA für Auto-Generierung
 
-# Auto Bounding Box
-x1, y1, x2, y2 = 50, 230, 460, 512  
+# Auto-Trapez (Basis: 512x512). Reihenfolge: oben-links, oben-rechts, unten-rechts, unten-links
+CAR_TRAPEZOID_512 = np.array([
+    [80, 260],
+    [415, 260],
+    [497, 512],
+    [10, 512],
+], dtype=np.float32)
 
 # ------------------------------------------------------------
 # Hilfsfunktionen
@@ -45,6 +50,18 @@ def compute_canny(image: Image.Image):
     edges = np.stack([edges] * 3, axis=-1)
     return Image.fromarray(edges)
 
+def get_car_trapezoid(size=(512, 512)):
+    """
+    Gibt das Auto-Trapez auf die Zielgröße skaliert zurück.
+    """
+    w, h = size
+    scale_x = w / 512.0
+    scale_y = h / 512.0
+    points = CAR_TRAPEZOID_512.copy()
+    points[:, 0] *= scale_x
+    points[:, 1] *= scale_y
+    return points.astype(np.int32)
+
 def create_road_mask(size=(512, 512)):
     """
     Weiß = wird generiert (Straße)
@@ -52,8 +69,9 @@ def create_road_mask(size=(512, 512)):
     """
     mask = np.ones((size[1], size[0]), dtype=np.uint8) * 255  # alles weiß
 
-    # Auto schwarz maskieren (bleibt unverändert)
-    mask[y1:y2, x1:x2] = 0
+    # Auto als Trapez schwarz maskieren (bleibt unverändert)
+    trapezoid = get_car_trapezoid(size)
+    cv2.fillPoly(mask, [trapezoid], 0)
 
     # weiche Kanten (wichtig!)
     mask = cv2.GaussianBlur(mask, (31, 31), 0)
@@ -67,13 +85,25 @@ def create_car_mask(size=(512, 512)):
     """
     mask = np.zeros((size[1], size[0]), dtype=np.uint8)  # alles schwarz
 
-    # Auto-Bereich weiß markieren (wird generiert)
-    mask[y1:y2, x1:x2] = 255
+    # Auto-Bereich als Trapez weiß markieren (wird generiert)
+    trapezoid = get_car_trapezoid(size)
+    cv2.fillPoly(mask, [trapezoid], 255)
 
     # weiche Kanten (wichtig!)
     mask = cv2.GaussianBlur(mask, (31, 31), 0)
 
     return Image.fromarray(mask)
+
+def mask_model_car(image: Image.Image):
+    """
+    Maskiert das Modellauto mit einem schwarzen Trapez,
+    um Verwirrung bei der Generierung zu vermeiden.
+    """
+    img_array = np.array(image)
+    # Überschreibe den Auto-Bereich als Trapez mit schwarz
+    trapezoid = get_car_trapezoid((image.width, image.height))
+    cv2.fillPoly(img_array, [trapezoid], (0, 0, 0))
+    return Image.fromarray(img_array)
 
 # ------------------------------------------------------------
 # Pipeline laden
@@ -102,8 +132,34 @@ def sim2real(
     out_path: str,
     seed: int = 42,
 ):
+    # Bereite Ausgabeverzeichnisse vor
+    base_name = os.path.splitext(os.path.basename(out_path))[0]
+    out_dir = os.path.dirname(out_path)
+    
+    masked_dir = os.path.join(out_dir, "masked")
+    canny_dir = os.path.join(out_dir, "canny")
+    step1_dir = os.path.join(out_dir, "step1_road")
+    
+    os.makedirs(masked_dir, exist_ok=True)
+    os.makedirs(canny_dir, exist_ok=True)
+    os.makedirs(step1_dir, exist_ok=True)
+    
     init_image = load_image(sim_image_path)
+    # Maskiere das Modellauto vor der Inferenz
+    init_image = mask_model_car(init_image)
+    
+    # Speichere maskiertes Bild
+    masked_path = os.path.join(masked_dir, f"{base_name}_masked.png")
+    init_image.save(masked_path)
+    print(f"  ✓ Maskiertes Bild: {masked_path}")
+    
     control_image = compute_canny(init_image)
+    
+    # Speichere Canny Edges
+    canny_path = os.path.join(canny_dir, f"{base_name}_canny.png")
+    control_image.save(canny_path)
+    print(f"  ✓ Canny Edges: {canny_path}")
+    
     generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
     # Schritt 1: Straße generieren (Auto-Bereich bleibt unverändert)
@@ -125,13 +181,18 @@ def sim2real(
         strength=0.85,
         guidance_scale=6.5,
         controlnet_conditioning_scale=0.9,
-        num_inference_steps=40,
+        num_inference_steps=35,
         generator=generator,
     ).images[0]
 
     # LoRA entfernen für nächste Generierung
     pipe.unfuse_lora()
     pipe.unload_lora_weights()
+    
+    # Speichere Straßen-Ergebnis
+    step1_path = os.path.join(step1_dir, f"{base_name}_step1.png")
+    road_result.save(step1_path)
+    print(f"  ✓ Schritt 1 (Straße): {step1_path}")
 
     # Schritt 2: Auto generieren (auf dem Ergebnis von Schritt 1)
     print("  → Schritt 2: Generiere Auto...")
@@ -155,7 +216,7 @@ def sim2real(
         strength=0.85,
         guidance_scale=7.0,
         controlnet_conditioning_scale=0.85,
-        num_inference_steps=40,
+        num_inference_steps=35,
         generator=generator,
     ).images[0]
 
