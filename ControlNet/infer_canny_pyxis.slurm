@@ -2,7 +2,7 @@
 #SBATCH --job-name=infer_i2i_canny
 #SBATCH --partition=debug
 #SBATCH --gres=gpu:user:1
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=18
 #SBATCH --mem=16G
 #SBATCH --time=10:00:00
 #SBATCH --output=slurm-%j.out

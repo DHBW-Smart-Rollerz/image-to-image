@@ -10,13 +10,25 @@ from diffusers import (
 )
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"[debug] torch.__version__={torch.__version__}", flush=True)
+print(f"[debug] torch.version.cuda={torch.version.cuda}", flush=True)
+print(f"[debug] cuda.is_available={torch.cuda.is_available()}", flush=True)
+print(f"[debug] cuda.device_count={torch.cuda.device_count()}", flush=True)
+if torch.cuda.is_available():
+    try:
+        print(f"[debug] cuda.current_device={torch.cuda.current_device()}", flush=True)
+        print(f"[debug] cuda.device_name={torch.cuda.get_device_name(0)}", flush=True)
+    except Exception as e:
+        print(f"[debug] cuda.device_query_failed={e!r}", flush=True)
+print(f"[debug] using DEVICE={DEVICE}", flush=True)
 
 BASE_MODEL = "runwayml/stable-diffusion-v1-5"
 CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"
-LORA_PATH = "output_lora/sim2real_dashcam.safetensors"
+LORA_ROAD_PATH = "output_lora/sim2real_dashcam.safetensors"
+LORA_CAR_PATH = "output_lora/sim2real_car.safetensors"  # LoRA für Auto-Generierung
 
-# Auto Bounding Box (geschützt)
-x1, y1, x2, y2 = 0,0,0,0 # 110, 200, 380, 512 #50, 230, 460, 512
+# Auto Bounding Box
+x1, y1, x2, y2 = 50, 230, 460, 512  
 
 # ------------------------------------------------------------
 # Hilfsfunktionen
@@ -33,15 +45,30 @@ def compute_canny(image: Image.Image):
     edges = np.stack([edges] * 3, axis=-1)
     return Image.fromarray(edges)
 
-def create_mask(size=(512, 512)):
+def create_road_mask(size=(512, 512)):
     """
     Weiß = wird generiert (Straße)
     Schwarz = bleibt unverändert (Auto)
     """
     mask = np.ones((size[1], size[0]), dtype=np.uint8) * 255  # alles weiß
 
-    # Auto schwarz maskieren
+    # Auto schwarz maskieren (bleibt unverändert)
     mask[y1:y2, x1:x2] = 0
+
+    # weiche Kanten (wichtig!)
+    mask = cv2.GaussianBlur(mask, (31, 31), 0)
+
+    return Image.fromarray(mask)
+
+def create_car_mask(size=(512, 512)):
+    """
+    Weiß = wird generiert (Auto)
+    Schwarz = bleibt unverändert (Rest)
+    """
+    mask = np.zeros((size[1], size[0]), dtype=np.uint8)  # alles schwarz
+
+    # Auto-Bereich weiß markieren (wird generiert)
+    mask[y1:y2, x1:x2] = 255
 
     # weiche Kanten (wichtig!)
     mask = cv2.GaussianBlur(mask, (31, 31), 0)
@@ -64,9 +91,6 @@ pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
     safety_checker=None,
 )
 
-pipe.load_lora_weights(LORA_PATH, weight=1.6)
-pipe.fuse_lora()
-
 pipe = pipe.to(DEVICE)
 
 # ------------------------------------------------------------
@@ -80,29 +104,66 @@ def sim2real(
 ):
     init_image = load_image(sim_image_path)
     control_image = compute_canny(init_image)
-    mask_image = create_mask(init_image.size)
-
     generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
-    result = pipe(
+    # Schritt 1: Straße generieren (Auto-Bereich bleibt unverändert)
+    print("  → Schritt 1: Generiere Straße...")
+    pipe.load_lora_weights(LORA_ROAD_PATH)
+    pipe.fuse_lora()
+    
+    road_mask = create_road_mask(init_image.size)
+    
+    road_result = pipe(
         prompt=(
             "realistic dashcam photo, natural lighting, realistic asphalt texture, "
             "road surface details, soft shadows, realistic reflections, high dynamic range"
         ),
         negative_prompt="car details, vehicle focus, flat lighting, overexposed, underexposed",
         image=init_image,
-        mask_image=mask_image, 
+        mask_image=road_mask, 
         control_image=control_image,
         strength=0.85,
         guidance_scale=6.5,
         controlnet_conditioning_scale=0.9,
         num_inference_steps=40,
         generator=generator,
-    )
+    ).images[0]
 
-    out_img = result.images[0]
+    # LoRA entfernen für nächste Generierung
+    pipe.unfuse_lora()
+    pipe.unload_lora_weights()
 
-    out_img.save(out_path)
+    # Schritt 2: Auto generieren (auf dem Ergebnis von Schritt 1)
+    print("  → Schritt 2: Generiere Auto...")
+    pipe.load_lora_weights(LORA_CAR_PATH)
+    pipe.fuse_lora()
+    
+    car_mask = create_car_mask(init_image.size)
+    control_image_car = compute_canny(road_result)  # Canny vom Zwischenergebnis
+    
+    generator = torch.Generator(device=DEVICE).manual_seed(seed + 1)  # Anderer Seed für Auto
+    
+    final_result = pipe(
+        prompt=(
+            "realistic car from behind, detailed vehicle, natural lighting, "
+            "car on road, dashcam perspective, photorealistic automobile"
+        ),
+        negative_prompt="distorted vehicle, unrealistic car, flat lighting, low quality",
+        image=road_result,  # Verwende das Straßen-Ergebnis als Basis
+        mask_image=car_mask, 
+        control_image=control_image_car,
+        strength=0.85,
+        guidance_scale=7.0,
+        controlnet_conditioning_scale=0.85,
+        num_inference_steps=40,
+        generator=generator,
+    ).images[0]
+
+    # LoRA entfernen
+    pipe.unfuse_lora()
+    pipe.unload_lora_weights()
+
+    final_result.save(out_path)
     print(f"✓ Gespeichert: {out_path}")
 
 

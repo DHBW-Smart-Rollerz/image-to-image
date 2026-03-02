@@ -40,9 +40,6 @@ export DEPTH_BACKEND
 
 export PY_DEPS_DIR
 
-# Ensure Python prints are unbuffered in batch jobs
-export PYTHONUNBUFFERED=1
-
 echo "Überprüfe GPU-Sichtbarkeit im Container..."
 srun --export=ALL --container-image="${CONTAINER_IMAGE}" nvidia-smi -L
 
@@ -139,4 +136,4 @@ srun \
     fi
   fi
 
-  python3 -u /workspace/ControlNet/infer_hed.py'
+  python3 /workspace/ControlNet/infer_scribble.py'

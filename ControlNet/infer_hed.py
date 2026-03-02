@@ -173,25 +173,33 @@ def create_mask(size=(512, 512)):
 # Pipeline laden
 # ------------------------------------------------------------
 
+print("[debug] Loading ControlNet canny model...")
 controlnet_canny = ControlNetModel.from_pretrained(
     CONTROLNET_MODEL,
     torch_dtype=torch.float16,
 )
+print("[debug] ControlNet canny loaded.")
 
+print("[debug] Loading ControlNet HED model...")
 controlnet_hed = ControlNetModel.from_pretrained(
     CONTROLNET_MODEL_HED,
     torch_dtype=torch.float16,
 )
+print("[debug] ControlNet HED loaded.")
 
+print("[debug] Loading base SD pipeline...")
 pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
     BASE_MODEL,
     controlnet=[controlnet_canny, controlnet_hed],
     torch_dtype=torch.float16,
     safety_checker=None,
 )
+print("[debug] Base SD pipeline loaded.")
 
+print("[debug] Loading LoRA weights...")
 pipe.load_lora_weights(LORA_PATH, weight=1.6)
 pipe.fuse_lora()
+print("[debug] LoRA fused.")
 
 pipe = pipe.to(DEVICE)
 
@@ -202,6 +210,7 @@ pipe = pipe.to(DEVICE)
 def sim2real(
     sim_image_path: str,
     out_path: str,
+    hed_out_path: str = None,
     seed: int = 42,
 ):
     init_image = load_image(sim_image_path)
@@ -237,12 +246,19 @@ def sim2real(
 
     out_img.save(out_path)
     print(f"✓ Gespeichert: {out_path}")
+    
+    # Speichere HED/Softedge-Map
+    if hed_out_path:
+        control_image_hed.save(hed_out_path)
+        print(f"✓ HED-Map gespeichert: {hed_out_path}")
 
 
 if __name__ == "__main__":
     input_dir = "inputs"
     output_dir = "outputs"
+    hed_output_dir = "outputs/hed"
     os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(hed_output_dir, exist_ok=True)
 
     exts = ("*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tif", "*.tiff")
     files = []
@@ -255,8 +271,9 @@ if __name__ == "__main__":
     else:
         for f in files:
             out_path = os.path.join(output_dir, os.path.basename(f))
+            hed_out_path = os.path.join(hed_output_dir, os.path.basename(f))
             try:
                 print(f"→ Verarbeite: {f}  ->  {out_path}")
-                sim2real(sim_image_path=f, out_path=out_path)
+                sim2real(sim_image_path=f, out_path=out_path, hed_out_path=hed_out_path)
             except Exception as e:
                 print(f"✗ Fehler beim Verarbeiten von {f}: {e}")
