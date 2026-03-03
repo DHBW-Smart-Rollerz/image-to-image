@@ -88,5 +88,5 @@ srun \
     args+=("--dry-run")
   fi
 
-  python3 /workspace/ControlNet/scripts/generate_captions.py --dir scripts/data/1_dashcam --sequential 
+  python3 /workspace/ControlNet/scripts/generate_captions.py --dir scripts/data_car/1_car --sequential --caption "model car, miniature vehicale, detailed, realistic, high quality, sharp focus, studio lighting, dark background"
 '

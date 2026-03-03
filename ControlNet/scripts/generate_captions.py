@@ -3,8 +3,6 @@ from pathlib import Path
 import argparse
 import sys
 
-CAPTION = "wet asphalt, reflective road surface, specular highlights, road reflections"
-
 
 def safe_rename_sequential(folder, files, start, digits, keep_ext, dry_run):
     targets = []
@@ -72,6 +70,8 @@ def main():
     parser.add_argument("--digits", type=int, default=4, help="Zero-padding digits for sequential names")
     parser.add_argument("--keep-ext", action="store_true",
                         help="Keep original file extensions when renaming (otherwise .jpg is used)")
+    parser.add_argument("--caption", "-c", required=True,
+                        help="Caption text written into each generated .txt file")
     args = parser.parse_args()
 
     folder = Path(args.dir)
