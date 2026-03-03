@@ -111,13 +111,13 @@ PY
       --enable_bucket \
       --max_data_loader_n_workers 0 \
       --network_module networks.lora \
-      --network_dim 16 \
-      --network_alpha 16 \
+      --network_dim 32 \
+      --network_alpha 32 \
       --train_batch_size 2 \
       --gradient_accumulation_steps 4 \
-      --learning_rate 1e-4 \
+      --learning_rate 8e-5 \
       --text_encoder_lr 5e-5 \
-      --max_train_steps 8000 \
+      --max_train_steps 3200 \
       --lr_scheduler cosine \
       --output_dir /workspace/ControlNet/output_lora \
       --output_name sim2real_dashcam

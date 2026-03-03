@@ -164,7 +164,7 @@ def sim2real(
 
     # Schritt 1: Straße generieren (Auto-Bereich bleibt unverändert)
     print("  → Schritt 1: Generiere Straße...")
-    pipe.load_lora_weights(LORA_ROAD_PATH)
+    pipe.load_lora_weights(LORA_ROAD_PATH, weight=1.1)
     pipe.fuse_lora()
     
     road_mask = create_road_mask(init_image.size)
@@ -180,8 +180,8 @@ def sim2real(
         control_image=control_image,
         strength=0.85,
         guidance_scale=6.5,
-        controlnet_conditioning_scale=0.9,
-        num_inference_steps=35,
+        controlnet_conditioning_scale=0.65,
+        num_inference_steps=40,
         generator=generator,
     ).images[0]
 
@@ -213,10 +213,10 @@ def sim2real(
         image=road_result,  # Verwende das Straßen-Ergebnis als Basis
         mask_image=car_mask, 
         control_image=control_image_car,
-        strength=0.85,
-        guidance_scale=7.0,
-        controlnet_conditioning_scale=0.85,
-        num_inference_steps=35,
+        strength=0.8,
+        guidance_scale=6.0,
+        controlnet_conditioning_scale=0.7,
+        num_inference_steps=25,
         generator=generator,
     ).images[0]
 
