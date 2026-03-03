@@ -1,0 +1,6 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:141: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 805: MPS client failed to connect to the MPS control daemon or the MPS server (Triggered internally at /opt/conda/conda-bld/pytorch_1708025847130/work/c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-deep-thought: error: *** JOB 2725 ON deep-thought CANCELLED AT 2026-03-02T12:39:00 ***

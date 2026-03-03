@@ -1,0 +1,8 @@
+========================================
+SLURM Job Started: 2730
+========================================
+CPUs per task: 6
+Total CPUs available: 6
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-0a8fe54c-fd8e-28b6-802f-30d8c3bef8ea)
+========================================
+Starte CycleGAN Test via Pyxis...

@@ -1,0 +1,15 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+Traceback (most recent call last):
+  File "/workspace/CycleGAN/test.py", line 58, in <module>
+    dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+  File "/workspace/CycleGAN/data/__init__.py", line 60, in create_dataset
+    data_loader = CustomDatasetDataLoader(opt)
+  File "/workspace/CycleGAN/data/__init__.py", line 76, in __init__
+    self.dataset = dataset_class(opt)
+  File "/workspace/CycleGAN/data/unaligned_dataset.py", line 29, in __init__
+    self.A_paths = sorted(make_dataset(self.dir_A, opt.max_dataset_size))  # load images from '/path/to/data/trainA'
+  File "/workspace/CycleGAN/data/image_folder.py", line 36, in make_dataset
+    assert dir_path.is_dir(), f"{dir} is not a valid directory"
+AssertionError: ./datasets/sim2real/testA/testA is not a valid directory
+srun: error: deep-thought: task 0: Exited with exit code 1

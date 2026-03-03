@@ -44,16 +44,23 @@ except ImportError:
 
 if __name__ == "__main__":
     opt = TestOptions().parse()  # get test options
-    opt.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print("[stage] options parsed", flush=True)
+    # Avoid potential hangs in CUDA availability probing on some SLURM/container setups.
+    opt.device = torch.device("cuda:0")
+    print(f"[stage] device set to {opt.device}", flush=True)
     # hard-code some parameters for test
     opt.num_threads = 0  # test code only supports num_threads = 0
     opt.batch_size = 1  # test code only supports batch_size = 1
     opt.serial_batches = True  # disable data shuffling; comment this line if results on randomly chosen images are needed.
     opt.no_flip = True  # no flip; comment this line if results on flipped images are needed.
+    print("[stage] dataloader options normalized", flush=True)
     
     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
+    print("[stage] dataset created", flush=True)
     model = create_model(opt)  # create a model given opt.model and other options
+    print("[stage] model created", flush=True)
     model.setup(opt)  # regular setup: load and print networks; create schedulers
+    print("[stage] model setup done", flush=True)
 
     # create a website
     web_dir = Path(opt.results_dir) / opt.name / f"{opt.phase}_{opt.epoch}"  # define the website directory

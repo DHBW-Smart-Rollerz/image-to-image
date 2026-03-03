@@ -1,0 +1,4 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+/usr/bin/bash: line 26: NUM_TEST: unbound variable
+srun: error: deep-thought: task 0: Exited with exit code 1
