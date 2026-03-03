@@ -29,10 +29,10 @@ LORA_CAR_PATH = "output_lora/sim2real_car.safetensors"  # LoRA für Auto-Generie
 
 # Auto-Trapez (Basis: 512x512). Reihenfolge: oben-links, oben-rechts, unten-rechts, unten-links
 CAR_TRAPEZOID_512 = np.array([
-    [80, 260],
-    [415, 260],
-    [497, 512],
-    [10, 512],
+    [70, 260],
+    [442, 260],
+    [510, 512],
+    [2, 512],
 ], dtype=np.float32)
 
 # ------------------------------------------------------------
