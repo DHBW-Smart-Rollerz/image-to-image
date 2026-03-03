@@ -109,7 +109,7 @@ def main():
             if args.dry_run:
                 print(f"Would write caption: {caption_path}")
             else:
-                caption_path.write_text(CAPTION + "\n", encoding='utf-8')
+                caption_path.write_text(args.caption + "\n", encoding='utf-8')
                 created += 1
 
         if args.dry_run:
@@ -124,7 +124,7 @@ def main():
             if args.dry_run:
                 print(f"Would write caption for: {p} -> {caption_path}")
             else:
-                caption_path.write_text(CAPTION + "\n", encoding='utf-8')
+                caption_path.write_text(args.caption + "\n", encoding='utf-8')
                 created += 1
 
         if args.dry_run:

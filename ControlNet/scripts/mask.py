@@ -1,12 +1,10 @@
 import cv2
 import random
 import numpy as np
+import argparse
 from pathlib import Path
 
-INPUT_DIR = Path("scripts/data/1_dashcam")
 TARGET_W, TARGET_H = 512, 512
-# Wahrscheinlichkeit, ein Bild zu bearbeiten (100%, da alle Bilder verarbeitet werden sollen)
-PROCESS_PROB = 1.0
 
 # Masken-Farbe (dunkelgrau) im OpenCV-BGR-Format
 MASK_COLOR_BGR = (64, 64, 64)
@@ -53,22 +51,40 @@ def process_image(path: Path, do_blur: bool = False) -> bool:
 
 
 def main():
-    if not INPUT_DIR.exists():
-        raise SystemExit(f"Input directory not found: {INPUT_DIR}")
+    parser = argparse.ArgumentParser(description="Resize and mask images")
+    parser.add_argument(
+        "--input-dir",
+        type=str,
+        default="scripts/data/1_dashcam",
+        help="Input directory containing images (default: scripts/data/1_dashcam)"
+    )
+    parser.add_argument(
+        "--process-prob",
+        type=float,
+        default=1.0,
+        help="Probability of processing/masking an image (default: 1.0)"
+    )
+    args = parser.parse_args()
+    
+    input_dir = Path(args.input_dir)
+    process_prob = args.process_prob
+    
+    if not input_dir.exists():
+        raise SystemExit(f"Input directory not found: {input_dir}")
 
     patterns = ("*.jpg", "*.jpeg", "*.png")
     files = []
     for p in patterns:
-        files.extend(INPUT_DIR.glob(p))
+        files.extend(input_dir.glob(p))
 
     files = sorted(files)
     if not files:
-        print(f"No images found in {INPUT_DIR}")
+        print(f"No images found in {input_dir}")
         return
 
     random.seed()
     for f in files:
-        do_blur = random.random() < PROCESS_PROB
+        do_blur = random.random() < process_prob
         if do_blur:
             print(f"Processing (resize+mask): {f}")
         else:

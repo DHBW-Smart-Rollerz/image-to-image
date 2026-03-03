@@ -81,5 +81,5 @@ srun \
   fi
 
   # Führt Resize + Masking (dunkelgrau mit weichem Rand) aus.
-  python3 /workspace/ControlNet/scripts/blur.py
+  python3 /workspace/ControlNet/scripts/mask.py --input-dir "scripts/data_car/1_car" --process-prob 0.0
 '
