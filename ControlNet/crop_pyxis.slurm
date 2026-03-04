@@ -81,5 +81,5 @@ srun \
   fi
 
   # Führt Crop aus.
-  python3 scripts/crop_upper_half_40pct.py --dir scripts/data/1_dashcam --fraction 0.4 --seed 42
+  python3 scripts/crop_upper_half_40pct.py --dir scripts/data/1_dashcam --fraction 0.2 --seed 42
 '

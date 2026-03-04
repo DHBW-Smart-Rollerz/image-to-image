@@ -24,15 +24,15 @@ print(f"[debug] using DEVICE={DEVICE}", flush=True)
 
 BASE_MODEL = "runwayml/stable-diffusion-v1-5"
 CONTROLNET_MODEL = "lllyasviel/sd-controlnet-canny"
-LORA_ROAD_PATH = "output_lora/sim2real_dashcam.safetensors"
+LORA_ROAD_PATH = "output_lora/crop/sim2real_dashcam.safetensors"
 LORA_CAR_PATH = "output_lora/sim2real_car.safetensors"  # LoRA für Auto-Generierung
 
 # Auto-Trapez (Basis: 512x512). Reihenfolge: oben-links, oben-rechts, unten-rechts, unten-links
 CAR_TRAPEZOID_512 = np.array([
-    [70, 260],
-    [442, 260],
-    [510, 512],
-    [2, 512],
+    [80, 260],
+    [415, 260],
+    [497, 512],
+    [10, 512],
 ], dtype=np.float32)
 
 # ------------------------------------------------------------
@@ -164,7 +164,7 @@ def sim2real(
 
     # Schritt 1: Straße generieren (Auto-Bereich bleibt unverändert)
     print("  → Schritt 1: Generiere Straße...")
-    pipe.load_lora_weights(LORA_ROAD_PATH, weight=1.15)
+    pipe.load_lora_weights(LORA_ROAD_PATH)
     pipe.fuse_lora()
     
     road_mask = create_road_mask(init_image.size)
@@ -181,7 +181,7 @@ def sim2real(
         strength=0.85,
         guidance_scale=6.5,
         controlnet_conditioning_scale=0.9,
-        num_inference_steps=40,
+        num_inference_steps=35,
         generator=generator,
     ).images[0]
 
@@ -213,10 +213,10 @@ def sim2real(
         image=road_result,  # Verwende das Straßen-Ergebnis als Basis
         mask_image=car_mask, 
         control_image=control_image_car,
-        strength=0.8,
-        guidance_scale=6.0,
-        controlnet_conditioning_scale=0.7,
-        num_inference_steps=25,
+        strength=0.85,
+        guidance_scale=7.0,
+        controlnet_conditioning_scale=0.85,
+        num_inference_steps=35,
         generator=generator,
     ).images[0]
 
@@ -230,7 +230,7 @@ def sim2real(
 
 if __name__ == "__main__":
     input_dir = "inputs"
-    output_dir = "outputs/32dim"
+    output_dir = "outputs/crop"
     os.makedirs(output_dir, exist_ok=True)
 
     exts = ("*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tif", "*.tiff")

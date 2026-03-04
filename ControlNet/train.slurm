@@ -115,10 +115,10 @@ PY
       --network_alpha 32 \
       --train_batch_size 2 \
       --gradient_accumulation_steps 4 \
-      --learning_rate 8e-5 \
-      --text_encoder_lr 5e-5 \
-      --max_train_steps 3200 \
+      --learning_rate 6e-5 \
+      --text_encoder_lr 3e-5 \
+      --max_train_steps 8200 \
       --lr_scheduler cosine \
-      --output_dir /workspace/ControlNet/output_lora \
+      --output_dir /workspace/ControlNet/output_lora/2000pics \
       --output_name sim2real_dashcam
   '
