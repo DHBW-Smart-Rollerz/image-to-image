@@ -230,7 +230,7 @@ def sim2real(
 
 if __name__ == "__main__":
     input_dir = "inputs"
-    output_dir = "outputs/32dim"
+    output_dir = "outputs/crop"
     os.makedirs(output_dir, exist_ok=True)
 
     exts = ("*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tif", "*.tiff")
