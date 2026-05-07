@@ -1,8 +1,6 @@
 commands.txt
 
 # Ignore all data files 
-output_lora/
-
 outputs/
 
 *.out

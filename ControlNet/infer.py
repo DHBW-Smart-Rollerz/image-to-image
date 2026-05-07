@@ -272,7 +272,7 @@ if __name__ == "__main__":
     print(f"[timing] Batch-Start: {batch_start_wall}")
 
     input_dir = "inputs"
-    output_dir = "outputs/crop"
+    output_dir = "outputs"
     os.makedirs(output_dir, exist_ok=True)
 
     exts = ("*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tif", "*.tiff")
