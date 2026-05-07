@@ -1,0 +1,37 @@
+torch>=2.0.0
+diffusers[torch]==0.32.1
+torchvision>=0.15.0
+transformers==4.54.1
+accelerate==1.6.0
+datasets>=2.10.0
+huggingface-hub==0.34.3
+safetensors==0.4.5
+opencv-python-headless
+ftfy==6.3.1
+numpy
+Pillow>=9.5.0
+tqdm>=4.64.0
+# deepspeed is optional; it triggers a CUDA toolchain (nvcc) check on import.
+# If you need it, use a CUDA *devel* image (has nvcc) or install the CUDA toolkit,
+# then `pip install deepspeed`.
+wandb>=0.15.0
+xformers>=0.0.20
+einops==0.7.0
+bitsandbytes
+lion-pytorch==0.2.3
+schedulefree==1.4
+pytorch-optimizer==3.9.0
+prodigy-plus-schedule-free==1.9.2
+prodigyopt==1.1.2
+tensorboard
+toml==0.10.2
+voluptuous==0.15.2
+imagesize==1.4.1
+rich==14.1.0
+sentencepiece==0.2.1
+peft
+timm
+mediapipe
+
+# optional depth/canny/pose preprocessors for ControlNet
+controlnet-aux

@@ -1,0 +1,17 @@
+commands.txt
+
+# Ignore all data files 
+data/
+
+data_car/
+
+output_lora/
+
+model/
+
+outputs/
+
+inputs/
+
+*.out
+*.err
