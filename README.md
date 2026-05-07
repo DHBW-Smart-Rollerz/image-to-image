@@ -55,13 +55,13 @@ In diesem Projekt werden Canny Edges als Steuerinformationen verwendet, um die S
 ### ControlNet Pipeline
 
 **Simulationsbild:**  
-![Simulationsbild](placeholder_sim.gif)
+![Simulationsbild](gif_controlnet_sim.gif)
 
 **Canny Edges:**  
-![Canny Edges](placeholder_canny.gif)
+![Canny Edges](gif_controlnet_canny.gif)
 
 **Übersetztes Bild (ControlNet):**  
-![Übersetztes Bild](placeholder_output.gif)
+![Übersetztes Bild](gif_controlnet_translated.gif)
 
 
 ## 📁 Projektstruktur
