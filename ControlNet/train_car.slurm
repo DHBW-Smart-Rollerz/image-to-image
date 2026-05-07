@@ -9,6 +9,20 @@
 
 set -euo pipefail
 
+format_duration_from_ns() {
+  python3 - "$1" <<PY
+import sys
+ns = int(sys.argv[1])
+seconds = ns / 1_000_000_000
+hours, rem = divmod(seconds, 3600)
+minutes, secs = divmod(rem, 60)
+print(f"{int(hours):02d}:{int(minutes):02d}:{secs:06.3f} ({seconds:.3f}s)")
+PY
+}
+
+JOB_START_NS=$(date +%s%N)
+echo "[timing] Training-Job Start: $(date --iso-8601=seconds)"
+
 # Pyxis/Enroot Container Support
 # Hinweis: --container-image muss für Pyxis erreichbar sein (z.B. docker://REGISTRY/IMAGE:TAG oder ein .sqsh Image).
 # Beispiel:
@@ -40,6 +54,17 @@ srun \
   --container-mounts="${CONTEXT_DIR}:/workspace/ControlNet,${HOME}:/workspace/home" \
   --container-workdir=/workspace/ControlNet \
   bash -lc 'set -euo pipefail
+
+  format_duration_from_ns() {
+    python3 - "$1" <<PY
+import sys
+ns = int(sys.argv[1])
+seconds = ns / 1_000_000_000
+hours, rem = divmod(seconds, 3600)
+minutes, secs = divmod(rem, 60)
+print(f"{int(hours):02d}:{int(minutes):02d}:{secs:06.3f} ({seconds:.3f}s)")
+PY
+  }
 
   # Wichtig für Pyxis/Container: Host-HOME ist im Container oft nicht schreibbar.
   export HOME="/workspace/home"
@@ -73,6 +98,7 @@ srun \
   export PYTHONPATH="$PY_DEPS_DIR_IN_CONTAINER:${PYTHONPATH:-}"
 
   if [[ "${INSTALL_DEPS}" == "1" ]]; then
+    DEPS_START_NS=$(date +%s%N)
     python3 -c "import torch, diffusers, transformers, accelerate" >/dev/null 2>&1 || (
       echo "Installiere Python-Abhängigkeiten (einmalig im Cache)..."
       python3 -m pip install --upgrade --target "$PY_DEPS_DIR_IN_CONTAINER" pip setuptools wheel
@@ -89,6 +115,9 @@ srun \
       python3 -m pip install --upgrade --force-reinstall --target "$PY_DEPS_DIR_IN_CONTAINER" -r /workspace/ControlNet/requirements.txt
       python3 -m pip install --upgrade --force-reinstall --no-deps --target "$PY_DEPS_DIR_IN_CONTAINER" opencv-python-headless
     )
+    DEPS_END_NS=$(date +%s%N)
+    DEPS_DURATION_NS=$((DEPS_END_NS - DEPS_START_NS))
+    echo "[timing] Dependency-Setup: $(format_duration_from_ns "$DEPS_DURATION_NS")"
   fi
 
   python3 - <<PY
@@ -100,6 +129,9 @@ print("NVIDIA_VISIBLE_DEVICES:", os.environ.get("NVIDIA_VISIBLE_DEVICES"))
 print("WORLD_SIZE:", os.environ.get("WORLD_SIZE"), "RANK:", os.environ.get("RANK"), "LOCAL_RANK:", os.environ.get("LOCAL_RANK"))
 print("MASTER_ADDR:", os.environ.get("MASTER_ADDR"), "MASTER_PORT:", os.environ.get("MASTER_PORT"))
 PY
+
+  TRAIN_START_NS=$(date +%s%N)
+  echo "[timing] Training Start (Container): $(date --iso-8601=seconds)"
 
   python3 -m accelerate.commands.launch \
     --num_processes 1 \
@@ -121,4 +153,16 @@ PY
       --lr_scheduler cosine \
       --output_dir /workspace/ControlNet/output_lora \
       --output_name sim2real_car
+
+  TRAIN_END_NS=$(date +%s%N)
+  TRAIN_DURATION_NS=$((TRAIN_END_NS - TRAIN_START_NS))
+  echo "[timing] Training Ende (Container): $(date --iso-8601=seconds)"
+  echo "[timing] Reine Trainingsdauer: $(format_duration_from_ns "$TRAIN_DURATION_NS")"
   '
+
+JOB_END_NS=$(date +%s%N)
+JOB_DURATION_NS=$((JOB_END_NS - JOB_START_NS))
+echo "[timing] Training-Job Ende: $(date --iso-8601=seconds)"
+echo "[timing] Gesamtdauer Job: $(format_duration_from_ns "$JOB_DURATION_NS")"
+
+  

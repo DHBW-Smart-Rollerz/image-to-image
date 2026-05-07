@@ -1,5 +1,7 @@
 import os
 import glob
+import time
+from datetime import datetime
 import torch
 import cv2
 import numpy as np
@@ -38,6 +40,18 @@ CAR_TRAPEZOID_512 = np.array([
 # ------------------------------------------------------------
 # Hilfsfunktionen
 # ------------------------------------------------------------
+
+def now_iso_timestamp():
+    return datetime.now().isoformat(timespec="milliseconds")
+
+def format_duration(seconds: float):
+    hours, rem = divmod(seconds, 3600)
+    minutes, secs = divmod(rem, 60)
+    return f"{int(hours):02d}:{int(minutes):02d}:{secs:06.3f} ({seconds:.3f}s)"
+
+def sync_device_for_timing():
+    if DEVICE == "cuda":
+        torch.cuda.synchronize()
 
 def load_image(path, size=(512, 512)):
     img = Image.open(path).convert("RGB")
@@ -132,6 +146,12 @@ def sim2real(
     out_path: str,
     seed: int = 42,
 ):
+    image_start_wall = now_iso_timestamp()
+    image_start = time.perf_counter()
+    print(f"  [timing] Start Inferenz: {image_start_wall}")
+
+    prep_start = time.perf_counter()
+
     # Bereite Ausgabeverzeichnisse vor
     base_name = os.path.splitext(os.path.basename(out_path))[0]
     out_dir = os.path.dirname(out_path)
@@ -159,16 +179,21 @@ def sim2real(
     canny_path = os.path.join(canny_dir, f"{base_name}_canny.png")
     control_image.save(canny_path)
     print(f"  ✓ Canny Edges: {canny_path}")
+
+    prep_duration = time.perf_counter() - prep_start
+    print(f"  [timing] Vorbereitung: {format_duration(prep_duration)}")
     
     generator = torch.Generator(device=DEVICE).manual_seed(seed)
 
     # Schritt 1: Straße generieren (Auto-Bereich bleibt unverändert)
     print("  → Schritt 1: Generiere Straße...")
+    step1_start = time.perf_counter()
     pipe.load_lora_weights(LORA_ROAD_PATH, weight=1.15)
     pipe.fuse_lora()
     
     road_mask = create_road_mask(init_image.size)
     
+    sync_device_for_timing()
     road_result = pipe(
         prompt=(
             "realistic dashcam photo, natural lighting, realistic asphalt texture, "
@@ -178,12 +203,14 @@ def sim2real(
         image=init_image,
         mask_image=road_mask, 
         control_image=control_image,
-        strength=0.85,
+        strength=0.75,
         guidance_scale=6.5,
-        controlnet_conditioning_scale=0.9,
+        controlnet_conditioning_scale=0.8,
         num_inference_steps=40,
         generator=generator,
     ).images[0]
+    sync_device_for_timing()
+    step1_duration = time.perf_counter() - step1_start
 
     # LoRA entfernen für nächste Generierung
     pipe.unfuse_lora()
@@ -193,9 +220,11 @@ def sim2real(
     step1_path = os.path.join(step1_dir, f"{base_name}_step1.png")
     road_result.save(step1_path)
     print(f"  ✓ Schritt 1 (Straße): {step1_path}")
+    print(f"  [timing] Schritt 1 (Straße): {format_duration(step1_duration)}")
 
     # Schritt 2: Auto generieren (auf dem Ergebnis von Schritt 1)
     print("  → Schritt 2: Generiere Auto...")
+    step2_start = time.perf_counter()
     pipe.load_lora_weights(LORA_CAR_PATH)
     pipe.fuse_lora()
     
@@ -204,6 +233,7 @@ def sim2real(
     
     generator = torch.Generator(device=DEVICE).manual_seed(seed + 1)  # Anderer Seed für Auto
     
+    sync_device_for_timing()
     final_result = pipe(
         prompt=(
             "realistic car from behind, detailed vehicle, natural lighting, "
@@ -219,6 +249,8 @@ def sim2real(
         num_inference_steps=25,
         generator=generator,
     ).images[0]
+    sync_device_for_timing()
+    step2_duration = time.perf_counter() - step2_start
 
     # LoRA entfernen
     pipe.unfuse_lora()
@@ -227,8 +259,18 @@ def sim2real(
     final_result.save(out_path)
     print(f"✓ Gespeichert: {out_path}")
 
+    image_duration = time.perf_counter() - image_start
+    image_end_wall = now_iso_timestamp()
+    print(f"  [timing] Schritt 2 (Auto): {format_duration(step2_duration)}")
+    print(f"  [timing] Ende Inferenz: {image_end_wall}")
+    print(f"  [timing] Gesamt pro Bild: {format_duration(image_duration)}")
+
 
 if __name__ == "__main__":
+    batch_start_wall = now_iso_timestamp()
+    batch_start = time.perf_counter()
+    print(f"[timing] Batch-Start: {batch_start_wall}")
+
     input_dir = "inputs"
     output_dir = "outputs/crop"
     os.makedirs(output_dir, exist_ok=True)
@@ -242,10 +284,17 @@ if __name__ == "__main__":
     if not files:
         print(f"Keine Eingabebilder in '{input_dir}' gefunden.")
     else:
+        processed = 0
         for f in files:
             out_path = os.path.join(output_dir, os.path.basename(f))
             try:
                 print(f"→ Verarbeite: {f}  ->  {out_path}")
                 sim2real(sim_image_path=f, out_path=out_path)
+                processed += 1
             except Exception as e:
                 print(f"✗ Fehler beim Verarbeiten von {f}: {e}")
+
+        batch_duration = time.perf_counter() - batch_start
+        batch_end_wall = now_iso_timestamp()
+        print(f"[timing] Batch-Ende: {batch_end_wall}")
+        print(f"[timing] Gesamtzeit Batch ({processed}/{len(files)} erfolgreich): {format_duration(batch_duration)}")
