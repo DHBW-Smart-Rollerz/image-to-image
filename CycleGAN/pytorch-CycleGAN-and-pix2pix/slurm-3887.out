@@ -1,0 +1,50 @@
+========================================
+SLURM Job Started: 3887
+========================================
+CPUs per task: 6
+Total CPUs available: 6
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-7ddba2ed-df4b-dc75-7427-48b0707999d0)
+========================================
+Starte CycleGAN Training via Pyxis...
+Installiere Dependencies...
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: dominate in /workspace/home/.local/lib/python3.10/site-packages (2.9.1)
+Requirement already satisfied: visdom in /workspace/home/.local/lib/python3.10/site-packages (0.2.4)
+Requirement already satisfied: wandb in /workspace/home/.local/lib/python3.10/site-packages (0.25.0)
+Requirement already satisfied: numpy>=1.8 in /opt/conda/lib/python3.10/site-packages (from visdom) (1.26.3)
+Requirement already satisfied: scipy in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.15.3)
+Requirement already satisfied: requests in /opt/conda/lib/python3.10/site-packages (from visdom) (2.31.0)
+Requirement already satisfied: tornado in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (6.5.4)
+Requirement already satisfied: six in /opt/conda/lib/python3.10/site-packages (from visdom) (1.16.0)
+Requirement already satisfied: jsonpatch in /opt/conda/lib/python3.10/site-packages (from visdom) (1.32)
+Requirement already satisfied: websocket-client in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.9.0)
+Requirement already satisfied: networkx in /opt/conda/lib/python3.10/site-packages (from visdom) (3.1)
+Requirement already satisfied: pillow in /opt/conda/lib/python3.10/site-packages (from visdom) (10.2.0)
+Requirement already satisfied: click>=8.0.1 in /opt/conda/lib/python3.10/site-packages (from wandb) (8.1.7)
+Requirement already satisfied: gitpython!=3.1.29,>=1.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (3.1.46)
+Requirement already satisfied: packaging in /opt/conda/lib/python3.10/site-packages (from wandb) (23.1)
+Requirement already satisfied: platformdirs in /opt/conda/lib/python3.10/site-packages (from wandb) (3.10.0)
+Requirement already satisfied: protobuf!=4.21.0,!=5.28.0,<7,>=3.19.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (6.33.5)
+Requirement already satisfied: pydantic<3 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.12.5)
+Requirement already satisfied: pyyaml in /opt/conda/lib/python3.10/site-packages (from wandb) (6.0.1)
+Requirement already satisfied: sentry-sdk>=2.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.53.0)
+Requirement already satisfied: typing-extensions<5,>=4.8 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (4.15.0)
+Requirement already satisfied: gitdb<5,>=4.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitpython!=3.1.29,>=1.0.0->wandb) (4.0.12)
+Requirement already satisfied: annotated-types>=0.6.0 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.4.2)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.0.4)
+Requirement already satisfied: idna<4,>=2.5 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (3.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2024.2.2)
+Requirement already satisfied: jsonpointer>=1.9 in /opt/conda/lib/python3.10/site-packages (from jsonpatch->visdom) (2.1)
+Requirement already satisfied: smmap<6,>=3.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.29,>=1.0.0->wandb) (5.0.2)
+Prüfe Trainingsdaten...
+trainA files: 2036
+trainB files: 2418
+Starte frisches Training mit Standard-Parametern...
+/usr/bin/bash: line 24: /usr/bin/time: No such file or directory
+========================================
+SLURM Job Finished: 3887 (rc=127)
+Gesamtlaufzeit: 38 Sekunden
+========================================

@@ -1,0 +1,15 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+Traceback (most recent call last):
+  File "/workspace/CycleGAN/train.py", line 38, in <module>
+    model.setup(opt)  # regular setup: load and print networks; create schedulers
+  File "/workspace/CycleGAN/models/base_model.py", line 102, in setup
+    state_dict = torch.load(load_path, map_location=str(self.device), weights_only=True)
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 998, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 445, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 426, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: 'checkpoints/sim2real_stable_finetune3/569_net_G_A.pth'
+srun: error: deep-thought: task 0: Exited with exit code 1

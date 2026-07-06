@@ -39,15 +39,15 @@ srun \
   echo "Installiere Dependencies..."
   pip install --no-cache-dir dominate visdom wandb || true
 
-  echo "Starte Stabilitäts-Finetuning ab Epoche 569..."
+  echo "Starte Stabilitäts-Finetuning ab Epoche 401..."
 
   python3 train.py \
     --dataroot ./datasets/sim2real \
-    --name sim2real_stable_finetune2 \
+    --name sim2real_stable_finetune3 \
     --model cycle_gan \
     --continue_train \
-    --epoch 569 \
-    --epoch_count 570 \
+    --epoch 401 \
+    --epoch_count 402 \
     --batch_size 8 \
     --lr 0.00001 \
     --netG resnet_9blocks \

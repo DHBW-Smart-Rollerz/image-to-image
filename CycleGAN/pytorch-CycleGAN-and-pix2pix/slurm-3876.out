@@ -1,0 +1,183 @@
+========================================
+SLURM Job Started: 3876
+========================================
+CPUs per task: 6
+Total CPUs available: 6
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-dc3729e2-1dee-8b88-54ba-00a12c927ee5)
+========================================
+Starte CycleGAN Test via Pyxis...
+Installiere Dependencies...
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: dominate in /workspace/home/.local/lib/python3.10/site-packages (2.9.1)
+Requirement already satisfied: visdom in /workspace/home/.local/lib/python3.10/site-packages (0.2.4)
+Requirement already satisfied: wandb in /workspace/home/.local/lib/python3.10/site-packages (0.25.0)
+Requirement already satisfied: numpy>=1.8 in /opt/conda/lib/python3.10/site-packages (from visdom) (1.26.3)
+Requirement already satisfied: scipy in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.15.3)
+Requirement already satisfied: requests in /opt/conda/lib/python3.10/site-packages (from visdom) (2.31.0)
+Requirement already satisfied: tornado in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (6.5.4)
+Requirement already satisfied: six in /opt/conda/lib/python3.10/site-packages (from visdom) (1.16.0)
+Requirement already satisfied: jsonpatch in /opt/conda/lib/python3.10/site-packages (from visdom) (1.32)
+Requirement already satisfied: websocket-client in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.9.0)
+Requirement already satisfied: networkx in /opt/conda/lib/python3.10/site-packages (from visdom) (3.1)
+Requirement already satisfied: pillow in /opt/conda/lib/python3.10/site-packages (from visdom) (10.2.0)
+Requirement already satisfied: click>=8.0.1 in /opt/conda/lib/python3.10/site-packages (from wandb) (8.1.7)
+Requirement already satisfied: gitpython!=3.1.29,>=1.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (3.1.46)
+Requirement already satisfied: packaging in /opt/conda/lib/python3.10/site-packages (from wandb) (23.1)
+Requirement already satisfied: platformdirs in /opt/conda/lib/python3.10/site-packages (from wandb) (3.10.0)
+Requirement already satisfied: protobuf!=4.21.0,!=5.28.0,<7,>=3.19.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (6.33.5)
+Requirement already satisfied: pydantic<3 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.12.5)
+Requirement already satisfied: pyyaml in /opt/conda/lib/python3.10/site-packages (from wandb) (6.0.1)
+Requirement already satisfied: sentry-sdk>=2.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.53.0)
+Requirement already satisfied: typing-extensions<5,>=4.8 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (4.15.0)
+Requirement already satisfied: gitdb<5,>=4.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitpython!=3.1.29,>=1.0.0->wandb) (4.0.12)
+Requirement already satisfied: annotated-types>=0.6.0 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.4.2)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.0.4)
+Requirement already satisfied: idna<4,>=2.5 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (3.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2024.2.2)
+Requirement already satisfied: jsonpointer>=1.9 in /opt/conda/lib/python3.10/site-packages (from jsonpatch->visdom) (2.1)
+Requirement already satisfied: smmap<6,>=3.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.29,>=1.0.0->wandb) (5.0.2)
+Preflight: Dataset und Checkpoints prüfen...
+testA files: 350
+testB files: 705
+-rw-rw-r-- 1 inf23017 inf23017 44M Mar 23 23:01 ./checkpoints/sim2real_stable_finetune3/719_net_G_A.pth
+-rw-rw-r-- 1 inf23017 inf23017 44M Mar 23 23:01 ./checkpoints/sim2real_stable_finetune3/719_net_G_B.pth
+Teste Checkpoint 719 von sim2real_stable_finetune3 (num_test=350)...
+----------------- Options ---------------
+             aspect_ratio: 1.0                           
+               batch_size: 1                             
+          checkpoints_dir: ./checkpoints                 
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+          display_winsize: 256                           
+                    epoch: 719                           	[default: latest]
+                     eval: False                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: False                         	[default: None]
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+         max_dataset_size: inf                           
+                    model: cycle_gan                     	[default: test]
+               n_layers_D: 3                             
+                     name: sim2real_stable_finetune3     	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: False                         
+                     norm: instance                      
+                 num_test: 350                           	[default: 50]
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: test                          
+               preprocess: resize_and_crop               
+              results_dir: ./results/sim2real_test100_epoch719	[default: ./results/]
+           serial_batches: False                         
+                   suffix:                               
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+[stage] options parsed
+[stage] device set to cuda:0
+[stage] dataloader options normalized
+dataset [UnalignedDataset] was created
+[stage] dataset created
+model [CycleGANModel] was created
+[stage] model created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_stable_finetune3/719_net_G_A.pth
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_stable_finetune3/719_net_G_B.pth
+---------- Networks initialized -------------
+[Network G_A] Total number of parameters : 11.378 M
+[Network G_B] Total number of parameters : 11.378 M
+-----------------------------------------------
+[stage] model setup done
+creating web directory results/sim2real_test100_epoch719/sim2real_stable_finetune3/test_719
+processing (0000)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000000.jpg']
+processing (0005)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000015.jpg']
+processing (0010)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000030.jpg']
+processing (0015)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000045.jpg']
+processing (0020)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000060.jpg']
+processing (0025)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000075.jpg']
+processing (0030)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000090.jpg']
+processing (0035)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000105.jpg']
+processing (0040)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000120.jpg']
+processing (0045)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000135.jpg']
+processing (0050)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000150.jpg']
+processing (0055)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000165.jpg']
+processing (0060)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_24_21_frame000180.jpg']
+processing (0065)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000012.jpg']
+processing (0070)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000027.jpg']
+processing (0075)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000042.jpg']
+processing (0080)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000057.jpg']
+processing (0085)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000072.jpg']
+processing (0090)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000087.jpg']
+processing (0095)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000102.jpg']
+processing (0100)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000117.jpg']
+processing (0105)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000132.jpg']
+processing (0110)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000147.jpg']
+processing (0115)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000162.jpg']
+processing (0120)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000177.jpg']
+processing (0125)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000192.jpg']
+processing (0130)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000207.jpg']
+processing (0135)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000222.jpg']
+processing (0140)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000237.jpg']
+processing (0145)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000252.jpg']
+processing (0150)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000267.jpg']
+processing (0155)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000282.jpg']
+processing (0160)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000297.jpg']
+processing (0165)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000312.jpg']
+processing (0170)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000327.jpg']
+processing (0175)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000342.jpg']
+processing (0180)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000357.jpg']
+processing (0185)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000372.jpg']
+processing (0190)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000387.jpg']
+processing (0195)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000402.jpg']
+processing (0200)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_37_55_frame000417.jpg']
+processing (0205)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000009.jpg']
+processing (0210)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000024.jpg']
+processing (0215)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000039.jpg']
+processing (0220)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000054.jpg']
+processing (0225)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000069.jpg']
+processing (0230)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000084.jpg']
+processing (0235)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000099.jpg']
+processing (0240)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000114.jpg']
+processing (0245)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000129.jpg']
+processing (0250)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000144.jpg']
+processing (0255)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000159.jpg']
+processing (0260)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000174.jpg']
+processing (0265)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000189.jpg']
+processing (0270)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000204.jpg']
+processing (0275)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000219.jpg']
+processing (0280)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000234.jpg']
+processing (0285)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000249.jpg']
+processing (0290)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000264.jpg']
+processing (0295)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000279.jpg']
+processing (0300)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000294.jpg']
+processing (0305)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000309.jpg']
+processing (0310)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000324.jpg']
+processing (0315)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000339.jpg']
+processing (0320)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000354.jpg']
+processing (0325)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000369.jpg']
+processing (0330)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000384.jpg']
+processing (0335)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000399.jpg']
+processing (0340)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000414.jpg']
+processing (0345)-th image... ['datasets/sim2real/testA/rosbag2_2026_01_15-13_39_25_frame000429.jpg']
+========================================
+Inferenz abgeschlossen
+Verarbeitete Bilder: 350
+Gesamt-Inferenzzeit: 45.588 s
+Bilder pro Sekunde: 7.677
+Durchschnitt pro Bild: 0.130 s
+========================================

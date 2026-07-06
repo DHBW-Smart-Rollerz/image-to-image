@@ -1,0 +1,5 @@
+pyxis: importing docker image: pytorch/pytorch:latest
+pyxis: imported docker image: pytorch/pytorch:latest
+slurmstepd-deep-thought: error: *** JOB 3889 ON deep-thought CANCELLED AT 2026-05-22T14:50:24 ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-deep-thought: error: *** STEP 3889.0 ON deep-thought CANCELLED AT 2026-05-22T14:50:24 ***

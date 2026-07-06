@@ -1,0 +1,100 @@
+========================================
+SLURM Job Started: 3426
+========================================
+Installiere Dependencies...
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: dominate in /workspace/home/.local/lib/python3.10/site-packages (2.9.1)
+Requirement already satisfied: visdom in /workspace/home/.local/lib/python3.10/site-packages (0.2.4)
+Requirement already satisfied: wandb in /workspace/home/.local/lib/python3.10/site-packages (0.25.0)
+Requirement already satisfied: numpy>=1.8 in /opt/conda/lib/python3.10/site-packages (from visdom) (1.26.3)
+Requirement already satisfied: scipy in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.15.3)
+Requirement already satisfied: requests in /opt/conda/lib/python3.10/site-packages (from visdom) (2.31.0)
+Requirement already satisfied: tornado in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (6.5.4)
+Requirement already satisfied: six in /opt/conda/lib/python3.10/site-packages (from visdom) (1.16.0)
+Requirement already satisfied: jsonpatch in /opt/conda/lib/python3.10/site-packages (from visdom) (1.32)
+Requirement already satisfied: websocket-client in /workspace/home/.local/lib/python3.10/site-packages (from visdom) (1.9.0)
+Requirement already satisfied: networkx in /opt/conda/lib/python3.10/site-packages (from visdom) (3.1)
+Requirement already satisfied: pillow in /opt/conda/lib/python3.10/site-packages (from visdom) (10.2.0)
+Requirement already satisfied: click>=8.0.1 in /opt/conda/lib/python3.10/site-packages (from wandb) (8.1.7)
+Requirement already satisfied: gitpython!=3.1.29,>=1.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (3.1.46)
+Requirement already satisfied: packaging in /opt/conda/lib/python3.10/site-packages (from wandb) (23.1)
+Requirement already satisfied: platformdirs in /opt/conda/lib/python3.10/site-packages (from wandb) (3.10.0)
+Requirement already satisfied: protobuf!=4.21.0,!=5.28.0,<7,>=3.19.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (6.33.5)
+Requirement already satisfied: pydantic<3 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.12.5)
+Requirement already satisfied: pyyaml in /opt/conda/lib/python3.10/site-packages (from wandb) (6.0.1)
+Requirement already satisfied: sentry-sdk>=2.0.0 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (2.53.0)
+Requirement already satisfied: typing-extensions<5,>=4.8 in /workspace/home/.local/lib/python3.10/site-packages (from wandb) (4.15.0)
+Requirement already satisfied: gitdb<5,>=4.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitpython!=3.1.29,>=1.0.0->wandb) (4.0.12)
+Requirement already satisfied: annotated-types>=0.6.0 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in /workspace/home/.local/lib/python3.10/site-packages (from pydantic<3->wandb) (0.4.2)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.0.4)
+Requirement already satisfied: idna<4,>=2.5 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (3.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/lib/python3.10/site-packages (from requests->visdom) (2024.2.2)
+Requirement already satisfied: jsonpointer>=1.9 in /opt/conda/lib/python3.10/site-packages (from jsonpatch->visdom) (2.1)
+Requirement already satisfied: smmap<6,>=3.0.1 in /workspace/home/.local/lib/python3.10/site-packages (from gitdb<5,>=4.0.1->gitpython!=3.1.29,>=1.0.0->wandb) (5.0.2)
+Starte Stabilitäts-Finetuning ab Epoche 569...
+----------------- Options ---------------
+               batch_size: 8                             	[default: 1]
+                    beta1: 0.5                           
+          checkpoints_dir: ./checkpoints                 
+           continue_train: True                          	[default: False]
+                crop_size: 256                           
+                 dataroot: ./datasets/sim2real           	[default: None]
+             dataset_mode: unaligned                     
+                direction: AtoB                          
+             display_freq: 200                           	[default: 400]
+          display_winsize: 256                           
+                    epoch: 569                           	[default: latest]
+              epoch_count: 570                           	[default: 1]
+                 gan_mode: lsgan                         
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 3                             
+                  isTrain: True                          	[default: None]
+                 lambda_A: 11.5                          	[default: 10.0]
+                 lambda_B: 11.5                          	[default: 10.0]
+          lambda_identity: 2.0                           	[default: 0.5]
+                load_iter: 0                             	[default: 0]
+                load_size: 286                           
+                       lr: 1e-05                         	[default: 0.0002]
+           lr_decay_iters: 50                            
+                lr_policy: linear                        
+         max_dataset_size: inf                           
+                    model: cycle_gan                     
+                 n_epochs: 900                           	[default: 100]
+           n_epochs_decay: 50                            	[default: 100]
+               n_layers_D: 3                             
+                     name: sim2real_stable_finetune3     	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: resnet_9blocks                
+                      ngf: 64                            
+               no_dropout: True                          
+                  no_flip: True                          	[default: False]
+                  no_html: False                         
+                     norm: instance                      
+              num_threads: 4                             
+                output_nc: 3                             
+                    phase: train                         
+                pool_size: 50                            
+               preprocess: resize_and_crop               
+               print_freq: 100                           
+             save_by_iter: False                         
+          save_epoch_freq: 1                             	[default: 5]
+         save_latest_freq: 5000                          
+           serial_batches: False                         
+                   suffix:                               
+         update_html_freq: 1000                          
+                use_wandb: False                         
+                  verbose: False                         
+       wandb_project_name: CycleGAN-and-pix2pix          
+----------------- End -------------------
+Initialized with device cuda:0
+dataset [UnalignedDataset] was created
+The number of training images = 2418
+model [CycleGANModel] was created
+Initialized with device cuda:0
+initialize network with normal
+loading the model from checkpoints/sim2real_stable_finetune3/569_net_G_A.pth
